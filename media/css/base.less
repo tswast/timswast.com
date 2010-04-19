@@ -1,0 +1,109 @@
+@main-background: #933;
+@main-color: #eee;
+@content-color: #000;
+@link-color: #9e160e;
+@navigation-background: #e0e0e0;
+@horizontal-line-color: #680e09;
+
+body {
+    padding: 0;
+    margin: 0;
+    color: @content-color;
+}
+
+ul { margin: 0; }
+
+#footer {
+    background: @main-background;
+    text-align: center;
+    border-top: 1px solid @horizontal-line-color;
+    width: 78em;
+    margin: 2em auto 0;
+    color: @main-color;
+    font-size: 0.7em;
+}
+
+a { color: @link-color; }
+
+#site {
+    margin: 0 auto;
+    width: 53em;
+    min-height:53em;
+    position: relative;
+}
+
+#header {
+    background: @main-background;
+    padding: 0;
+    margin: 0;
+    margin-left:-0.5em;
+    margin-bottom: .5em;
+    font-size: 2em;
+    text-align:center;
+
+    a {
+        text-decoration: none;
+        padding: 0;
+        margin: 0;
+    }
+    h1 {
+        padding-left: 1em;
+        margin: 0;
+        color: @main-color;
+    }
+}
+
+.context-nav,
+ul.breadcrumbs {
+    list-style-type: none;
+    padding: 0;
+    position: absolute;
+}
+
+.context-nav { right:0; }
+
+.breadcrumbs li { display: inline; }
+.breadcrumbs a {
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover { text-decoration: underline; }
+.breadcrumbs .separator { color: @horizontal-line-color; }
+
+#sitenav {
+    text-align: center;
+    border-bottom: .2em solid @horizontal-line-color;
+    padding-bottom: 0.2em;
+
+    ul { list-style-type: none; }
+    li {
+        display: inline;
+        margin-left: .2em;
+    }
+    a {
+        text-decoration: none;
+        padding: 0.2em;
+        background-color: @navigation-background;
+        color: @link-color;
+    }
+    .selected a {
+        background-color: @link-color;
+        color: @navigation-background;
+    }
+}
+
+#content-header{
+    padding-bottom: 0.1em;
+}
+
+#content-header h1 {
+    border-bottom: 1px dotted @horizontal-line-color;
+    margin-bottom: 0.25em;
+}
+
+.post-date{
+    float:right;
+    font-style:italic;
+    font-size:.8em;
+}
+

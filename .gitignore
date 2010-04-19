@@ -1,0 +1,4 @@
+deploy
+media/download
+*.pyc
+*.swp

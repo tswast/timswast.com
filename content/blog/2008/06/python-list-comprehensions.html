@@ -1,0 +1,38 @@
+{% extends "_post.html" %}
+{%load webdesign %}
+{%hyde
+    title: Python List Comprehensions are Easy!
+    created: 2008-06-11
+%}
+{% block article %}
+
+{%article%}
+{% markdown %}
+{% excerpt %}
+
+I've know about list comprehensions for a while now, but I never really bothered learning how to use them. Today, I found that they really aren't that bad. In fact, if you already know how to populate a python list inside a for loop, you're 95% there already.
+
+{% endexcerpt %}
+
+Say you wanted to populate a python list with 7, 7's. You might go about it by doing something like this:
+
+    spam = []
+
+    for x in range(7):
+     spam.append(7)
+
+With list comprehensions this becomes a one-liner:
+
+    spam = [7 for x in range(7)]
+
+Basically, you take your for loop and shove it inside the list declaration. Whatever you were appending goes first. Thus, if we wanted to change our list to be 7 powers of 7, you'd write:
+
+    # this gives us [1, 7, 49, ...]
+    spam = [7**x for x in range(7)]
+
+Something as scary sounding as "list comprehension" really isn't anything more than shoving a for loop (or two) into where you declare the list. It's quite powerful, for being so simple. 
+{% endmarkdown %}
+{%endarticle%}
+
+{% endblock %}
+

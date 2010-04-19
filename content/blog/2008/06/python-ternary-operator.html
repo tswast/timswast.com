@@ -1,0 +1,36 @@
+{% extends "_post.html" %}
+{%load webdesign %}
+{%hyde
+    title: More fun with Python (the ternary operator)
+    created: 2008-06-19
+%}
+{% block article %}
+
+{%article%}
+{% markdown %}
+{% excerpt %}
+
+The ternary operator is one of those things that's not really necessary, but can make code quite a bit shorter when put to good use. For those of you who don't know, the ternary operator is a way to evaluate one thing if a condition is true, and a different thing if the condition is false.
+
+{% endexcerpt %}
+
+C and it's relatives have had this for quite some time in the form:
+
+    (condition) ? (evaluate when true) : (evaluate when false);
+
+Python users, on the other hand had to resort to cryptic uses of the 'and' and 'or' operators. See, Python boolean operators don't need to act on a boolean like those in Java/C# they'll happily accept most everything and do the following:
+
+    (evaluate this first) and (return this if the left was true)
+    (return this if it's true) or (return this if the left was false)
+
+Luckily, though you can construct a ternary looking statement from the way 'and' and 'or' work, there is a better way--or at least a way that is easy to understand without know how the and/or operators work behind the scenes. It was added as PEP 308 after all voting took place and there was no preferred syntax, Guido used his position as Benevolent Dictator for Life and chose the following syntax:
+
+    (expression one) if (condition) else (expression two)
+
+Where expression one is returned when condition is true and expression two is returned when condition is false. 
+
+{% endmarkdown %}
+{%endarticle%}
+
+{% endblock %}
+

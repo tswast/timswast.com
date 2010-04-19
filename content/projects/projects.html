@@ -1,0 +1,108 @@
+{% extends "skeleton/_body.html" %}
+{%hyde
+    title: "Projects"
+    created: 2010-04-18 21:36:00
+    listing: True
+%}
+
+{% block content_body %}
+{% restructuredtext %}
+
+Edit (Website Editor)
+=====================
+
+.. image:: {{ MEDIA_URL }}image/project/edit/edit-0.1.png
+
+A quick-and-dirty website creation tool. Best suited for those who want to
+quickly edit the content of a website without the hassle of opening many
+files separately.
+
+Note that is program comes with absolutely no guarantees. It may trash your
+website or worse, but if it does, you can always fix it and send me a patch.
+
+Requirements
+------------
+
+* Python 2.6 (2.5 may work, I haven't tested)
+* wxPython
+ 
+Download
+--------
+
+* Source package: `edit-0.1-src <{{ MEDIA_URL }}download/project/edit/edit-0.1-src.tar.bz2>`_
+
+
+
+Wii Cursors
+===========
+
+.. image:: {{ MEDIA_URL }}image/project/wiicursors/WiiCursors-0.3.1.png
+
+Linux version of allewun's Wii Cursor theme.
+
+The original Windows version can be found at:
+http://allewun.deviantart.com/art/Wii-Cursors-49355744
+
+Download
+--------
+
+* Cursor theme: `WiiCursors-0.3.1 <{{ MEDIA_URL }}download/project/wiicursors/WiiCursors-0.3.1.tar.bz2>`_
+* Source package: `WiiCursors-0.3.1-src <{{ MEDIA_URL }}download/project/wiicursors/WiiCursors-0.3.1-src.tar.bz2>`_
+
+
+Jump
+====
+A prototype, single-button game where players have a jet-pack and shoot
+blocks at each other.
+
+Controls
+--------
+
+| Left player: w
+| Right player: ↑
+
+Dependencies
+------------
+
+* Python 2.5 or greater
+* PyGame
+
+Screenshots
+-----------
+
+.. image:: {{ MEDIA_URL }}image/project/jump/screenshot.png
+
+Download
+--------
+
+* `jump-src.zip <{{ MEDIA_URL }}download/project/jump/jump-src.zip>`_
+* `jump-src.tar.bz2 <{{ MEDIA_URL }}download/project/jump/jump-src.tar.bz2>`_
+
+
+Snowblaster (Game)
+==================
+
+.. image:: {{ MEDIA_URL }}image/project/snowblaster/snow1.jpg
+
+I made this game while in middle school (2001-2002). Sadly the original Game
+Maker file has been lost, but I was able to find an executable version for your
+enjoyment.
+
+Credit for the sound effects goes to Bryce Doty, and I owe an enormous debt
+of gratitude to my brother, Jon, for game-play testing.
+
+Download
+--------
+
+* `Windows Installer <{{ MEDIA_URL }}download/project/snowblaster/snwblstr1.1.zip>`_
+
+
+Externally Hosted
+=================
+
+* `SuperCrawl <http://www.gamecreation.org/games/super-crawl/>`_
+
+
+{% endrestructuredtext %}
+{% endblock %}
+
