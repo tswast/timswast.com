@@ -1,0 +1,965 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>An Exploration of Cellular Automata as Dynamical Systems : Tim Swast 2013.03.31</title>
+        <link rel="stylesheet" type="text/css" href="http://www.timswast.com/blog/2012/blog.css" />
+        <style>
+        span.code {
+                font-family: monospace;
+            }
+        
+            img {
+                max-width: 100%;
+                display: block;
+            }
+
+            .oddrow {
+              background-color: #eee;
+            }
+    
+            /* BEGIN: wysiwyg MATLAB html */
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier; min-height: 12.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier; color: #0433ff}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier; color: #0433ff; min-height: 12.0px}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier; color: #25992d}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier; color: #b245f3}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; min-height: 14.0px}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier; color: #25992d; min-height: 12.0px}
+    span.s1 {color: #0433ff}
+    span.s2 {color: #b245f3}
+    span.s3 {color: #000000}
+        </style>
+    </head>
+    <body>
+
+<div id="content-header">
+    <a href="">
+        <h1>An Exploration of Cellular Automata as Dynamical Systems</h1>
+    </a>
+    <span class="post-date">Sunday, March 31, 2013</span>
+</div>
+
+        <!-- Statement of the problem -->
+        <p>
+            In this set of experiments, I explore cellular automata, treated as dynamical systems.
+            The state of the system is a pair of real numbers, with the cells of the cellular
+            automata state corresponding to binary digits of the real numbers.
+            With this mapping, I calculate the largest Lyapunov exponent for each of the 256 elementary cellular
+            automata. This analysis hints that so-called complex, class 4 cellular automata may be
+            distinguished from chaotic, class 3 cellular automata by the largest Lyapunov exponent
+            of the chaotic orbits.
+        </p>
+        
+        <h2>What are cellular automata?</h2>
+        <p>
+            A cellular automata is a <a href="http://xkcd.com/505/">simple pattern</a>
+            for updating an infinite string of &ldquo;cells&rdquo; in all
+            places at once. In this set of experiments, I consider &ldquo;elementary&rdquo;
+            cellular automata which act on a string of white and black cells.
+            I also call a white cell a one and a black cell a zero.
+        </p>
+        
+        <a href="cellular-automata-state.png">
+        <img src="cellular-automata-state.png" alt="...010011011100..." />
+        </a>
+        
+        <p>
+            The system starts at some initial state and then this state is updated each step
+            by the cellular automaton's rule. In deciding what color a cell will become,
+            the elementary cellular automata
+            in this set of experiments use the color of three cells: the cell's current
+            color, the color of the immediate left neighbor, and of the right neighbor.
+        </p>
+        
+        <a href="cellular-automata-rules.png">
+        <img src="cellular-automata-rules.png"
+            alt="2^3 = 8 neighborhoods"
+            title="2^3 = 8 neighborhoods" />
+        </a>
+        
+        <p>
+            Since the elementary cellular automata consider three cells per update,
+            and a cell is one of two possible colors,
+            there are 2<sup>3</sup> = 8 possible neighborhoods to consider.
+            To have a well defined rule, the result for each of these neighborhoods must
+            be defined. Will it become white or black, one or zero?
+        </p>
+        
+        <p>
+            Because the result for each of these 8 possible neigborhoods can be one of two colors,
+            there are 2<sup>8</sup> = 256 possible &ldquo;rules.&rdquo;
+            In this set of experiments, I calculate 1,000+ steps for each of the 256 rules. 
+        </p>
+        
+        <h2>How do we name the cellular automata?</h2>
+        <p>
+            These 256 rules have a natural naming scheme. 
+            There is a natural ordering for the 8 neigborhoods that define a rule.
+            Consider each neighborhood a three-bit binary number, ranging from 0 to 7.
+        </p>
+        
+        <a href="cellular-automata-rules-numbered.png">
+        <img src="cellular-automata-rules-numbered.png"
+            alt="8 rules, in order" 
+            title="8 rules, in order" />
+        </a>
+        
+        <p>
+            Note that for each neighborhood, a well defined rule will output a 0 or a 1.
+            Ordering the output for the 8 different neighborhoods
+            generates an eight-bit binary number, ranging from 0 to 255
+            (<a href="http://www.wolframscience.com/nksonline/page-53">Wolfram 53</a>).
+            For example,
+            rule 1 would generate a 1 for the neighborhood 000, but
+            it generates 0 for all other neighborhoods.
+        </p>
+        
+        <p>
+            Since my computer has only finite memory, I cannot simulate a cellular automaton on
+            an infinite number of bits. Instead, I use a finite
+            state space. This means, I need to decide what to do for the boundary conditions.
+            Since it seems to simulate an infinite space the best, I choose to wrap the state
+            space around. The left-most cell is an immediate neighbor to the right-most cell.
+        </p>
+        
+        <h2>Cellular automata as dynamical systems.</h2>
+        <p>
+            To apply the methods of analysis from
+            <a href="http://www.math.tamu.edu/~mpilant/math614/">Chaos and Dynamical Systems,</a>
+            I map the state space of the cellular automata to a two-dimensional real map on [0, 1].
+            I am choosing to ignore the fact that some real numbers have multiple binary
+            representations (e.g. 1/2 = .1000... or .0111...).
+            The reason the map is two-dimensional rather than one dimensional is this: imagine
+            an infinite string of ones and zeros running in both directions. Since a
+            the binary representation of a  real
+            number extends infinitely in only one direction (that of the fractional part),
+            the most natural thing to do is to represent this infinite string by two real numbers.
+        </p>
+        
+        <a href="cellular-automata-2d.png">
+        <img src="cellular-automata-2d.png" alt="Two real numbers can simulate an infinite binary string." />
+        </a>
+        
+        <p>
+            Other representations are certainly possible. To represent a cellular automaton state
+            as a single real number,
+            one <em>could</em> pick an arbitrary location to represent the 1/2-place
+            and then spiral outward.
+            This feels unnatural, since neighboring digits in the cellular automata state space
+            are not immediate neighbors in the real number's representation.
+        </p>
+        
+        <p>
+            With this mapping from cellular automaton state to a pair of real numbers, (x, y),
+            a cellular automaton computation generates a list of 2D points.
+            This infinite, ordered list is called an <em>orbit</em> in a dynamical system.
+        </p>
+        <p>
+            There is a way of quanifying if an orbit is chaotic or not. Lyapunov exponents
+            say how quickly orbits very close to each other spread apart.
+            If the Lyapunov exponent is &gt;0, it means nearby orbits spread apart exponentially.
+            The orbit is then called <em>chaotic</em> (Alligood, Definition 5.2, p.196).
+            To numerically
+            find the largest Lyapunov exponent of the orbit, I use Wolf's algorithm
+            (Pilant <a href="http://mpeg.math.tamu.edu/home/mpilant/Math614/lecture12_raw/lecture12_raw.html">Lecture 12A</a> ;
+            <a href="http://sprott.physics.wisc.edu/chaos/lyapexp.htm">Sprott</a>).
+        </p>
+        
+        <!-- Writeup -->
+        <h2>Results</h2>
+        <p>
+           For each of the 256 elementary cellular automata rules, I calculated an orbit of length
+            five hundred, two thousand, and five thousand. Rather than show the results of these 768
+            calculations, I will show examples of 15 of the more interesting cases.
+        </p>
+        
+        <p>In the 500-length case, I used as state space of 1,000 bits. I then chose an
+            <a href="#appendix-initial-states">initial condition</a>
+            randomly with states of equal probability for 41 bits about its center
+            <code><pre>octave:1> s = zeros(1000, 1);
+octave:2> s(480:520) = rand(41, 1) > 0.5;
+</pre></code>
+            In terms of a dynamical system, this simulates picking a two rational numbers,
+            each of which can be represented with a finite number of base-2 bits.
+        </p>
+        
+        <p>I do a similar thing in the 5,000-length orbits. With a state space of
+            10,000 bits, I choose 101 bits at random with equal probability in the center.
+        <code><pre>EDU>> s = zeros(10000, 1);
+EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
+        </p>
+        
+        <p>In the 2,000-length case I do something different. With a state space of 2000 bits
+        I choose all 2000 bits randomly with equal probability. This is much closer to simulating
+        an irrational value, especially since I chose to use circular boundary conditions.
+        This will make a difference, as some cellular automata seem to have chaotic orbits only
+        in this case, with an approximately irrational number.</p>
+
+        <p>To reduce the filesizes transferred, I only show a short subset in the middle
+        of each cellular automaton's &ldquo;history&rdquo; diagram.
+        </p>
+        
+        
+        <h3 id="rule150">Rule 150</h3>
+        <p>
+            Rule 150, 10010110<sub>2</sub>, is interesting because in the 2,000-length orbit
+            case, it has a high Lyapunov exponent. In the orbit length
+            cases, rather than chaotic orbits, it showed very regular behavior. I believe this
+            is due to the difference in initial condition choice. With rational initial conditions,
+            it seems to show aysmptotically periodic orbits, but with irrational initial conditions
+            it shows chaotic orbits.
+        </p>
+        
+        <p>The calculated Lyapunov exponent was 1.45. Compare the history and orbit of the
+            2,000-length case.</p>
+        
+        <a href="rule150-history.pdf.png"><img src="rule150-history.pdf.png"></a>
+        
+        <p>Compare to the 5,000-length case.</p>
+        
+            <a href="rule150-history-10000.pdf.png"><img src="rule150-history-10000.pdf.png"></a>
+        
+        <p>Once interpreted as two real numbers, it looks like the 5,000-length
+        orbit is asymptotically periodic.</p>
+        
+        <h3 id="rule105">Rule 105</h3>
+        <p>Like <a href="#rule150">Rule 150</a>, Rule 105 only showed chaotic orbits in the
+        2,000-length orbit case. Likely, this is for the same reason, the 2,000-length orbit
+        more closely simulated an irrational initial condition.</p>
+        
+        <p>The calculated Lyapunov exponent was 1.44</p>
+        
+            <a href="rule105-history.pdf.png"><img src="rule105-history.pdf.png"></a>
+        
+        
+        <h3 id="rule90">Rule 90, 165</h3>
+        <p>Rule 90 and Rule 165 are equivalent
+            (<a href="http://atlas.wolfram.com/01/01/90/01_01_1_90.html#01_01_9_90">Atlas of Simple Programs</a>).
+            Replace all black cells with white cells and vice versa to switch from rule to the other.
+        </p>
+        
+        <p>
+            Like the previous two rules, these rules showed chaotic behavior only
+            in the 2,000-length case, with a simulated irrational number. For both
+            rules, I calculated a largest Lyapunov exponent as 1.39.
+        </p>
+        
+            <a href="rule90-history.pdf.png"><img src="rule90-history.pdf.png"></a>
+        
+        
+        <h3 id="rule22">Rule 22, 151</h3>
+        <p>
+            Rule 22 and Rule 151 are also equivalent by swapping black and white (zero and one).
+            <em>Unlike</em> the previous sets of rules, I calculated chaotic orbits in all three
+            experiments.
+        </p>
+        
+        <p>
+            In the 2,000-length Rule 22 orbit, the largest Lyapunov exponent is 1.33, but
+            in the 2,000-length Rule 151 orbit, the Lyapunov exponent is 1.57. Although these
+            rules are equivalent, the fact that white and black are swapped effectively means
+            the initial conditions were different. This means that the Lyapunov exponent must be
+            very variable for the chaotic attractor (or there are more than one attractor).
+        </p>
+        
+        <p>
+            This is output from rule 22.
+        </p>
+            <a href="rule22-history.pdf.png"><img src="rule22-history.pdf.png"></a>
+        
+        
+        <h3 id="rule45">Rule 45, 75, 89, 101</h3>
+        <p>
+            Rules 45, 75, 89, and 101 are equivalent. In the 2,000-length case I calculated
+            Lyapunov exponents of 1.22, 1.23, 1.19, and 1.38, respectively.
+        </p>
+            <a href="rule45-history.pdf.png"><img src="rule45-history.pdf.png"></a>
+        
+        
+        <h3 id="rule60">Rule 60, 102, 153, 195</h3>
+        <p>
+            Rules 60, 102, 153, and 195 are equivalent. In the 2,000-length case I calculated
+            Lyapunov exponents of 
+            1.17, 1.09, 1.09, and 1.17, respectively.
+        </p>
+            <a href="rule60-history.pdf.png"><img src="rule60-history.pdf.png"></a>
+        
+        
+        <h3 id="rule106">Rule 106, 120, 169, 225</h3>
+         <p>
+            Rules 106, 120, 169, and 225 are equivalent. In the 2,000-length case I calculated
+            Lyapunov exponents of 
+            0.90, 1.03, 1.04, and 1.01,
+            respectively.
+        </p>
+            <a href="rule106-history.pdf.png"><img src="rule106-history.pdf.png"></a>
+        
+        
+        <h3 id="rule30">Rule 30, 86, 135, 149</h3>
+        <p>
+            Rules 30, 86, 135, and 149 are equivalent. In the 2,000-length case I calculated
+            Lyapunov exponents of 
+            1.05, 1.07, 0.92, and 0.88, respectively.
+        </p>
+            <a href="rule30-history.pdf.png"><img src="rule30-history.pdf.png"></a>
+        
+        
+        <h3 id="rule126">Rule 126, 129</h3>
+        <p>
+            Rules 126 and 129 are equivalent.
+            In the 2,000-length case I calculated Lyapunov exponents of
+            0.85
+            for both.
+        </p>
+            <a href="rule126-history.pdf.png"><img src="rule126-history.pdf.png"></a>
+        
+        
+        <h3 id="rule146">Rule 146, 182</h3>
+        <p>
+            Rules 146 and 182 are equivalent.
+            In the 2,000-length case I calculated Lyapunov exponents of
+            0.74 and 0.73,
+            respectively.
+        </p>
+            <a href="rule146-history.pdf.png"><img src="rule146-history.pdf.png"></a>
+        
+        
+        <h3 id="rule18">Rule 18, 183</h3>
+        <p>
+            Rules 18 and 183 are equivalent.
+            In the 2,000-length case I calculated Lyapunov exponents of
+            0.73 and 0.70,
+            respectively.
+        </p>
+            <a href="rule18-history.pdf.png"><img src="rule18-history.pdf.png"></a>
+        
+        
+        <h3 id="rule122">Rule 122, 161</h3>
+        <p>
+            Rules 122 and 161 are equivalent.
+            In the 2,000-length case I calculated Lyapunov exponents of
+            0.70 and 0.95,
+            respectively.
+        </p>
+            <a href="rule122-history.pdf.png"><img src="rule122-history.pdf.png"></a>
+        
+        
+        <h3 id="rule54">Rule 54, 147</h3>
+        <p>
+            Rules 54 and 147 are equivalent.
+            In the 2,000-length case I calculated Lyapunov exponents of
+            0.49 and 0.47,
+            respectively.
+        </p>
+            <a href="rule54-history.pdf.png"><img src="rule54-history.pdf.png"></a>
+        
+        
+        <h3 id="rule110">Rule 110, 124, 137, 193</h3>
+        <p>
+            Rules 110, 124, 137 and 193 are equivalent.
+            In the 2,000-length case I calculated Lyapunov exponents of
+            0.13, 0.12, 0.02, and 0.27,
+            respectively.
+        </p>
+            <a href="rule110-history.pdf.png"><img src="rule110-history.pdf.png"></a>
+        <p>
+        While quantitatively the least chaotic, rule 110 shows interesting
+        &ldquo;particle&rdquo; interactions. It is for this reason that it is
+        classified as a &ldquo;complex,&rdquo; class IV rule. (Kunkle 11)
+        </p>
+        
+        
+        
+        <h2>References</h2>
+        
+        <ul>
+            <li>Alligood, Kathleen T., Tim Sauer, and James A. Yorke.
+                <em>Chaos: An Introduction to Dynamical Systems.</em>
+                New York: Springer, 1997. Print.
+            </li>
+            <li>
+                Boguta, Kovas, et al.
+                <em>Wolfram Atlas of Simple Programs.</em>
+                N.p., n.d. Web. 24 Mar. 2013.
+                &lt;<a href="http://atlas.wolfram.com/aboutatlas.html">http://atlas.wolfram.com/aboutatlas.html</a>&gt;.
+            </li>
+            <li>Pilant, Michael S. <em>Math 614 : Chaos and Dynamical Systems : Course Homepage</em>, n.d. Web. 
+                &lt;<a href="http://www.math.tamu.edu/~mpilant/math614/">http://www.math.tamu.edu/~mpilant/math614/</a>&gt;.</li>
+                <li>
+                Kunkle, Daniel R. "Automatic Classication of One-Dimensional Cellular Automata." Rochester Institute of Technology Computer Science Department, 17 July 2003. Web.
+                &lt;<a href="http://www.ccs.neu.edu/home/kunkle/papers/kunkle-msthesis.pdf">http://www.ccs.neu.edu/home/kunkle/papers/kunkle-msthesis.pdf</a>&gt;.
+                </li>
+            <li>Sprott, J. C. <em>Numerical Calculation of Largest Lyapunov Exponent.</em>  Department of Physics, University of Wisconsin, 31 Aug. 2004. Web.
+                &lt;<a href="http://sprott.physics.wisc.edu/chaos/lyapexp.htm">
+                http://sprott.physics.wisc.edu/chaos/lyapexp.htm</a>&gt;.</li>
+            <li>Wolfram, Stephen. <a href="http://www.wolframscience.com/nksonline/">A New Kind of Science</a>. Champaign, IL: Wolfram Media, 2002.</li>
+        </ul>
+        
+        
+        
+        
+        <h2>Appendix A (Matlab Codes)</h2>
+        
+        <p>
+            <a href="allcellularautomata.m">allcellularautomata.m</a> is the &ldquo;main loop&rdquo; function.
+            It takes an initial state, a number of generations to calculate, and an array
+            of all rules to use in the calculations. When run in &ldquo;headless&rdquo; mode,
+            it creates PDF files of the history, orbits, and Lyapunov exponent graphs, as well
+            as text files with more detailed information.
+        </p>
+        <div class="matlab-code">
+<p class="p1"><span class="s1">function</span> [history, fhistory] = allcellularautomata(initialstate, generations, initialrule, isheadless)</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p1">N = length(initialstate);</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p1">state = zeros(N, 1);</p>
+<p class="p1">nextstate = zeros(N, 1);</p>
+<p class="p1">history = zeros(generations, N);</p>
+<p class="p1">fhistory = zeros(generations, 2);</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="s1">for</span> rulenumber = initialrule</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="s1">if</span> isheadless == 0</p>
+<p class="p1"><span class="Apple-converted-space">    </span>f = figure();</p>
+<p class="p3">else</p>
+<p class="p1"><span class="Apple-converted-space">    </span>f = figure(<span class="s2">'visible'</span>,<span class="s2">'off'</span>);</p>
+<p class="p3">end</p>
+<p class="p4"><span class="Apple-converted-space"> </span></p>
+<p class="p1">state(:) = initialstate(:);</p>
+<p class="p1">history(1,:) = state;</p>
+<p class="p1"><span class="s1">for</span> g=2:generations</p>
+<p class="p1"><span class="Apple-converted-space">    </span><span class="s1">for</span> i=1:N</p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">        </span></span>% wrap around</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lefti = i-1;</p>
+<p class="p1"><span class="Apple-converted-space">        </span><span class="s1">if</span> lefti &lt; 1</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lefti = N;</p>
+<p class="p1"><span class="Apple-converted-space">        </span><span class="s1">end</span></p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">        </span></span>% wrap around</p>
+<p class="p1"><span class="Apple-converted-space">        </span>righti = i+1;</p>
+<p class="p1"><span class="Apple-converted-space">        </span><span class="s1">if</span> righti &gt; N</p>
+<p class="p1"><span class="Apple-converted-space">            </span>righti = 1;</p>
+<p class="p1"><span class="Apple-converted-space">        </span><span class="s1">end</span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>nextstate(i) = n3rule([state(lefti) state(i) state(righti)], rulenumber);</p>
+<p class="p1"><span class="Apple-converted-space">    </span><span class="s1">end</span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>state(:) = nextstate(:);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>history(g,:) = state(:);</p>
+<p class="p3">end</p>
+<p class="p4"><span class="Apple-converted-space"> </span></p>
+<p class="p5">% Display a conventional cellular automata map,</p>
+<p class="p5">% showing state as pixels in an image. This is like the examples here:</p>
+<p class="p5">% http://mathworld.wolfram.com/CellularAutomaton.html</p>
+<p class="p5">% and perhaps more appropriately,</p>
+<p class="p5">% with examples of rules for neighborhood 3, here:</p>
+<p class="p5">% http://mathworld.wolfram.com/ElementaryCellularAutomaton.html</p>
+<p class="p1">imshow(history);</p>
+<p class="p5">%colormap(hot(256))</p>
+<p class="p1">title(strcat(<span class="s2">'History plot for Elementary Rule '</span>, int2str(rulenumber)));</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p5">% To interpret the finite array of states in a way that would make sense</p>
+<p class="p5">% for an infinite string of bits, we interpret the state as two floating</p>
+<p class="p5">% point nubmers.</p>
+<p class="p5">%</p>
+<p class="p5">% More accurately, we treat the state as two strings of binary digits</p>
+<p class="p5">% (bits), representing two real numbers in [0, 1]. They start in the middle</p>
+<p class="p5">% of the array, and one has bits going right and the other has bits going</p>
+<p class="p5">% left.</p>
+<p class="p5">%</p>
+<p class="p5">% The alternative, treating it as only one floating point number suffers</p>
+<p class="p5">% from strange effects because of boundary conditions. That is, the</p>
+<p class="p5">% least-significant bits of the floating point representation affect the</p>
+<p class="p5">% most-significant bits. This is not an effect that would happen in the</p>
+<p class="p5">% infinite case.</p>
+<p class="p1">fhistory(:) = horzcat( <span class="s1">...</span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>sum( <span class="s1">...</span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>history(:,ceil(N/2):N) .* (2 .^ (-1 .* (1+repmat(ceil(N/2):N,generations,1)-ceil(N/2)))), <span class="s1">...</span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>2), <span class="s1">...</span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>sum( <span class="s1">...</span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>history(:,ceil(N/2)-1:-1:1) .* (2 .^ (-1 .* repmat(1:ceil(N/2)-1,generations,1))), <span class="s1">...</span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>2));</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="s1">if</span> isheadless == 0<span class="Apple-converted-space">   </span></p>
+<p class="p6"><span class="s3"><span class="Apple-converted-space">    </span>disp(</span>'Initial state:'<span class="s3">)</span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>fhistory(1,:)</p>
+<p class="p6"><span class="s3"><span class="Apple-converted-space">    </span>disp(</span>'Ending state:'<span class="s3">)</span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>fhistory(generations,:)</p>
+<p class="p6"><span class="s3"><span class="Apple-converted-space">    </span>disp(</span>'press any key to continue'<span class="s3">);</span></p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">    </span></span>% wait for user input</p>
+<p class="p1"><span class="Apple-converted-space">    </span>pause;</p>
+<p class="p3">else</p>
+<p class="p1"><span class="Apple-converted-space">    </span>print(f, <span class="s2">'-r300'</span>, <span class="s2">'-dpdf'</span>, strcat(<span class="s2">'rule'</span>, int2str(rulenumber), <span class="s2">'-history.pdf'</span>));</p>
+<p class="p3">end</p>
+<p class="p4"><span class="Apple-converted-space"> </span></p>
+<p class="p4"><span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>plot(fhistory(:,1),fhistory(:,2));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>title(strcat(<span class="s2">'Orbit plot for Elementary Rule '</span>, int2str(rulenumber)));</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="s1">if</span> isheadless ~= 0</p>
+<p class="p1"><span class="Apple-converted-space">    </span>print(f, <span class="s2">'-r300'</span>, <span class="s2">'-dpdf'</span>, strcat(<span class="s2">'rule'</span>, int2str(rulenumber), <span class="s2">'-orbit.pdf'</span>));</p>
+<p class="p3">end</p>
+<p class="p4"><span class="Apple-converted-space"> </span></p>
+<p class="p1">datapath = strcat(<span class="s2">'rule'</span>, int2str(rulenumber), <span class="s2">'.dat'</span>);</p>
+<p class="p1">save(datapath, <span class="s2">'-ascii'</span>, <span class="s2">'fhistory'</span>);</p>
+<p class="p1">multilyapunov(datapath, rulenumber);</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p5"><span class="s1">end</span><span class="s3"> </span>% done with rules loop</p>
+<p class="p3">end</p>
+
+
+        </div>
+        
+        
+        <p>
+            <a href="n3rule.m">n3rule.m</a> is the function which does the caluclations
+            for each rule. It works by looking at the bits for each neighborhood in
+            the rule number and multiplexing the output based on the state of the
+            length-3 array/neighborhood given as input.
+        </p>
+        <div class="matlab-code">
+<p class="p1"><span class="s1">function</span> out = n3rule(M, n)</p>
+<p class="p5">% Given a rule set, n, as a unsigned 8-bit integer (uint8),</p>
+<p class="p5">% does the state M produce a live or dead cell?</p>
+<p class="p5">% M is a size-3 array representing a small neighborhood.</p>
+<p class="p8"><span class="Apple-converted-space"> </span></p>
+<p class="p5">% Convert the neighborhood into a bitmask representing the rule</p>
+<p class="p5">% number.</p>
+<p class="p1">bitindex = M .* [4, 2, 1];</p>
+<p class="p1">bitindex = sum(bitindex);</p>
+<p class="p1">bitmask = uint8(2^bitindex);</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p1">out = bitand(bitmask, n) ~= 0;</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+        </div>
+        
+        
+        <p>
+            <a href="multilyapunov.m">multilyapunov.m</a> calculates the largest
+            Lyapunov exponent for a 2D orbit.
+        </p>
+        <div class="matlab-code">
+            <p class="p1"><span class="s1">function</span> multilyapunov(filename, isheadless)</p>
+<p class="p5">% Calculates the largest Lyapunov exponent of a dataset.</p>
+<p class="p5">% Uses the method described here:</p>
+<p class="p5">% http://sprott.physics.wisc.edu/chaos/lyapexp.htm</p>
+<p class="p5">% We use norm(), rather than abs(). This amounts to taking the</p>
+<p class="p5">% Euclidean distance between vectors.</p>
+<p class="p8"><span class="Apple-converted-space"> </span></p>
+<p class="p5">% load in data file</p>
+<p class="p1">data = load(filename);</p>
+<p class="p5">% calculate number of data points</p>
+<p class="p1">[N,M] = size(data);</p>
+<p class="p1">N2 = floor(N/2);</p>
+<p class="p1">N4 = floor(N/4);</p>
+<p class="p5">% find mid point of orbit sequence</p>
+<p class="p1">k=N2;</p>
+<p class="p5">% create space for exponents</p>
+<p class="p1">exponent = zeros(N4,1);</p>
+<p class="p1">dprev = zeros(M,1)';</p>
+<p class="p1">myeps = eps(<span class="s2">'single'</span>);</p>
+<p class="p5">% look at 1/4 of the points</p>
+<p class="p1"><span class="s1">for</span> (j=1:N4)</p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">    </span></span>% set distance initially</p>
+<p class="p1"><span class="Apple-converted-space">    </span>d = norm(data(k+1,:)-data(k,:));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>index = k+1;</p>
+<p class="p1"><span class="Apple-converted-space">    </span><span class="s1">for</span> (i=2:N-1)</p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">        </span></span>% see if there is a closer point</p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">        </span></span>% We must be careful in this step to ensure that</p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">        </span></span>% we renormalize along the line between the two previous</p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">        </span></span>% points. That way we are getting the largest Lyapunov exponent.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dcurr = data(i,:)-data(k,:);</p>
+<p class="p1"><span class="Apple-converted-space">        </span><span class="s1">if</span> (i ~= k) &amp;&amp; (norm(dcurr))&lt;d &amp;&amp; ismultiple(dprev, dcurr) == 1</p>
+<p class="p1"><span class="Apple-converted-space">            </span>d = norm(dcurr);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>index = i;</p>
+<p class="p1"><span class="Apple-converted-space">        </span><span class="s1">end</span></p>
+<p class="p1"><span class="Apple-converted-space">    </span><span class="s1">end</span></p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">    </span></span>% write log of quotient as difference of logs to get better accuracy!</p>
+<p class="p1"><span class="Apple-converted-space">    </span><span class="s1">if</span> norm(data(k,:)-data(index,:)) &gt; myeps &amp;&amp; norm(data(k+1,:)-data(index+1,:)) &gt; myeps</p>
+<p class="p1"><span class="Apple-converted-space">        </span>exponent(j) = log( norm(data(k+1,:)-data(index+1,:)))-log(norm(data(k,:)-data(index,:)));</p>
+<p class="p1"><span class="Apple-converted-space">    </span><span class="s1">end</span></p>
+<p class="p5"><span class="s3"><span class="Apple-converted-space">    </span></span>% repeat with the next point</p>
+<p class="p1"><span class="Apple-converted-space">    </span>k = k+1;</p>
+<p class="p3">end</p>
+<p class="p4"><span class="Apple-converted-space"> </span></p>
+<p class="p5">% now plot the lyapunov exponents</p>
+<p class="p1">t = 1:N4;</p>
+<p class="p1">lyapunov = exponent(1:N4);</p>
+<p class="p1">exp_avg = 0.0;</p>
+<p class="p5">% find the average value for lyapunov exponent</p>
+<p class="p1"><span class="s1">for</span> (i=1:N4)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>exp_avg = exp_avg + exponent(i);</p>
+<p class="p3">end</p>
+<p class="p4"><span class="Apple-converted-space"> </span></p>
+<p class="p4"><span class="Apple-converted-space"> </span></p>
+<p class="p5">% plot the exponents, the average, and the baseline</p>
+<p class="p1"><span class="s1">if</span> isheadless == 0</p>
+<p class="p1"><span class="Apple-converted-space">    </span>f = figure();</p>
+<p class="p3">else</p>
+<p class="p1"><span class="Apple-converted-space">    </span>f = figure(<span class="s2">'visible'</span>,<span class="s2">'off'</span>);</p>
+<p class="p3">end</p>
+<p class="p1">exp_avg = exp_avg/N4;</p>
+<p class="p1">plot(t,lyapunov,t,0,t,exp_avg);</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="s1">if</span> isheadless ~= 0</p>
+<p class="p1"><span class="Apple-converted-space">    </span>pathprefix = strcat(<span class="s2">'rule'</span>, int2str(isheadless), <span class="s2">'-lyapunov'</span>);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>print(f, <span class="s2">'-r300'</span>, <span class="s2">'-dpdf'</span>, strcat(pathprefix, <span class="s2">'.pdf'</span>));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>fid = fopen(strcat(pathprefix, <span class="s2">'.txt'</span>), <span class="s2">'w'</span>);</p>
+<p class="p3">else</p>
+<p class="p1"><span class="Apple-converted-space">    </span>fid = 0;</p>
+<p class="p3">end</p>
+<p class="p6"><span class="s3">fprintf(fid, </span>'average value for lyapunov exponent is: %f\n'<span class="s3">, exp_avg);</span></p>
+<p class="p1">fclose(fid);</p>
+        </div>
+        
+        
+        
+        <p>
+            <a href="ismultiple.m">ismultiple.m</a> is a helper function for calculating
+            the largest Lyapunov exponent for a 2D orbit. It is used to determine points
+            which are okay to use for renormalization.
+        </p>
+        <div class="matlab-code">
+            <p class="p1"><span class="s1">function</span> [output] = ismultiple(scaledv, rootv)</p>
+<p class="p5">% Returns 1 if scaledv = lambda * rootv for some scalar lambda.</p>
+<p class="p5">% Otherwise 0</p>
+<p class="p8"><span class="Apple-converted-space"> </span></p>
+<p class="p5">% Define some value of 'close'.</p>
+<p class="p5">% Here we use the machine epsilon for the single precision value of 1.</p>
+<p class="p5">% Even though the default is double precision, this will make it more</p>
+<p class="p5">% likely for us to find better Lyapunov exponents in the multi-dimensional</p>
+<p class="p5">% case.</p>
+<p class="p1">myeps = eps(<span class="s2">'single'</span>);</p>
+<p class="p1">output = 0;</p>
+<p class="p2"><span class="Apple-converted-space"> </span></p>
+<p class="p5">% Two vectors are linearly dependent when the determinant of this matrix</p>
+<p class="p5">% is zero. See:</p>
+<p class="p5">% http://www.math.oregonstate.edu/home/programs/undergrad/CalculusQuestStudyGuides/vcalc/lindep/lindep.html</p>
+<p class="p5">% http://en.wikipedia.org/wiki/Linear_independence#Alternative_method_using_determinants</p>
+<p class="p1">D = horzcat(scaledv', rootv');</p>
+<p class="p1"><span class="s1">if</span> det(D) &lt;= myeps</p>
+<p class="p1"><span class="Apple-converted-space">    </span>output = 1;</p>
+<p class="p3">end</p>
+<p class="p4"><span class="Apple-converted-space"> </span></p>
+        </div>
+        
+        <h2>Appendix B (Lyapunov exponents)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Rule</th>
+      <th>Notes</th>
+      <th>2,000-length<br>Lyapunov exp.</th>
+      <th>500-length</th>
+      <th>5,000-length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>73</td>
+      <td>W+</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>109</td>
+      <td>W+</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>137</td>
+      <td>^</td>
+      <td>0.021314</td>
+      <td>0.164427</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>124</td>
+      <td>^</td>
+      <td>0.119714</td>
+      <td>0.058037</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>110</td>
+      <td>^</td>
+      <td>0.125197</td>
+      <td>0.005764</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>193</td>
+      <td>^</td>
+      <td>0.273403</td>
+      <td>0.191303</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>147</td>
+      <td>^</td>
+      <td>0.469898</td>
+      <td>0.592045</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>54</td>
+      <td>^</td>
+      <td>0.492321</td>
+      <td>0.014497</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>122</td>
+      <td>+</td>
+      <td>0.698529</td>
+      <td>0.145074</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>161</td>
+      <td>+</td>
+      <td>0.949707</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>183</td>
+      <td>+</td>
+      <td>0.699048</td>
+      <td>0.089066</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>18</td>
+      <td>+</td>
+      <td>0.729279</td>
+      <td>0.456123</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>182</td>
+      <td>+</td>
+      <td>0.731118</td>
+      <td>0.078797</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>146</td>
+      <td>+</td>
+      <td>0.740505</td>
+      <td>0.093224</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>126</td>
+      <td>+</td>
+      <td>0.846913</td>
+      <td>0.080218</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>129</td>
+      <td>+</td>
+      <td>0.846914</td>
+      <td>0.080263</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>149</td>
+      <td>W+</td>
+      <td>0.884794</td>
+      <td>0.080263</td>
+      <td>0.973602</td>
+    </tr>
+    <tr class="oddrow">
+      <td>135</td>
+      <td>W+</td>
+      <td>0.917641</td>
+      <td>0.843196</td>
+      <td>0.973499</td>
+    </tr>
+    <tr class="oddrow">
+      <td>30</td>
+      <td>W+</td>
+      <td>1.045584</td>
+      <td>0.769440</td>
+      <td>0.986373</td>
+    </tr>
+    <tr class="oddrow">
+      <td>86</td>
+      <td>W+</td>
+      <td>1.065465</td>
+      <td>0.821074</td>
+      <td>0.928197</td>
+    </tr>
+    <tr class="evenrow">
+      <td>106</td>
+      <td>+ </td>
+      <td>0.897803</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>225</td>
+      <td>+ </td>
+      <td>1.007624</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>120</td>
+      <td>+ </td>
+      <td>1.033221</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>169</td>
+      <td>+ </td>
+      <td>1.037291</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>102</td>
+      <td>+ </td>
+      <td>1.088862</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="oddrow">
+      <td>153</td>
+      <td>+</td>
+      <td>1.088862</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>60</td>
+      <td>+</td>
+      <td>1.170586</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>195</td>
+      <td>+ </td>
+      <td>1.170586</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>89</td>
+      <td>W+</td>
+      <td>1.192999</td>
+      <td>1.285273</td>
+      <td>1.299358</td>
+    </tr>
+    <tr class="evenrow">
+      <td>45</td>
+      <td>W+</td>
+      <td>1.217507</td>
+      <td>1.249671</td>
+      <td>1.271245</td>
+    </tr>
+    <tr class="evenrow">
+      <td>75</td>
+      <td>W+</td>
+      <td>1.230172</td>
+      <td>1.088283</td>
+      <td>1.324628</td>
+    </tr>
+    <tr class="evenrow">
+      <td>101</td>
+      <td>W+</td>
+      <td>1.378533</td>
+      <td>1.141068</td>
+      <td>1.395981</td>
+    </tr>
+    <tr class="oddrow">
+      <td>22</td>
+      <td>+ </td>
+      <td>1.327705</td>
+      <td>1.385613</td>
+      <td>1.458550</td>
+    </tr>
+    <tr class="oddrow">
+      <td>151</td>
+      <td>+ </td>
+      <td>1.571052</td>
+      <td>1.384629</td>
+      <td>1.449308</td>
+    </tr>
+    <tr class="evenrow">
+      <td>90</td>
+      <td>+ </td>
+      <td>1.390813</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>165</td>
+      <td>+ </td>
+      <td>1.390813</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="oddrow">
+      <td>105</td>
+      <td>+ </td>
+      <td>1.443450</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr class="evenrow">
+      <td>150</td>
+      <td>+ </td>
+      <td>1.446001</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+        
+        <p>
+          [+] Labeled Chaotic in 
+              <a href="http://www.ccs.neu.edu/home/kunkle/papers/kunkle-msthesis.pdf">Kunkle's classification thesis</a>.
+          [^] Labeled Complex in 
+              <a href="http://www.ccs.neu.edu/home/kunkle/papers/kunkle-msthesis.pdf">Kunkle's classification thesis</a>.
+          [W] Complexity from simple initial conditions (Wolfram p.58).
+        
+        <h2 id="appendix-initial-states">Appendix C (Initial States)</h2>
+        <p>
+            For the curious, I am providing the initial states I used for these experiments.
+            Most pictures shown here were generated by running 2,000 steps with
+            <a href="initial-2000.txt">this initial state</a>. I found this approximated
+            an irrational initial state, whereas the initial states I used for the
+            <a href="initial-1000.txt">500-length orbits</a> and the
+            <a href="initial-10000.txt">5,000-length orbits</a>
+            are more like rational initial states.
+        </p>
+        
+<footer>
+  <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
+  Copyright 2013, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
+</footer>
+
+
+  <!-- BEGIN: Google Analytics -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+  <!-- END: Google Analytics -->

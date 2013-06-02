@@ -1,0 +1,64 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Gravity v0.1 released</title>
+        <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+        <link href="../../../../2012/prettify201106/prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="../../../../2012/prettify201106/prettify.js"></script>
+    </head>
+    <body onload="prettyPrint()">
+
+
+<div id="content-header">
+    <a href="/blog/2011/11/21/gravity-v0-1-released/">
+        <h1>Gravity v0.1 released.</h1>
+    </a>
+    <span class="post-date">Wednesday, November 21, 2011</span>
+</div>
+
+<div class="entry">
+<p>I just put a new version of Gravity (beta) on <a href="http://www.kongregate.com/games/TimSwast/gravity-beta">Kongregate</a>.</p>
+<h1>Changes</h1>
+<p>I added support for multiple masses and also obstacles. Also, I fixed a bug with the physics system. The physics are much more &#8220;realistic&#8221; now. Force actually decreases with distance now!</p>
+<h1>Lessons Learned</h1>
+<p>When I added support for multiple masses, I noticed that the physics were acting &#8220;funny&#8221;. It seemed like the little boxes were being more attracted by masses on the opposite side of the map than the to ones they were near.</p>
+<p>It turns out that AS3 does not have an exponentiation operator. My late night coding resulted in the following mistake.</p>
+<pre class="prettyprint" title="">
+// I don't think I ordered an XOR.
+var dist:Number = Math.sqrt(
+        (massPt.x - object.x) ^ 2 +
+        (massPt.y - object.y) ^ 2);
+
+// this is what I should have said.
+var dist:Number = Math.sqrt(
+        Math.pow(massPt.x - object.x, 2) +
+        Math.pow(massPt.y - object.y, 2));
+</pre>
+<p>Also, it turns out that Flixel makes the nice memory-saving optimization of reusing graphics of the same size when you do makeGraphic(). I had to tell it to make a unique version so that I could change the background color on my buttons for add / remove.</p>
+<div class="clear"></div>
+
+
+<footer>
+  <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
+  Copyright 2011, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
+</footer>
+
+
+  <!-- BEGIN: Google Analytics -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+  <!-- END: Google Analytics -->
+</body>
+</html>
+

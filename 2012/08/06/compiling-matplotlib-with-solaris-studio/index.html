@@ -1,0 +1,258 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Compiling matplotlib 1.1.0 for Solaris on SPARC and x86</title>
+        <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+        <link href="../../../../2012/prettify201106/prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="../../../../2012/prettify201106/prettify.js"></script>
+    </head>
+    <body onload="prettyPrint()">
+
+
+<div id="content-header">
+    <a href="">
+        <h1>Compiling matplotlib 1.1.0 for Solaris on SPARC and x86</h1>
+    </a>
+    <span class="post-date">Monday, August 6, 2012</span>
+</div>
+
+
+<p>
+This is part 1 of a three-part series on building and packaging matplotlib as a multi-architecture, Solaris IPS package.
+</p>
+
+<ol>
+    <a href="../compiling-matplotlib-with-solaris-studio/"><li>
+        Compiling matplotlib 1.1.0 for Solaris on SPARC and x86
+    </li></a>
+    <a href="../setting-up-ips-for-multi-arch-packages/"><li>
+        Setting up Solaris IPS servers to host packages for SPARC and x86
+    </li></a>
+    <a href="../packaging-matplotlib-for-multi-arch/"><li>
+        Packaging matplotlib 1.1.0 for Solaris on SPARC and x86
+    </li></a>
+</ol>
+
+<p>
+At the end of this series, you should be able to install matplotlib as easily as any other Solaris 11 package, on both SPARC and x86 machines.
+<pre>
+  pkg install library/python-2/python-matplotlib-26
+</pre>
+</p>
+
+
+
+
+<img style="float: right; width: 20em;" src="../images/cohere_demo1.png" alt="Example of a plot made with matplotlib" title="Example of a plot made with matplotlib" />
+
+<h1>Overview</h1>
+
+<a href="http://matplotlib.sourceforge.net/">Matplotlib</a> is a library for creating plots from Python.
+
+<p>
+Matplotlib has become a frequently used tool in my toolbox. I love how simple it is to go from a couple numpy arrays to many different types of plots.
+</p>
+
+
+
+<h1>Setup build environment</h1>
+
+<p>
+For this build we will be using <a href="http://www.oracle.com/technetwork/server-storage/solarisstudio/overview/index.html">Solaris Studio</a>. Add Solaris Studio to your path. My Solaris Studio was installed at /opt/SUNWspro, so I ran:
+<pre>
+  export PATH="/opt/SUNWspro/bin:${PATH}"
+</pre>
+</p>
+
+<p>
+Solaris 11 comes with Python 2.6 and numpy libraries built-in. Using these worked just fine for me.
+</p>
+
+<p>
+If not done before, install system headers, for compilation. If these are not present, you will get an error like: "/usr/include/python2.6/Python.h", line 22: Error: #error "Something's broken.  UCHAR_MAX should be defined in limits.h.".
+
+<pre>
+  sudo pkg install system/header
+</pre>
+</p>
+
+<p>
+We need to trick Python distutils into using C++ instead of C. The easiest way I found to do this was to set the C compiler environment variable to the Solaris Studio C++ compiler.
+
+<pre>
+  export CC=CC
+</pre>
+</p>
+
+
+
+<h1>Apply changes to matplotlib 1.1.0</h1>
+
+<p>
+I used the <a href="http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-1.1.0/matplotlib-1.1.0.tar.gz/download">source distribution of matplotlib 1.1.0</a> for these instructions. Different changes may be needed for other versions.
+</p>
+
+<p>
+There are only a few changes needed to get matplotlib to compile with Solaris Studio. Basically, I needed to set the standard libraries to ['Crun', 'Cstd']. I then had to change every library listed in the build file to link with the standard libraries (add the std_libs extension to all build_* functions in compile).
+
+<pre>
+diff -r matplotlib-1.1.0/setupext.py matplotlib-1.1.0-modified/setupext.py
+43a44,47
+> SOLARIS
+> 
+>   > python setup.py build --compiler=?
+> 
+260a265,267
+> elif sys.platform == 'sunos5':
+>     std_libs = ['Crun', 'Cstd']
+>     print "sunos5 libraries set"
+343a351
+>     module.include_dirs.append('/usr/include')
+1044a1053,1054
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1057a1068,1069
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1071a1084,1085
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1094a1109,1110
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1113a1130,1131
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1153d1170
+< 
+1154a1172,1174
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1187d1206
+< 
+1188a1208,1210
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1221d1242
+< 
+1222a1244,1246
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1249d1272
+< 
+1250a1274,1276
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1270a1297,1299
+>     
+> 	# put this last for library link order
+>     delaunay.libraries.extend(std_libs)
+1286d1314
+< 
+1287a1316,1318
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1302d1332
+< 
+1304a1335,1336
+>     # put this last for library link order
+>     module.libraries.extend(std_libs)
+1305a1338
+> 
+1323d1355
+< 
+1325a1358,1359
+>     # put this last for library link order
+>     module.libraries.extend(std_libs)
+1326a1361,1362
+> 
+> 
+1340a1377,1380
+> 
+>     # put this last for library link order
+>     module.libraries.extend(std_libs)
+> 
+
+</pre>
+<a href="setupext.py.diff">setupext.py.diff</a>
+
+
+
+<h1>Compile!</h1>
+
+<p>
+If this is the only machine on which you need matplotlib, you can go ahead an run the standard
+
+<pre>
+  python setup.py build
+  python setup.py install
+</pre>
+</p>
+
+<p>
+To build a multiple architecture matplotlib IPS package, the easiest thing to do is to build on a SPARC machine and an x86 machine. This means following these instructions twice, once on each machine.
+</p>
+
+<p>
+In order to create a package of matplotlib for use on other machines, one
+should install to a "prototype" installation folder. Since Python is
+installed in /usr on S11, we create a faux "usr" directory in our prototype
+installation folder. Replace [sparc|i386] with whichever architecture you are
+currently building.
+
+<pre>
+  mkdir ../install_[sparc|i386]
+  mkdir ../install_[sparc|i386]/usr
+</pre>
+</p>
+
+<p>
+Next, use the <a href="http://docs.python.org/install/index.html#alternate-installation-unix-the-prefix-scheme">distutils --prefix option</a> to install into your prototype installation folder.
+
+<pre> 
+  python setup.py install --prefix ../install_[sparc|x86]/usr
+</pre>
+</p>
+
+<p>
+That's it! Now all we need to do is package it. :-)
+</p>
+
+<p>
+Thanks to Yong Sun for his very helpful instructions on <a href="http://yongsun.me/2008/11/build-matplotlib-0-98-3-on-solaris-with-sunstudio-12/">building version 0.98.3</a>.
+</p>
+
+<p>
+The next step after compiling is finding a way to distribute it. In <a href="../setting-up-ips-for-multi-arch-packages/">part 2</a>, I walk you through setting up the IPS servers you'll need to publish matplotlib for SPARC and x86.
+</p>
+
+
+<footer>
+  <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
+  Copyright 2012, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
+</footer>
+
+
+  <!-- BEGIN: Google Analytics -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+  <!-- END: Google Analytics -->
+</body>
+</html>
+

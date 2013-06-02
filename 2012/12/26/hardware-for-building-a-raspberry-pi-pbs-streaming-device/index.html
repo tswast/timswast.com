@@ -1,0 +1,287 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Hardware for a Raspberry Pi PBS Streaming Device</title>
+        <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+    </head>
+    <body>
+
+<div id="content-header">
+    <a href="">
+        <h1>Building a PBS streaming device with Raspberry Pi and OpenELEC XBMC : Part 1, Hardware</h1>
+    </a>
+    <span class="post-date">Wednesday, December 26, 2012</span>
+</div>
+
+
+<p>
+In this series, I'll go from start to finish on how to build a home-theater computer with Raspberry Pi and the OpenELEC XBMC Operating System. At the end we'll be able to install XBMC plugins to stream videos, including PBS.
+</p>
+
+<p>
+This first article about the hardware needed applies to any Raspberry Pi project, not just a video streaming device.
+</p>
+
+<ol>
+    <a href="../hardware-for-building-a-raspberry-pi-pbs-streaming-device/"><li>
+        Hardware for a Raspberry Pi PBS Streaming Device
+    </li></a>
+    <a href="../software-for-building-a-raspberry-pi-pbs-streaming-device/"><li>
+        Installing software for a Raspberry Pi PBS Streaming Device
+    </li></a>
+</ol>
+
+
+<h1>Overview</h1>
+
+<p>
+Before we get started, we need to acquire all the needed hardware. 
+
+<ul>
+    <li><a href="http://www.raspberrypi.org/">Raspberry Pi</a> ($35)
+    <p>
+    Technically, this is just $35, but when I ordered directly from a supplier listed on the official website, it took 8 months for me to get my pi. For the impatient, I have seen it listed on 
+<a href="http://www.amazon.com/gp/product/B009SQQF9C/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B009SQQF9C">Amazon with Prime eligible shipping</a>.<img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B009SQQF9C" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+    </li>
+    <li>Raspberry Pi Enclosure ($6-$20)
+    <p>
+    The Raspberry Pi comes as a bare circuit board. Luckily, there are a few vendors who sell plastic cases, including this assortment of <a href="http://www.amazon.com/gp/product/B008TCUXLW/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B008TCUXLW">Raspberry Pi Enclosures</a><img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B008TCUXLW" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> on Amazon.
+    </li>
+    <li>HDMI TV or Monitor ($100+)
+    <p>
+    Most folks will already have a television or monitor supporting HDMI, which
+    is part of the allure of a Raspberry Pi. Since it is so small, it can be
+    yet another device on the TV stand. Ours sits next to our <a
+        href="http://www.amazon.com/gp/product/B005CLPP84/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B005CLPP84">Roku</a>.
+        <img
+    src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B005CLPP84"
+    width="1" height="1" border="0" alt="" style="border:none !important;
+    margin:0px !important;" /> If not, there are many 
+    
+   <a target="_blank"
+       href="http://www.amazon.com/s/?_encoding=UTF8&tag=thnebetu-20&linkCode=ur2&camp=1789&creative=390957&rh=n%3A172282%2Ck%3AHDMI%20monitor%20with%20integrated%20speakers&field-keywords=HDMI%20monitor%20with%20integrated%20speakers&url=search-alias%3Delectronics">HDMI-input
+       monitors that come with integrated speakers</a><img
+   src="https://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=ur2&o=1" width="1"
+   height="1" border="0" alt="" style="border:none !important; margin:0px
+   !important;" />  to choose from.
+    </li>
+    <li>
+<a href="http://www.amazon.com/gp/product/B003L1ZYYM/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B003L1ZYYM">HDMI Cable</a><img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B003L1ZYYM" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> ($6)
+    
+    <p>
+It's likely you have one of these already, but if not any  
+<a
+    href="http://www.amazon.com/gp/product/B003L1ZYYM/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B003L1ZYYM">HDMI
+    cable</a><img
+src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B003L1ZYYM"
+width="1" height="1" border="0" alt="" style="border:none !important;
+margin:0px !important;" />
+    should work fine.
+    </li>
+    <li>USB charger (700 mAmp)
+
+    <p>
+    The Raspberry Pi runs off USB for its power. Not just any USB charger
+    will work, though, since the Raspberry Pi is very picky about voltages and
+    needs something that can supply enough power. I'm using the <a target="_blank"
+        href="http://www.amazon.com/s/?_encoding=UTF8&tag=thnebetu-20&linkCode=ur2&camp=1789&creative=390957&field-keywords=apple%20iphone%20usb%20power%20adapter&url=search-alias%3Delectronics">iPhone
+        USB charger</a>,<img
+    src="https://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=ur2&o=1" width="1"
+    height="1" border="0" alt="" style="border:none !important; margin:0px
+    !important;" /> but a
+<a
+    href="http://www.amazon.com/gp/product/B006GWO5WK/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B006GWO5WK">Kindle
+    Fire charger</a><img
+src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B006GWO5WK"
+width="1" height="1" border="0" alt="" style="border:none !important;
+margin:0px !important;" /> should work well, too.
+    
+    </li>
+    <li>
+    <a
+        href="http://www.amazon.com/gp/product/B006GWO5NE/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B006GWO5NE">Micro
+        USB Cable</a><img
+    src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B006GWO5NE"
+    width="1" height="1" border="0" alt="" style="border:none !important;
+    margin:0px !important;" />
+
+    <p>
+    There is a good chance you have one of these already, especially if you
+    have an Android device. You may want to pick an
+<a href="http://www.amazon.com/gp/product/B006GWO5NE/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B006GWO5NE">extra one</a><img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B006GWO5NE" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+    up to have a
+    dedicated cable for your Raspberry Pi, though.
+    </li>
+    <li>
+    <a
+        href="http://www.amazon.com/gp/product/B003E6493G/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B003E6493G">Wireless
+        USB Adapter</a><img
+    src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B003E6493G"
+    width="1" height="1" border="0" alt="" style="border:none !important;
+    margin:0px !important;" />
+
+    <p>
+    If you don't want to run an Ethernet cable to your TV stand, get this
+    <a
+        href="http://www.amazon.com/gp/product/B003E6493G/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B003E6493G">Wireless
+        USB Adapter</a>.<img
+    src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B003E6493G"
+    width="1" height="1" border="0" alt="" style="border:none !important;
+    margin:0px !important;" />
+    This 
+    <a
+        href="http://www.amazon.com/gp/product/B003E6493G/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B003E6493G">ASUS
+        USB-N10</a><img
+    src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B003E6493G"
+    width="1" height="1" border="0" alt="" style="border:none !important;
+    margin:0px !important;" /> worked out of the box for me. I didn't need to install
+    any special drivers.
+    </li>
+    <li>Ethernet cable
+
+    <p>
+    If one is not going the wireless route, this will be connected to your
+    Raspberry Pi at all times. Otherwise, it is nice to have this connected
+    while we are setting up so we don't have to worry about configuring
+    wireless right away.
+    </li>
+    <li>SD card
+    
+    <p>
+    The Raspberry Pi can be finicky about what SD cards it will accept. I used this
+<a href="http://www.amazon.com/gp/product/B001ECQVTM/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B001ECQVTM">Transcend 16GB SD card</a><img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B001ECQVTM" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+without any problems. The
+<a href="http://www.amazon.com/gp/product/B0058GH1IK/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B0058GH1IK">AmazonBasics</a><img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B0058GH1IK" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> card should work fine, too.
+
+    </li>
+    <li>SD-card reader
+    
+    <p>
+    The internal card reader on my MacBook <em>did not work</em>. Instead, I had to buy an external 
+    <a href="http://www.amazon.com/gp/product/B004QHPYT0/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B004QHPYT0">iogear Memory Card Reader/Writer</a>.<img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B004QHPYT0" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+    Once I got the external reader, I was able to flash the SD card for the Raspberry Pi operating system.
+    </li>
+    <li>USB mouse
+    
+    <p>
+    Any mouse with a USB cable should do fine.
+    </li>
+    <li>USB keyboard
+    
+    <p>
+    It needs to be a USB keyboard, as there are no old-style keyboard inputs on the Raspberry Pi.
+    </li>
+    <li>USB hub ($5)
+    
+    <p>
+    There are only two USB ports on the Raspberry Pi. To have the mouse, keyboard, and wireless card plugged in you will need a hub. The Raspberry Pi forums say a powered USB hub is required, but I used the 
+<a href="http://www.amazon.com/gp/product/B000Q8UAWY/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B000Q8UAWY">Belkin USB Ultra-Mini Hub</a><img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B000Q8UAWY" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+    that I already had to plug in the mouse and keyboard, and it worked fine.    
+    </li>
+    <li>A computer or laptop (Mac/Windows/Linux)
+
+    <p>
+    In order to get the operating system setup for the Raspberry Pi, one will need to flash the SD card from a computer or laptop. I did this from a 
+<a href="http://www.amazon.com/gp/product/B0074712UY/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B0074712UY">MacBook Pro</a>.<img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B0074712UY" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+    My instructions in the 
+    <a href="../software-for-building-a-raspberry-pi-pbs-streaming-device/">software article</a>
+    will show what I did from my Mac.
+    </li>
+</ul>
+
+<p>
+That is quite the shopping list, but it is possible, even likely, that you already have most of these things.
+
+
+
+
+<h1>Putting together the enclosure</h1>
+
+<p>
+Once you get your Raspberry Pi and its case, it's time to put it together. I got the case through Allied Electronics, which does not include a hole for the general purpose I/O ports. That's OK, though, since we won't be using them for this project. For future projects, I'll want to get a different case, like the 
+    <a
+        href="http://www.amazon.com/gp/product/B008TCUXLW/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B008TCUXLW">HungryPi
+        enclosures</a><img
+    src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B008TCUXLW"
+    width="1" height="1" border="0" alt="" style="border:none !important;
+    margin:0px !important;" />, which have a hole to put a ribbon cable connecting to the GPIO ports.
+
+<p>
+This is the Raspberry Pi and the Allied Electronics case I bought for it. Look at how tiny it is!
+
+<img src="pi-and-case-with-hand-for-scale.jpg" alt="Raspberry Pi and case with
+my hand for scale" title="Look how tiny and cool it is!" />
+
+
+<p>
+The first step to put it together is to place the Raspberry Pi on the base of the enclosure. Put the left side under the small plastic clips. This leaves the right side (with the GPIO ports) just above the large plastic clips.
+<img src="clip-it-in.jpg" alt="Raspberry Pi over bottom part of enclosure"
+title="The side not shown is under the small clips already.
+Here we see the board above the large clips." />
+
+<p>
+Then, we just clip the board in.
+<img src="its-clipped.jpg"
+alt="Raspberry Pi clipped over bottom part of enclosure"
+title="The bottom part is clipped in." />
+
+<p>
+Finally, we put the top part of the enclosure on. Simply line up the slots with the corresponding components and click the top into place.
+<img src="put-on-top.jpg"
+alt="Placing the top part of the enclosure on our raspberry pi."
+title="Line up the components and clip it in." />
+
+
+
+<h1>Connecting the components.</h1>
+
+<p>
+Now that the Raspberry Pi is pretty well protected in its enclosure, we can connect the components we will need to it. The two most important things for the Raspberry Pi are the Operating System SD card and the power connection. These are necessary for any Raspberry Pi project, be it a web server, home automation device, or video streaming device.
+
+<p>
+For building a streaming device, first follow the directions in the <a href="../software-for-building-a-raspberry-pi-pbs-streaming-device/">software article</a> for flashing the OpenELEC operating system onto the SD card.
+
+<img src="power-sd-top.jpg"
+alt="SD card and power plugged in."
+title="SD card and power plugged in, notice the SD card is upside down." />
+
+<p>
+Plug the power cable into the micro-USB port on the Raspberry Pi. The SD card is right next to the micro-USB port. Note that the card needs to go in upside down.
+
+<img src="power-sd-bottom.jpg"
+alt="SD card and power plugged in."
+title="SD card and power plugged in, notice the SD card is upside down." />
+
+<p>
+Then, plug in the rest of the devices. This should be pretty straight-forward, since the HDMI and USB ports are well labeled (at least on the case I got).
+
+<img src="everything-plugged-in.png"
+alt="SD card and power plugged in."
+title="SD card and power plugged in, notice the SD card is upside down." />
+
+<p>
+One last thing I have noticed is that for the display to show up, the monitor or TV needs to be on and connected to the HDMI input before plugging the power into the Raspberry Pi.
+
+
+<footer>
+  <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
+  Copyright 2012, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
+</footer>
+
+
+  <!-- BEGIN: Google Analytics -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+  <!-- END: Google Analytics -->
+

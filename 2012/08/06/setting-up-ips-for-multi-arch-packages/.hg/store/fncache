@@ -1,0 +1,5 @@
+data/.hgignore.i
+data/edits.diff.i
+data/blog.css.i
+data/setupext.py.diff.i
+data/index.html.i

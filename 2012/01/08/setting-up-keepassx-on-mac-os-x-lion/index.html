@@ -1,0 +1,91 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Setting up KeePassX on Mac OS X Lion</title>
+        <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+        <link href="../../../../2012/prettify201106/prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="../../../../2012/prettify201106/prettify.js"></script>
+    </head>
+    <body onload="prettyPrint()">
+
+
+<div id="content-header">
+    <a href="/blog/2012/01/08/setting-up-keepassx-on-mac-os-x-lion/">
+        <h1>Setting up KeePassX on Mac OS X Lion</h1>
+    </a>
+    <span class="post-date">Sunday, January 8, 2012</span>
+</div>
+
+
+<p>There are many prerequisites in order to build KeePassX on Mac.</p>
+<h1>Install GnuPG libraries</h1>
+<p>First download and install libgpg-error.<br />
+<a href="http://www.gnupg.org/download/#libgpg-error" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.gnupg.org']);"> http://www.gnupg.org/download/#libgpg-error</a></p>
+<p>Build and install. (Should go to /usr/local/*.)</p>
+
+<pre class="prettyprint">./configure
+make
+sudo make install</pre>
+<p>Then, download and install libgcrypt.<br />
+<a href="http://www.gnupg.org/download/#libgcrypt" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.gnupg.org']);">http://www.gnupg.org/download/#libgcrypt</a></p>
+<p>Build and install.</p>
+
+<pre class="prettyprint">./configure
+make
+sudo make install</pre>
+<h1>Install Qt4</h1>
+<p>Download and install Qt4 from <a href="http://qt.nokia.com/downloads" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://qt.nokia.com']);">http://qt.nokia.com/downloads</a>.</p>
+<p>Note that in order for me to get the installer to work, I had to install to a subdirectory of my home directory, not in a global location. I think this is because the post-install scripts don&#8217;t ask for the proper permissions. They&#8217;ll fail if you don&#8217;t have write permissions to a directory.</p>
+<p>After it was installed, I had to add the Qt utilities to my ~/.bash_profile. For me, these were located in ~/QtSDK/Desktop/Qt/474/gcc/bin.</p>
+<h1>Build KeePassX</h1>
+<p>In order to build KeePassX, I had to add a &#8220;bundle destination&#8221; to src/CMakeLists.txt.</p>
+<pre class="prettyprint">
+$ diff src/CMakeLists.txt.old src/CMakeLists.txt
+  add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE main.cpp )
+  target_link_libraries( ${PROGNAME} keepassx_core \
+    ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} \
+    ${GCRYPT_LIBRARIES} ${ZLIB_LIBRARIES} )
+- install(TARGETS ${PROGNAME} DESTINATION ${BIN_INSTALL_DIR})
++ install(TARGETS ${PROGNAME}
++     BUNDLE DESTINATION .
++     RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT Runtime)
+</pre>
+<p>Then, as the INSTALL file says, run</p>
+<pre class="prettyprint">
+mkdir build
+cd build
+cmake ..
+make
+</pre>
+<h1>Notes</h1>
+<p>For this project, I thought I had to tell configure to use the 32-bit architecture, since it couldn&#8217;t find symbols when I tried the default 64-bit. (It turns out that I just hadn&#8217;t installed the libraries in the correct order.)</p>
+<p>For future reference, if you need to force a 32-bit architecture, do this.</p>
+<pre class="prettyprint">./configure CC="gcc -arch i386" CXX="g++ -arch i386"
+make
+sudo make install</pre>
+
+
+<footer>
+  <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
+  Copyright 2012, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
+</footer>
+
+
+  <!-- BEGIN: Google Analytics -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+  <!-- END: Google Analytics -->
+</body>
+</html>
+

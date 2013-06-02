@@ -2,3 +2,4 @@ deploy
 media/download
 *.pyc
 *.swp
+*.DS_Store

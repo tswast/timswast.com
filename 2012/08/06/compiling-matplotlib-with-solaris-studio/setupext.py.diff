@@ -1,0 +1,82 @@
+diff -r matplotlib-1.1.0/setupext.py matplotlib-1.1.0-modified/setupext.py
+43a44,47
+> SOLARIS
+> 
+>   > python setup.py build --compiler=?
+> 
+260a265,267
+> elif sys.platform == 'sunos5':
+>     std_libs = ['Crun', 'Cstd']
+>     print "sunos5 libraries set"
+343a351
+>     module.include_dirs.append('/usr/include')
+1044a1053,1054
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1057a1068,1069
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1071a1084,1085
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1094a1109,1110
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1113a1130,1131
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1153d1170
+< 
+1154a1172,1174
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1187d1206
+< 
+1188a1208,1210
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1221d1242
+< 
+1222a1244,1246
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1249d1272
+< 
+1250a1274,1276
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1270a1297,1299
+>     
+> 	# put this last for library link order
+>     delaunay.libraries.extend(std_libs)
+1286d1314
+< 
+1287a1316,1318
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1302d1332
+< 
+1304a1335,1336
+>     # put this last for library link order
+>     module.libraries.extend(std_libs)
+1305a1338
+> 
+1323d1355
+< 
+1325a1358,1359
+>     # put this last for library link order
+>     module.libraries.extend(std_libs)
+1326a1361,1362
+> 
+> 
+1340a1377,1380
+> 
+>     # put this last for library link order
+>     module.libraries.extend(std_libs)
+> 
+

@@ -1,0 +1,239 @@
+Common subdirectories: matplotlib-1.1.0/CXX and matplotlib-1.1.0-modified/CXX
+Common subdirectories: matplotlib-1.1.0/agg24 and matplotlib-1.1.0-modified/agg24
+Only in matplotlib-1.1.0-modified: build
+Common subdirectories: matplotlib-1.1.0/doc and matplotlib-1.1.0-modified/doc
+Common subdirectories: matplotlib-1.1.0/examples and matplotlib-1.1.0-modified/examples
+Common subdirectories: matplotlib-1.1.0/lib and matplotlib-1.1.0-modified/lib
+diff -r matplotlib-1.1.0/setupext.py matplotlib-1.1.0-modified/setupext.py
+43a44,47
+> SOLARIS
+> 
+>   > python setup.py build --compiler=?
+> 
+260a265,267
+> elif sys.platform == 'sunos5':
+>     std_libs = ['Crun', 'Cstd']
+>     print "sunos5 libraries set"
+343a351
+>     module.include_dirs.append('/usr/include')
+1044a1053,1054
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1057a1068,1069
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1071a1084,1085
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1094a1109,1110
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1113a1130,1131
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1153d1170
+< 
+1154a1172,1174
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1187d1206
+< 
+1188a1208,1210
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1221d1242
+< 
+1222a1244,1246
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1249d1272
+< 
+1250a1274,1276
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1270a1297,1299
+>     
+> 	# put this last for library link order
+>     delaunay.libraries.extend(std_libs)
+1286d1314
+< 
+1287a1316,1318
+>     
+> 	# put this last for library link order
+>     module.libraries.extend(std_libs)
+1302d1332
+< 
+1304a1335,1336
+>     # put this last for library link order
+>     module.libraries.extend(std_libs)
+1305a1338
+> 
+1323d1355
+< 
+1325a1358,1359
+>     # put this last for library link order
+>     module.libraries.extend(std_libs)
+1326a1361,1362
+> 
+> 
+1340a1377,1380
+> 
+>     # put this last for library link order
+>     module.libraries.extend(std_libs)
+> 
+Only in matplotlib-1.1.0-modified: setupext.pyc
+Common subdirectories: matplotlib-1.1.0/src and matplotlib-1.1.0-modified/src
+Only in matplotlib-1.1.0-modified: test.png
+Common subdirectories: matplotlib-1.1.0/ttconv and matplotlib-1.1.0-modified/ttconv
+Common subdirectories: matplotlib-1.1.0/CXX/Python2 and matplotlib-1.1.0-modified/CXX/Python2
+Common subdirectories: matplotlib-1.1.0/CXX/Python3 and matplotlib-1.1.0-modified/CXX/Python3
+Common subdirectories: matplotlib-1.1.0/agg24/include and matplotlib-1.1.0-modified/agg24/include
+Common subdirectories: matplotlib-1.1.0/agg24/src and matplotlib-1.1.0-modified/agg24/src
+Common subdirectories: matplotlib-1.1.0/agg24/include/ctrl and matplotlib-1.1.0-modified/agg24/include/ctrl
+Common subdirectories: matplotlib-1.1.0/agg24/include/platform and matplotlib-1.1.0-modified/agg24/include/platform
+Common subdirectories: matplotlib-1.1.0/agg24/include/util and matplotlib-1.1.0-modified/agg24/include/util
+Common subdirectories: matplotlib-1.1.0/agg24/include/platform/mac and matplotlib-1.1.0-modified/agg24/include/platform/mac
+Common subdirectories: matplotlib-1.1.0/agg24/include/platform/win32 and matplotlib-1.1.0-modified/agg24/include/platform/win32
+Common subdirectories: matplotlib-1.1.0/agg24/src/ctrl and matplotlib-1.1.0-modified/agg24/src/ctrl
+Common subdirectories: matplotlib-1.1.0/agg24/src/platform and matplotlib-1.1.0-modified/agg24/src/platform
+Common subdirectories: matplotlib-1.1.0/agg24/src/platform/AmigaOS and matplotlib-1.1.0-modified/agg24/src/platform/AmigaOS
+Common subdirectories: matplotlib-1.1.0/agg24/src/platform/BeOS and matplotlib-1.1.0-modified/agg24/src/platform/BeOS
+Common subdirectories: matplotlib-1.1.0/agg24/src/platform/X11 and matplotlib-1.1.0-modified/agg24/src/platform/X11
+Common subdirectories: matplotlib-1.1.0/agg24/src/platform/mac and matplotlib-1.1.0-modified/agg24/src/platform/mac
+Common subdirectories: matplotlib-1.1.0/agg24/src/platform/sdl and matplotlib-1.1.0-modified/agg24/src/platform/sdl
+Common subdirectories: matplotlib-1.1.0/agg24/src/platform/win32 and matplotlib-1.1.0-modified/agg24/src/platform/win32
+Common subdirectories: matplotlib-1.1.0/doc/_static and matplotlib-1.1.0-modified/doc/_static
+Common subdirectories: matplotlib-1.1.0/doc/_templates and matplotlib-1.1.0-modified/doc/_templates
+Common subdirectories: matplotlib-1.1.0/doc/api and matplotlib-1.1.0-modified/doc/api
+Common subdirectories: matplotlib-1.1.0/doc/devel and matplotlib-1.1.0-modified/doc/devel
+Common subdirectories: matplotlib-1.1.0/doc/faq and matplotlib-1.1.0-modified/doc/faq
+Common subdirectories: matplotlib-1.1.0/doc/glossary and matplotlib-1.1.0-modified/doc/glossary
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples and matplotlib-1.1.0-modified/doc/mpl_examples
+Common subdirectories: matplotlib-1.1.0/doc/mpl_toolkits and matplotlib-1.1.0-modified/doc/mpl_toolkits
+Common subdirectories: matplotlib-1.1.0/doc/pyplots and matplotlib-1.1.0-modified/doc/pyplots
+Common subdirectories: matplotlib-1.1.0/doc/sphinxext and matplotlib-1.1.0-modified/doc/sphinxext
+Common subdirectories: matplotlib-1.1.0/doc/users and matplotlib-1.1.0-modified/doc/users
+Common subdirectories: matplotlib-1.1.0/doc/utils and matplotlib-1.1.0-modified/doc/utils
+Common subdirectories: matplotlib-1.1.0/doc/devel/gitwash and matplotlib-1.1.0-modified/doc/devel/gitwash
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/animation and matplotlib-1.1.0-modified/doc/mpl_examples/animation
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/api and matplotlib-1.1.0-modified/doc/mpl_examples/api
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/axes_grid and matplotlib-1.1.0-modified/doc/mpl_examples/axes_grid
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/event_handling and matplotlib-1.1.0-modified/doc/mpl_examples/event_handling
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/misc and matplotlib-1.1.0-modified/doc/mpl_examples/misc
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/mplot3d and matplotlib-1.1.0-modified/doc/mpl_examples/mplot3d
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/pylab_examples and matplotlib-1.1.0-modified/doc/mpl_examples/pylab_examples
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/tests and matplotlib-1.1.0-modified/doc/mpl_examples/tests
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/units and matplotlib-1.1.0-modified/doc/mpl_examples/units
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/user_interfaces and matplotlib-1.1.0-modified/doc/mpl_examples/user_interfaces
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/widgets and matplotlib-1.1.0-modified/doc/mpl_examples/widgets
+Common subdirectories: matplotlib-1.1.0/doc/mpl_examples/animation/old_animation and matplotlib-1.1.0-modified/doc/mpl_examples/animation/old_animation
+Common subdirectories: matplotlib-1.1.0/doc/mpl_toolkits/axes_grid and matplotlib-1.1.0-modified/doc/mpl_toolkits/axes_grid
+Common subdirectories: matplotlib-1.1.0/doc/mpl_toolkits/mplot3d and matplotlib-1.1.0-modified/doc/mpl_toolkits/mplot3d
+Common subdirectories: matplotlib-1.1.0/doc/mpl_toolkits/axes_grid/api and matplotlib-1.1.0-modified/doc/mpl_toolkits/axes_grid/api
+Common subdirectories: matplotlib-1.1.0/doc/mpl_toolkits/axes_grid/examples and matplotlib-1.1.0-modified/doc/mpl_toolkits/axes_grid/examples
+Common subdirectories: matplotlib-1.1.0/doc/mpl_toolkits/axes_grid/figures and matplotlib-1.1.0-modified/doc/mpl_toolkits/axes_grid/figures
+Common subdirectories: matplotlib-1.1.0/doc/mpl_toolkits/axes_grid/users and matplotlib-1.1.0-modified/doc/mpl_toolkits/axes_grid/users
+Common subdirectories: matplotlib-1.1.0/doc/users/plotting and matplotlib-1.1.0-modified/doc/users/plotting
+Common subdirectories: matplotlib-1.1.0/doc/users/plotting/examples and matplotlib-1.1.0-modified/doc/users/plotting/examples
+Common subdirectories: matplotlib-1.1.0/examples/animation and matplotlib-1.1.0-modified/examples/animation
+Common subdirectories: matplotlib-1.1.0/examples/api and matplotlib-1.1.0-modified/examples/api
+Common subdirectories: matplotlib-1.1.0/examples/axes_grid and matplotlib-1.1.0-modified/examples/axes_grid
+Common subdirectories: matplotlib-1.1.0/examples/event_handling and matplotlib-1.1.0-modified/examples/event_handling
+Common subdirectories: matplotlib-1.1.0/examples/misc and matplotlib-1.1.0-modified/examples/misc
+Common subdirectories: matplotlib-1.1.0/examples/mplot3d and matplotlib-1.1.0-modified/examples/mplot3d
+Common subdirectories: matplotlib-1.1.0/examples/pylab_examples and matplotlib-1.1.0-modified/examples/pylab_examples
+Common subdirectories: matplotlib-1.1.0/examples/tests and matplotlib-1.1.0-modified/examples/tests
+Common subdirectories: matplotlib-1.1.0/examples/units and matplotlib-1.1.0-modified/examples/units
+Common subdirectories: matplotlib-1.1.0/examples/user_interfaces and matplotlib-1.1.0-modified/examples/user_interfaces
+Common subdirectories: matplotlib-1.1.0/examples/widgets and matplotlib-1.1.0-modified/examples/widgets
+Common subdirectories: matplotlib-1.1.0/examples/animation/old_animation and matplotlib-1.1.0-modified/examples/animation/old_animation
+Common subdirectories: matplotlib-1.1.0/lib/dateutil and matplotlib-1.1.0-modified/lib/dateutil
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib and matplotlib-1.1.0-modified/lib/matplotlib
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples and matplotlib-1.1.0-modified/lib/mpl_examples
+Common subdirectories: matplotlib-1.1.0/lib/mpl_toolkits and matplotlib-1.1.0-modified/lib/mpl_toolkits
+Common subdirectories: matplotlib-1.1.0/lib/pytz and matplotlib-1.1.0-modified/lib/pytz
+Common subdirectories: matplotlib-1.1.0/lib/dateutil/zoneinfo and matplotlib-1.1.0-modified/lib/dateutil/zoneinfo
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/backends and matplotlib-1.1.0-modified/lib/matplotlib/backends
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/delaunay and matplotlib-1.1.0-modified/lib/matplotlib/delaunay
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/mpl-data and matplotlib-1.1.0-modified/lib/matplotlib/mpl-data
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/projections and matplotlib-1.1.0-modified/lib/matplotlib/projections
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/sphinxext and matplotlib-1.1.0-modified/lib/matplotlib/sphinxext
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/testing and matplotlib-1.1.0-modified/lib/matplotlib/testing
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests and matplotlib-1.1.0-modified/lib/matplotlib/tests
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tri and matplotlib-1.1.0-modified/lib/matplotlib/tri
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/backends/Matplotlib.nib and matplotlib-1.1.0-modified/lib/matplotlib/backends/Matplotlib.nib
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/backends/qt4_editor and matplotlib-1.1.0-modified/lib/matplotlib/backends/qt4_editor
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/mpl-data/fonts and matplotlib-1.1.0-modified/lib/matplotlib/mpl-data/fonts
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/mpl-data/images and matplotlib-1.1.0-modified/lib/matplotlib/mpl-data/images
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/mpl-data/fonts/afm and matplotlib-1.1.0-modified/lib/matplotlib/mpl-data/fonts/afm
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/mpl-data/fonts/pdfcorefonts and matplotlib-1.1.0-modified/lib/matplotlib/mpl-data/fonts/pdfcorefonts
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/mpl-data/fonts/ttf and matplotlib-1.1.0-modified/lib/matplotlib/mpl-data/fonts/ttf
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/testing/jpl_units and matplotlib-1.1.0-modified/lib/matplotlib/testing/jpl_units
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/dviread and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/dviread
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/pngsuite and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/pngsuite
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_axes and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_axes
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_backend_pdf and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_backend_pdf
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_dates and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_dates
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_delaunay and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_delaunay
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_figure and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_figure
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_image and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_image
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_legend and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_legend
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_mathtext and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_mathtext
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_png and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_png
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_simplification and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_simplification
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_spines and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_spines
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_text and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_text
+Common subdirectories: matplotlib-1.1.0/lib/matplotlib/tests/baseline_images/test_tightlayout and matplotlib-1.1.0-modified/lib/matplotlib/tests/baseline_images/test_tightlayout
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/animation and matplotlib-1.1.0-modified/lib/mpl_examples/animation
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/api and matplotlib-1.1.0-modified/lib/mpl_examples/api
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/axes_grid and matplotlib-1.1.0-modified/lib/mpl_examples/axes_grid
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/event_handling and matplotlib-1.1.0-modified/lib/mpl_examples/event_handling
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/misc and matplotlib-1.1.0-modified/lib/mpl_examples/misc
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/mplot3d and matplotlib-1.1.0-modified/lib/mpl_examples/mplot3d
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/pylab_examples and matplotlib-1.1.0-modified/lib/mpl_examples/pylab_examples
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/tests and matplotlib-1.1.0-modified/lib/mpl_examples/tests
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/units and matplotlib-1.1.0-modified/lib/mpl_examples/units
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/user_interfaces and matplotlib-1.1.0-modified/lib/mpl_examples/user_interfaces
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/widgets and matplotlib-1.1.0-modified/lib/mpl_examples/widgets
+Common subdirectories: matplotlib-1.1.0/lib/mpl_examples/animation/old_animation and matplotlib-1.1.0-modified/lib/mpl_examples/animation/old_animation
+Common subdirectories: matplotlib-1.1.0/lib/mpl_toolkits/axes_grid and matplotlib-1.1.0-modified/lib/mpl_toolkits/axes_grid
+Common subdirectories: matplotlib-1.1.0/lib/mpl_toolkits/axes_grid1 and matplotlib-1.1.0-modified/lib/mpl_toolkits/axes_grid1
+Common subdirectories: matplotlib-1.1.0/lib/mpl_toolkits/axisartist and matplotlib-1.1.0-modified/lib/mpl_toolkits/axisartist
+Common subdirectories: matplotlib-1.1.0/lib/mpl_toolkits/mplot3d and matplotlib-1.1.0-modified/lib/mpl_toolkits/mplot3d
+Common subdirectories: matplotlib-1.1.0/lib/pytz/tests and matplotlib-1.1.0-modified/lib/pytz/tests
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo and matplotlib-1.1.0-modified/lib/pytz/zoneinfo
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Africa and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Africa
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/America and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/America
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Antarctica and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Antarctica
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Arctic and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Arctic
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Asia and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Asia
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Atlantic and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Atlantic
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Australia and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Australia
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Brazil and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Brazil
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Canada and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Canada
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Chile and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Chile
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Etc and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Etc
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Europe and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Europe
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Indian and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Indian
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Mexico and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Mexico
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Mideast and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Mideast
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/Pacific and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/Pacific
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/US and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/US
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/America/Argentina and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/America/Argentina
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/America/Indiana and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/America/Indiana
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/America/Kentucky and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/America/Kentucky
+Common subdirectories: matplotlib-1.1.0/lib/pytz/zoneinfo/America/North_Dakota and matplotlib-1.1.0-modified/lib/pytz/zoneinfo/America/North_Dakota
+diff -r matplotlib-1.1.0/src/_backend_gdk.c matplotlib-1.1.0-modified/src/_backend_gdk.c
+54c54
+< 
+---
+> extern "C"
+Only in matplotlib-1.1.0/src: backend_agg.cpp
+Only in matplotlib-1.1.0/src: backend_gdk.c
+Only in matplotlib-1.1.0/src: image.cpp
+Only in matplotlib-1.1.0/src: path.cpp

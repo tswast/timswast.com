@@ -1,0 +1,353 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Software for a Raspberry Pi PBS Streaming Device</title>
+        <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+    </head>
+    <style>
+    span.code {
+            font-family: monospace;
+        }
+    
+        img {
+            max-width: 100%;
+        }
+    </style>
+    <body>
+
+<div id="content-header">
+    <a href="">
+        <h1>Building a PBS streaming device with Raspberry Pi and OpenELEC XBMC : Part 2, Software</h1>
+    </a>
+    <span class="post-date">Wednesday, December 26, 2012</span>
+</div>
+
+
+<p>
+In this series, I'll go from start to finish on how to build a home-theater computer with
+Raspberry Pi and the OpenELEC XBMC Operating System. At the end we'll be able to install XBMC 
+plugins to stream videos, including PBS.
+</p>
+
+<ol>
+    <a href="../hardware-for-building-a-raspberry-pi-pbs-streaming-device/"><li>
+        Hardware for a Raspberry Pi PBS Streaming Device
+    </li></a>
+    <a href="../software-for-building-a-raspberry-pi-pbs-streaming-device/"><li>
+        Installing software for a Raspberry Pi PBS Streaming Device
+    </li></a>
+</ol>
+
+<h1>Overview</h1>
+
+<p>
+In this article, I assume you already have
+<a href="../hardware-for-building-a-raspberry-pi-pbs-streaming-device/">
+    setup all the hardware
+</a> you need for a Raspberry Pi. We will walk through flashing an 
+<a href="http://openelec.tv/">OpenELEC</a> XBMC Operating System, configuring
+XBMC to install video addons and themes, and finally setting up your smart phone
+as a WiFi remote control.
+
+<h1>Operating System</h1>
+        
+<p>
+    I created a companion video to walk through the steps of flashing an operating system SD card for the Raspberry Pi.
+</p>
+<iframe width="560" height="315" src="http://www.youtube-nocookie.com/embed/SZClPI1ON-Q?rel=0" frameborder="0" allowfullscreen></iframe>
+
+<p>
+The first step is to download the operating system image to your computer.
+I used the Raspberry Pi OpenELEC images, graciously built by
+<a href="http://blog.thestateofme.com/2012/06/03/openelec-images/">
+    Chris Swan,
+</a> available on
+<a href="http://openelec.thestateofme.com/">
+    his repository.
+</a>
+Specifically, I used 
+<a href="http://openelec.thestateofme.com/r12604.img.zip">
+    image 12604
+</a>
+<del>but newer images will likely work just as well or better</del>. <em>Update: I tried a newer build,
+    but found it incompatible with existing addons repositories. This shouldn't be an issue after 3.0 is 
+    released.</em>
+
+    
+<p>
+    Here I will give the instructions for setting your SD card from Mac OS X. For other operating systems,
+    the Embedded Linux wiki has a <a href="http://elinux.org/RPi_Easy_SD_Card_Setup">good write-up</a>.
+    Since I followed the Embedded Linux wiki instructions, my instructions will match those.
+    Note that even though my Mac has an internal card reader, I got &ldquo;permission denied&rdquo; errors
+    when trying to flash the SD card. Using an
+    <a href="http://www.amazon.com/gp/product/B004QHPYT0/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B004QHPYT0">
+        external card reader/writer
+    </a><img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B004QHPYT0" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />,
+    I was able to flash the
+    <a href="http://www.amazon.com/gp/product/B001ECQVTM/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B001ECQVTM">SD card</a><img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B001ECQVTM" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+    without any problems.
+</p>
+
+<p>
+    Extract the OpenELEC image from the zip file. For this tutorial, I'll assume that you have used the same
+    image as I did and have extracted it to <span class="code">~/Downloads/OpenELEC/r12604.img</span>.
+</p>
+
+<p>
+    Next, we need to figure out what device the SD card will be. Open up a terminal window, as I will walk
+    through how to flash your SD card through the command line. Then, before you have connected your SD card,
+    we want to see what devices are currently listed.
+</p>
+<p>
+    Run <span class="code">df -h</span>.
+</p>
+<p>      
+    Connect the SD card reader with the SD card inside.
+</p>
+<p>
+    Run <span class="code">df -h</span> again. Compare this output to that of the previous command output.
+    There should be one additional device name, for example, /dev/disk3s1. Write this down. We will use this
+    later to flash the card.t
+</p>
+<p>
+Next, we need to unmount the partition so that we can overwrite the disk:
+</p>
+<pre>
+    sudo diskutil unmount /dev/disk3s1
+</pre>
+<p>
+Note that unmounting a partition is slightly different than ejecting the disk. When we unmount, we tell the
+Operating System that we are not using that device as a file system anymore, but it keeps a pointer around
+    to the device so that we can write directly to it as a raw device.
+</p>
+<p>
+Next, we need to figure out the raw device name so that we can flash it. 
+    Verbatim from the embedded Linux wiki, including a stern warning:
+    <blockquote>
+        
+    Using the device name of the partition work out the raw device name for the entire disk, by omitting the
+    final "s1" and replacing "disk" with "rdisk" (this is very important: you will lose all data on the 
+    hard drive on your computer if you get the wrong device name). Make sure the device name is the name of
+        the whole SD card as described above, not just a partition of it (for example, rdisk3, not rdisk3s1.
+        Similarly you might have another SD drive name/number like rdisk2 or rdisk4, etc. -- recheck by
+        using the <span class="code">df -h</span> command both before &amp; after you insert your SD card reader
+        into your Mac if you have any doubts!):
+    
+    <p>
+    For example, /dev/disk3s1 => /dev/rdisk3
+    </p> 
+</blockquote>
+
+<p>
+Next, we will write the image to the card using the <span class="code">dd</span> command.
+Triple-check that you have the correct disk name and make sure you have a good backup, because
+it is very easy to accidently overwrite your data with the <span class="code">dd</span> command.
+</p>
+<pre>
+    sudo dd bs=1m if=~/Downloads/OpenELEC/r12604.img of=/dev/rdisk3
+</pre>
+<p>
+    This command will run without any output, working to copy byte-for-byte the image file to the SD card.
+    Apparently, pressing Ctrl-T (SIGINFO) will display some statistics, though.
+</p>
+        
+<p>
+    Finally, we can eject the disk. We can then take the card out, plug it into the Raspberry Pi.
+    If all went well, the Raspberry Pi will boot to OpenELEC.
+</p>
+
+<pre>
+    sudo diskutil eject /dev/rdisk3
+</pre>
+
+        
+<h1>Expanding the SD card /storage partition</h1>
+        
+<p>
+Since OpenELEC uses Ext4 for its storage partition, we aren't able to resize the partition from Disk Utility
+as one normally resizes partitions on a Mac. Instead, we need to boot to Linux. The easiest way to do this
+is to use GParted. Since they provide a
+        <a href="http://gparted.sourceforge.net/livecd.php">GParted live CD</a>, I will use that,
+though any other "live" Linux distribution should work just as well, so long as it includes GParted.    
+</p>
+
+        <p>
+            I tried to edit the SD card partitions from within a VirtualBox virtual machine, but I was unable
+            to get the SD card to show up from within the virtualized GParted live CD. Instead, I booted the
+            computer directly to the live CD.
+        </p>
+        
+        <p>
+            First, one needs to burn the CD. To do this from a Mac, I right/control-clicked the iso file and
+            said open with Disk Utility. With the iso file selected and a blank CD in the drive, click Burn
+            toward the top of Disk Utility. Once the Press C during startup. (Apple has a nice
+            <a href="http://support.apple.com/kb/HT1533">Support Article</a>
+            explaining various possible commands during startup.)
+        </p>
+        
+        <p>
+            Once booted to the live CD, GParted will automatically appear. In the upper-right corner, there
+            is a drop-down to selected devices. Select the SD card. Once selected, you should see two partitions
+            and a lot of unallocated space.
+        </p>
+        
+        <p>
+            Resize the second, ext4 partition to fill the unallocated space. Then, click apply to actually
+            make the change on the SD card. Now, you can safely shut down and remove the GParted Live CD. The
+            SD card should be ready to use in the Raspberry Pi with lots of space on the storage partition, now.
+        </p>
+    
+        
+        
+<h1>Configuring the network</h1>
+
+        <p>
+I found with the  <a
+        href="http://www.amazon.com/gp/product/B003E6493G/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B003E6493G">ASUS
+        USB-N10</a><img
+    src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B003E6493G"
+    width="1" height="1" border="0" alt="" style="border:none !important;
+    margin:0px !important;" />
+wireless adapter, both <a href="http://www.raspbmc.com/">Raspbmc</a> and
+        OpenELEC were able to use the wireless card without any additional software. OpenELEC seems to work for
+            a larger number of chipsets, though. I was using a
+            <a href="http://www.amazon.com/gp/product/B002WBX9C6/ref=as_li_ss_tl?ie=UTF8&tag=thnebetu-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=B002WBX9C6">TP-Link wireless adapter</a><img src="http://www.assoc-amazon.com/e/ir?t=thnebetu-20&l=as2&o=1&a=B002WBX9C6" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+            for my Linux desktop machine, and in my testing it worked in OpenELEC but not Raspbmc.
+        </p>
+        
+        <p>
+            To tell OpenELEC you want to use wireless, go to System &rarr; OpenELEC. This will open a
+            configuration dialog. Go to the Network submenu. The properties to change for wireless are
+            Network Technology := WLAN and Network Interface := wlan0.
+        </p>
+        
+        <p>
+            I set a static IP address so that it would be easier to use the remote control app on my iPhone.
+            This step is not strictly necessary, though. For the DNS servers, I'm actually using 
+            <a href="https://developers.google.com/speed/public-dns/">Google's Public DNS</a>,
+            rather than that provided by my service provider. It's pretty easy to remember:
+            8.8.8.8 and 8.8.4.4. Supposedly, this should make the web
+            <a href="http://lifehacker.com/5835775/google-dns-and-opendns-users-are-getting-a-web-speed-boost">
+            faster,
+            </a>
+            but I'm mostly using it because I don't like the way my ISP
+            provides search results for mis-typed domain names.
+        </p>
+
+        <p>
+            Finally, I typed in the SSID for my home router. I had to type this in,
+            rather than detect it. Since <a href="http://www.raspbmc.com/">Raspbmc</a>
+            is based on a full Gnome environment, it can use network-manager to detect
+            wireless networks. For this reason,
+            <a href="http://www.raspbmc.com/">it</a> might be a
+            better choice than OpenELEC if your wireless card works with it.
+        </p>
+
+<h1>Setup Sharing</h1>
+        
+        <p>
+            To make file transfers easier, I setup file sharing on my Raspberry Pi through Services Settings -> UPnP.
+            This will also make it easier to use an app as a remote control, since it will be able to autodetect
+            your Raspberry Pi.
+        </p>
+        
+        <img src="upnp-share.jpg" alt="Setup UPnP sharing in settings." />
+        
+        <p>
+            Similarly, go to Webserver and allow control via HTTP. This will setup a simple website on
+            your Raspberry Pi so that you can connect to it from other computers on your network to use
+            the kitchy interface as a remote control. It will also make it possible to use a dedicated app
+            on your iPhone as a remote control, also.
+        </p>
+        
+<h1>Adding Repositories</h1>
+
+<p>
+Since OpenELEC uses a new version of XBMC (Frodo), the official repositories have few, 
+    if any plugins for it. Instead, I added the 
+    <a href="http://passion-xbmc.org/addons/">Passion xbmc</a>
+    repository to my Raspberry Pi so that I could install extra addons.
+    </p>
+
+<p>
+Download the
+<a href="http://passion-xbmc.org/addons/Download.php/repository.passion.xbmc.org/repository.passion.xbmc.org-2.0.2.zip">
+    zip file for the Passion XBMC repository
+</a> (Right-click, Save target as) to a USB flash/thumb drive.
+I found this repository and many others listed on the
+<a href="http://wiki.xbmc.org/index.php?title=3rd_party_add-on_repositories">
+    XBMC wiki.
+    </a>
+    Even better than saving it to a USB drive, when the Raspberry Pi is on,
+    I can see a share drive from my Mac. I have been saving plugins to the
+    Videos folder, since that is on the much larger "storage" partition we
+    resized earlier with GParted.
+    </p>
+        
+        <img src="download-repository.png" alt="download folder as the raspberry pi share"
+            title="I'm using the Videos directory on the Raspberry Pi to hold plugins."
+        />
+
+
+
+<h1>Installing addons</h1>
+
+        <p>
+After adding the additional repositories, run Add ons -> Video -> Get more. This will
+download a list of many different addons available in the repository. The one I have
+used most is the PBS app, which streams episodes available from PBS's website.
+        </p>
+        
+        <p>
+        The version listed in the repository is currently listed as broken (v2.0.8), but I was able to
+            install and use v2.0.2 <a href="https://github.com/stacked/plugin.video.pbs/archive/81e4b764969f009491b1b664b42553e9dc175eb7.zip">
+            directly from stacked's repository
+            </a> without any problems.
+        
+        </p>
+
+        
+<h1>Using iPhone as a remote control</h1>
+
+        <p>
+Rather than use a keyboard and mouse, I am using my iPhone as a remote control over WiFi.
+To do this, I am using the
+        <a href="https://itunes.apple.com/us/app/official-xbmc-remote/id520480364?mt=8">Official XBMC Remote</a>
+app.
+        </p>
+        
+        <p>
+            The setup is pretty simple. Share your Raspberry Pi via UPnP to allow autodetect to work.
+            This is most important if you haven't setup a static IP address. Second, enable the XBMC
+            web server to allow the app to control your Raspberry Pi with HTTP. Both these are under
+            settings.
+        </p>
+        
+        <p>
+            While the app isn't anything special, I find that as a simple remote control, this
+            was a very easy thing to setup. I mostly just use the remote control part of the app,
+            basically using my phone for arrow keys and the enter key.
+        </p>
+
+<footer>
+  <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
+  Copyright 2012, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
+</footer>
+
+
+  <!-- BEGIN: Google Analytics -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+  <!-- END: Google Analytics -->
+
