@@ -1,0 +1,50 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Tim Swast's Blog</title>
+        <link rel="stylesheet" type="text/css" href="2012/blog.css" />
+    </head>
+
+<a href="/blog/">
+    <h1>Blog</h1>
+</a>
+
+{% for post in posts %} 
+        
+        <a href="/blog/{{ post.path }}" class="blog-article">
+            <h3><span
+                    class="blog-post-date"
+                    title='{{ post.date.strftime('%Y-%m-%d') }}'>
+                    {{ post.date.strftime('%B %-d, %Y') }}
+                </span>
+                {{ post.title }}
+            </h3>
+            {{ post.description }}
+        </a>
+
+{% endfor %}
+
+<footer>
+  <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
+  Copyright 2013, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
+  </footer>
+
+
+  <!-- BEGIN: Google Analytics -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+  <!-- END: Google Analytics -->
+</body>
+</html>
+
