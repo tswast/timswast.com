@@ -1,0 +1,71 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Introducing Locoloco: The Little Engine that Didn't</title>
+        <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+    </head>
+    <body>
+
+        <div id="content-header">
+            <a href="">
+                <h1>Introducing Locoloco:<br>
+                    The Little Engine that Didn't</h1>
+            </a>
+            <span class="post-date">Monday, June 10, 2013</span>
+        </div>
+        
+        <p>
+        Say hello to Locoloco, the (crazy) little (blog) engine that didn't. This past weekend I built a blog engine to keep my site organized. It differs from existing engines in that it does much less. It generates an index without modifying the articles at all.
+        </p>
+
+        <p>
+            You can check out the code on <a href="https://github.com/tswast/locoloco">GitHub.</a>
+        </p>
+        
+        <img src="locoloco-logo.jpg"
+            alt="crazy-eyed locomotive" />
+        
+        <h2>Isn't this crazy and/or pointless?</h2>
+        <p>
+            For various reasons, I have decided to keep my blog as simple, static HTML. There are many existing tools for this, such as the popular <a href="http://octopress.org/">Octopress</a>, <a href="http://jekyllrb.com/">Jekyll,</a> and <a href="http://hyde.github.io/">Hyde.</a> In these solutions, one writes articles in plain text, <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>, or a template lang of some sort. I would like to keep my blog articles as plain html rather than generating them. Therefore, Locoloco generates an index of the articles and nothing else.
+        </p>
+        
+        <p>
+            The reason for doing things this way is two-fold. First, it fits my workflow better. I keep my blog synced to multiple computers on multiple different platforms. It was a pain to keep the same versions of the dependencies on Linux, Mac, and Windows.
+        </p>
+        
+        <p>
+            The most important reason I choose to keep the blog updated this way is stability. I have observed that plain HTML from the 1990s still works well today, even if it may look a little dated, but sites that depend on dynamic generation (including some of my early projects) are now defunct. By keeping things simple, I hope to make it more likely that links to sites that I built will continue to work long after I'm gone.
+        </p>
+        
+        <h2>Getting started.</h2>
+        <p>
+            Using Locoloco is pretty easy.<br>
+            <code>blogindex.py $BLOGDIR</code><br>
+            It should "just work" if you use the same date-based directory scheme that I do.
+        </p>
+
+
+<a href="https://github.com/tswast/locoloco"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+        
+<footer>
+  <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
+  Copyright 2013, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
+</footer>
+
+
+  <!-- BEGIN: Google Analytics -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+  <!-- END: Google Analytics -->
