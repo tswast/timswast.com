@@ -4,6 +4,7 @@
         <title>Tim Swast's Blog</title>
         <link rel="stylesheet" type="text/css" href="2012/blog.css" />
     </head>
+    <body>
 
 <a href="/blog/">
     <h1>Blog</h1>
@@ -11,7 +12,7 @@
 
 {% for post in posts %} 
         
-        <a href="/blog/{{ post.path }}" class="blog-article">
+        <a href="{{ post.path }}" class="blog-article">
             <h3><span
                     class="blog-post-date"
                     title='{{ post.date.strftime('%Y-%m-%d') }}'>
