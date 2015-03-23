@@ -3,28 +3,9 @@
     <head>
         <title>Tim's Pixel Art : Episode 1</title>
         <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+        <meta name="viewport" content="initial-scale=1">
         <link href="../../../../2012/prettify201106/prettify.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="../../../../2012/prettify201106/prettify.js"></script>
-
-        <style>
-        /* This should make pixel art look more pixel-ly
-         * See:
-         * http://stackoverflow.com/questions/7615009/disable-interpolation-when-scaling-a-canvas
-         * http://jsfiddle.net/VAXrL/21/
-         *
-         * image-rendering: optimize-contrast; is the only line specified in the CSS3 standard
-         * working draft.
-         */
-        img {
-            image-rendering: optimizeSpeed;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: optimize-contrast;
-            -ms-interpolation-mode: nearest-neighbor;
-            width: 80%;
-            display: block;
-        }
-        </style>
     </head>
     <body onload="prettyPrint()">
 
@@ -45,7 +26,7 @@ So far I've been using the free version, and it has worked great. The stamp feat
 <p>
 My only complaint is that I couldn't figure out how to remove animation frames once they are added. As a result, the first animation I made turned from a walking cowboy into a dancing cowboy.
 
-<img src="dancing-cowboy.gif" alt="dancing cowboy pixel art" />
+<img class="pixel-art" src="dancing-cowboy.gif" alt="dancing cowboy pixel art" />
 
 <p>
 I think it turned out well, though.
@@ -59,17 +40,17 @@ We humans place such an emphasis on faces, though, this cowboy with a head as la
 <p>
 Using a this rule-of-thumb to use half the canvas, I created a portrait of a cat. The head-to-body proportions are cartoonish, but it allows me to create a cat <em>character</em>.
 
-<img src="arthur.gif" alt="gray cat pixel art" />
+<img class="pixel-art" src="arthur.gif" alt="gray cat pixel art" />
 
 <p>
 I drew this bus while on the bus. Breaking from my previous drawings, it uses a canvas of size 32x16.
 
-<img src="bus.gif" alt="bus with little puff from exhaust." />
+<img class="pixel-art" src="bus.gif" alt="bus with little puff from exhaust." />
 
 <p>
 This &ldquo;snail&rdquo; started life as something similar to the USB trident-style symbol <img src="usb.svg" alt="USB trident logo" style="display: inline; height: 1em; width: 1.6em;" />. I find it interesting how little animation it takes to turn a symbol to a strange creature.
 
-<img src="snail.gif" alt="a snail with three eyes." />
+<img class="pixel-art" src="snail.gif" alt="a snail with three eyes." />
 
 
 <footer>

@@ -1,44 +1,81 @@
 html {
-    padding: 0pt;
-    margin: 0pt;
+  padding: 0pt;
+  margin: 0pt;
 }
 
 body {
-    padding: 0.1em 1em;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 36em;
+  padding: 0.1em 1em;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 36em;
 }
 
 h1 {
-    font-family: sans-serif;
-    font-size: 1.5em;
+  font-family: sans-serif;
+  font-size: 1.5em;
 }
 
 footer {
-    margin: 4em 0em;
+  margin: 4em 0em;
 }
 
 /* make links a little prettier */
 a {
-    color: #33a;
-    text-decoration: none;
+  color: #33a;
+  text-decoration: none;
 }
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 a h1 {
-    color: black;
+  color: black;
 }
 
 /* index styles */
 span.blog-post-date:after {
-    content: " - ";
+  content: " - ";
 }
 a.blog-article {
-    display: block;
+  display: block;
 }
 a.blog-article:after {
-    content: "(Read more...)"; 
+  content: "(Read more...)"; 
 }
 
+/* Make sure images are never too big (on mobile, especially) */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* This should make pixel art look more pixel-ly
+ * See:
+ * http://stackoverflow.com/questions/7615009/disable-interpolation-when-scaling-a-canvas
+ * http://jsfiddle.net/VAXrL/21/
+ *
+ * image-rendering: optimize-contrast; is the only line specified in the CSS3 standard
+ * working draft.
+ */
+.pixel-art {
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+  width: 100%;
+  display: block;
+}
+
+/* Make the zoom level look okay on mobile.
+ *
+ * Note: We still need to inlcude a "meta" tag for browsers that do
+ *       not support the CSS directive.
+ *
+ * See:
+ * http://webdesign.tutsplus.com/articles/quick-tip-dont-forget-the-viewport-meta-tag--webdesign-5972
+ */
+@viewport{
+  zoom: 1.0;
+  width: extend-to-zoom;
+}
