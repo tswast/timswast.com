@@ -1,5 +1,5 @@
 
-This is the public source code for Tim Swast's personal [blog][http://www.timswast.com/blog].
+This is the public source code for Tim Swast's personal [blog](http://www.timswast.com/blog).
 
 The code is meant to be as simple as possible. Each "article" is meant
 to be a stand-alone HTML page. This means that each article is independent.
@@ -10,7 +10,7 @@ that these articles will have the potential to be served in their original
 form far into the future.
 
 
-The content is distributed under [Creative Commons Attribution-ShareAlike 3.0][http://creativecommons.org/licenses/by-sa/3.0/].
+The content is distributed under [Creative Commons Attribution-ShareAlike 3.0](http://creativecommons.org/licenses/by-sa/3.0/).
 
 You are free:
 -------------
