@@ -2,6 +2,7 @@ import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Mouse
+import Touch
 import Time exposing (..)
 import Window
 
@@ -145,10 +146,21 @@ main : Signal Element
 main =
   Signal.map2 view Window.dimensions (Signal.foldp update mario input)
 
+isNotEmpty : List a -> Bool
+isNotEmpty ds = not (List.isEmpty ds)
+
+touchIsDown : Signal Bool
+touchIsDown =
+  Signal.map isNotEmpty Touch.touches
+
+buttonIsDown : Signal Bool
+buttonIsDown =
+  Signal.map2 (||) Mouse.isDown touchIsDown
+
 input : Signal (Float, Bool)
 input =
   let
     delta = Signal.map (\t -> t/20) (fps 30)
   in
-    Signal.sampleOn delta (Signal.map2 (,) delta Mouse.isDown)
+    Signal.sampleOn delta (Signal.map2 (,) delta buttonIsDown)
 
