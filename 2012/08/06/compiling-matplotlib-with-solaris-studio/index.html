@@ -1,4 +1,4 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Compiling matplotlib 1.1.0 for Solaris on SPARC and x86</title>
@@ -100,9 +100,9 @@ There are only a few changes needed to get matplotlib to compile with Solaris St
 diff -r matplotlib-1.1.0/setupext.py matplotlib-1.1.0-modified/setupext.py
 43a44,47
 > SOLARIS
-> 
+>
 >   > python setup.py build --compiler=?
-> 
+>
 260a265,267
 > elif sys.platform == 'sunos5':
 >     std_libs = ['Crun', 'Cstd']
@@ -125,59 +125,59 @@ diff -r matplotlib-1.1.0/setupext.py matplotlib-1.1.0-modified/setupext.py
 > 	# put this last for library link order
 >     module.libraries.extend(std_libs)
 1153d1170
-< 
+<
 1154a1172,1174
->     
+>
 > 	# put this last for library link order
 >     module.libraries.extend(std_libs)
 1187d1206
-< 
+<
 1188a1208,1210
->     
+>
 > 	# put this last for library link order
 >     module.libraries.extend(std_libs)
 1221d1242
-< 
+<
 1222a1244,1246
->     
+>
 > 	# put this last for library link order
 >     module.libraries.extend(std_libs)
 1249d1272
-< 
+<
 1250a1274,1276
->     
+>
 > 	# put this last for library link order
 >     module.libraries.extend(std_libs)
 1270a1297,1299
->     
+>
 > 	# put this last for library link order
 >     delaunay.libraries.extend(std_libs)
 1286d1314
-< 
+<
 1287a1316,1318
->     
+>
 > 	# put this last for library link order
 >     module.libraries.extend(std_libs)
 1302d1332
-< 
+<
 1304a1335,1336
 >     # put this last for library link order
 >     module.libraries.extend(std_libs)
 1305a1338
-> 
+>
 1323d1355
-< 
+<
 1325a1358,1359
 >     # put this last for library link order
 >     module.libraries.extend(std_libs)
 1326a1361,1362
-> 
-> 
+>
+>
 1340a1377,1380
-> 
+>
 >     # put this last for library link order
 >     module.libraries.extend(std_libs)
-> 
+>
 
 </pre>
 <a href="setupext.py.diff">setupext.py.diff</a>
@@ -215,7 +215,7 @@ currently building.
 <p>
 Next, use the <a href="http://docs.python.org/install/index.html#alternate-installation-unix-the-prefix-scheme">distutils --prefix option</a> to install into your prototype installation folder.
 
-<pre> 
+<pre>
   python setup.py install --prefix ../install_[sparc|x86]/usr
 </pre>
 </p>
@@ -256,4 +256,3 @@ The next step after compiling is finding a way to distribute it. In <a href="../
   <!-- END: Google Analytics -->
 </body>
 </html>
-
