@@ -5,18 +5,17 @@
         <title>An introduction to Markov chains</title>
         <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
         <meta name="viewport" content="initial-scale=1">
-        
-        <!-- MathJax is used as a web-based LaTeX and
-             MathML renderer. -->
+
+        <!-- MathJax is used as a web-based LaTeX and MathML renderer. -->
         <script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_SVG">
         </script>
-        <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../../../2013/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')</script>
-        
+        <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({jax: ["input/TeX","output/SVG", "output/PreviewHTML"],extensions: ["tex2jax.js","MathMenu.js","MathZoom.js", "fast-preview.js", "AssistiveMML.js"],TeX: {extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]}});<\/script><script src="../../../../2013/js/mathjax/MathJax.js?config=TeX-AMS_SVG"><\/script>')</script>
+
         <script src="../../../../2013/js/angular.min.js"></script>
         <script src="js/controllers.js"></script>
     </head>
-    
+
     <body ng-controller="MarkovCtrl">
         <h1>An introduction to Markov chains.</h1>
         <p>
@@ -27,7 +26,7 @@
             <a href="http://en.wikipedia.org/wiki/Hilbert_curve">Hilbert curve</a>
             to fill the image.. Transition probabilities are shown as per-thousands. If the sum of the row is less than 100%, the remaining probability adds to the transition keeping the state the same.
         </p>
-        
+
          <form name="myForm">
              <table>
                  <tr>
@@ -55,9 +54,9 @@
                         min="1" max="5" required>
              <button ng-click="reset()">Redraw with current T</button>
         </form>
-        
+
         <canvas id="tutorial" width="512" height="512"></canvas>
-        
+
         <p>
             We can define Markov chains formally as well. Assume we have a set of \(n\) states,
         </p>
@@ -80,19 +79,19 @@
         <p>
             where \(p_{ij} = P[x_{m+1}=j | x_{m}=i].\)
         </p>
-        
+
         <h1>Applications of Markov chains</h1>
         <p>
             Besides being useful for making somewhat unique artwork, Markov chains are reasonable models of many real-world processes. For example, James Montgomery shows how they can be used to model
             <a href="http://www.ssc.wisc.edu/~jmontgom/markovchains.pdf">Social mobility</a>
             in his textbook on Mathematical Models of Social Systems.
         </p>
-        
+
         <p>
             In the social mobility model, time represents the generation and the state represents the social class. Transition properties represent the probability that offspring will be of a certain class given the parents' social class. Even though this model does not represent population growth through reproduction, it is a good first approximation.
         </p>
-        
-        
+
+
         <h1>Analysis of Markov chains.</h1>
         <p>
             By the way states are updated, we can see that the distribution for states at step \(i\) will be
@@ -101,7 +100,7 @@
         <p>
             where \(a\) is the initial distribution represented as a row vector, and \(T\) is the transition probabilities matrix.
         </p>
-        
+
         <p>
             In many Markov chains, this distribution tends toward something called a stationary distribution, \(\pi.\) Where,
         </p>
@@ -109,17 +108,17 @@
         <p>
             Note that \(\pi\) is invariant when multiplied by the transition matrix, \(T.\) This is why it is called a stationary distribution.
         </p>
-        
+
         <h2>How will the colors be distributed in a particular drawing?</h2>
         <p>
-            We can try finding the stationary distribution of the example transition matrix first shown on this page. 
+            We can try finding the stationary distribution of the example transition matrix first shown on this page.
         </p>
         \[ T = \begin{pmatrix}
         0.99 &amp; 0.01 &amp; 0 \\
         0.01 &amp; 0.98 &amp; 0.01 \\
         0.01 &amp; 0    &amp; 0.99
         \end{pmatrix} \]
-        
+
         <p>
             In Matlab, we can try various powers of \(T\) to see toward which distribution it may converge.
         </p>
@@ -159,7 +158,7 @@ ans =
         <p>
             We can see that the Markov chain will end up with about \(1/2\) in state 1, and \(1/4\) each in states 2 and 3.
         </p>
-        
+
         <p>
             You can try this out on the current transition matrix by entering the following in Matlab.
         </p>
@@ -171,20 +170,20 @@ ans =
             EDU>> T = [...
             <div ng-repeat="row in transitionMatrix">
                 <span ng-repeat="cell in row.transitions">
-                    {{cell.value / 1000}} 
+                    {{cell.value / 1000}}
                 </span>
             </div>
             ];<br>
             EDU>> a * T^1000<br>
             ans = ???
         </div>
-        
-        
+
+
         <h2>But proportions aren't everything...</h2>
         <p>
             Consider the following transition matrices.
         </p>
-        
+
         \[ A = \begin{pmatrix}
         0.01 &amp; 0.99 \\
         0.99 &amp; 0.01
@@ -198,9 +197,9 @@ EDU>> T = [0.01 0.99
 EDU>> a * T^10000
 ans =
     0.5000    0.5000</code></pre>
-        
-        
-        
+
+
+
         \[ B = \begin{pmatrix}
         0.5 &amp; 0.5 \\
         0.5 &amp; 0.5
@@ -214,9 +213,9 @@ EDU>> T = [0.5 0.5
 EDU>> a * T^10000
 ans =
     0.5000    0.5000</code></pre>
-        
-        
-        
+
+
+
         \[ C = \begin{pmatrix}
         0.99 &amp; 0.01 \\
         0.01 &amp; 0.99
@@ -230,11 +229,11 @@ EDU>> T = [0.99 0.01
 EDU>> a * T^10000
 ans =
     0.5000    0.5000</code></pre>
-        
+
         <p>
             The results of these transition matrices look very different, and yet their long-run distributions are the same, with half the time spent in each state. What is clearly different is how long it takes before the Markov chain transitions from state 1 to state 2. (Note that since the transition matrices are symmetric, this is the same as saying the time for it to transition from state 2 to state 1.)
         </p>
-        
+
         <p>
             David Anderson shows a method for finding the average time to transition between states on page 75-78 of Chapter 3 in
             <a href="http://www.math.wisc.edu/~anderson/605F13/605F13.html">
@@ -250,7 +249,7 @@ ans =
         0    &amp; 1
         \end{pmatrix}
         \]
-        
+
         <p>
             Next, we can rearrange the matrix such that the transitional states are grouped together in a substochastic submatrix, \(Q\).
         </p>
@@ -266,7 +265,7 @@ ans =
         <p>
             We can then take the inverse of the matrix I - Q to find the number of visits if starting on the state corresponding to the row. Since there is just one transitional state in this example, it is quite easy to do, since the submatrix is actually just a scalar.. \((1 - 0.99)^{-1} = 100\). That is, if we start in state 1, the expected value for the time to leave state 1 is 100 time steps.
         </p>
-        
+
         <h2>Another example of expected visits.</h2>
         <p>
             Consider this three-state Markov chain transition matrix.
@@ -324,15 +323,15 @@ ans =
         <p>
             So, if we start in state 1, we expect to spend \(\approx 1.01\) time steps in each of states 1 and 2. Thus, we expect to spend just over 2 time steps to  transition from state 1 to state 3.
         </p>
-        
+
         <h1>References</h1>
-        
+
         <p>
             This project was built using HTML and JavaScript. It depends on a library called MathJax to convert LaTeX equations into pretty HTML. For graphics, it uses AngularJS to bind values to elements of the page, and it uses the HTML5 web canvas to color individual pixels dynamically.
         </p>
         <ul>
             <li>
-                MathJax - 
+                MathJax -
                 <a href="http://www.mathjax.org/">
                     http://www.mathjax.org/
                 </a>
@@ -350,7 +349,7 @@ ans =
                 </a>
             </li>
         </ul>
-        
+
         <p>
             More information about the mathematics of Markov chains is available here:
         </p>
@@ -369,13 +368,13 @@ ans =
             <li>
                 Resnick, Sidney I.
                 <em>Adventures in stochastic processes.</em>
-                Boston: Birkhäuser, 1992. Print. 
+                Boston: Birkhäuser, 1992. Print.
                 p60-173.
             </li>
         </ul>
-        
-        
-        
+
+
+
         <script>
             // window.requestAnimationFrame is useful when creating
             // programmatic animations, but it is not supported in all browsers.
@@ -390,7 +389,7 @@ ans =
                       };
             })();
 
-            
+
         // Functions for working with Hilbert Curves.
         // Copied from Wikipedia.
         // http://en.wikipedia.org/wiki/Hilbert_curve#Applications_and_mapping_algorithms
@@ -401,7 +400,7 @@ ans =
                 t=d,
                 o = {};
             o.x = o.y = 0;
-            
+
             for (s=1; s<n; s=s*2) {
                 rx = 1 & (t/2); // note (& and ^) are bitwise operators.
                 ry = 1 & (t ^ rx);
@@ -412,7 +411,7 @@ ans =
             }
             return o;
         }
-         
+
         //rotate/flip a quadrant appropriately
         function rot(n, o, rx, ry) {
             if (ry == 0) {
@@ -420,14 +419,14 @@ ans =
                     o.x = n-1 - o.x;
                     o.y = n-1 - o.y;
                 }
-         
+
                 //Swap x and y
                 var t  = o.x;
                 o.x = o.y;
                 o.y = t;
             }
         }
-            
+
             // How should we represent a Markov chain?
             // There are some number of states. These each have an associated color.
             colors = [
@@ -447,7 +446,7 @@ ans =
                     previousTransitions = 0,
                     i = 0,
                     transitions = transitionMatrix[currentstate];
-                
+
                 for (i in transitions) {
                     previousTransitions += transitions[i];
                     if (transitionSample <= previousTransitions) {
@@ -464,13 +463,13 @@ ans =
             function step(timestamp) {
                 var canvas = document.getElementById('tutorial');
                 var ctx = canvas.getContext('2d');
-            
+
                 for (var i=0 ; i < 64 ; i++) {
                     // Draw.
                     var pos = d2xy(512, currentstep);
                     ctx.fillStyle = colors[currentstate];
                     ctx.fillRect (pos.x, pos.y, 1, 1);
-                    
+
                     // Get next state.
                     currentstep = currentstep + 1;
                     updateMarkovChain();
@@ -483,7 +482,7 @@ ans =
             }
             window.requestAnimFrame(step);
         </script>
-        
+
         <footer>
             <p>
                 This post was created as part of a project for
@@ -491,7 +490,7 @@ ans =
                     Texas A&amp;M Math 696.
                 </a>
             </p>
-            
+
           <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
           Copyright 2013, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
         </footer>
