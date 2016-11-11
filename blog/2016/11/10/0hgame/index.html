@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name = "viewport" content = "initial-scale = 1.0">
+<title>0hgame 2016 - Go Fish!</title>
+<link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+    
+<div id="content-header">
+  <a href="../0hgame/"><h1>0hgame 2016 - Go Fish!</h1></a>
+  <span class="post-date">Thursday, November 10, 2016</span>
+</div>
+
+<style>
+	@font-face {
+		font-family: 'Simple Playing Cards';
+		src: url('../../../../../static/fonts/simple-playing-cards.eot');
+		src: url('../../../../../static/fonts/simple-playing-cards.ttf') format('truetype'), url('../../../../../static/fonts/simple-playing-cards.svg#SimplePlayingCards') format('svg');
+	}
+	
+	#game {
+		font-family: 'Simple Playing Cards';
+		font-size: 300%;
+	}
+</style>
+
+<p>I had a late entry to the <a href="http://0hgame.eu/">0-hour game jam</a>
+this year.  I didn't feel like getting up at 1AM, but I still wanted to use my
+"extra" hour to make a game this year.  I built a game of
+<a href="https://en.wikipedia.org/wiki/Go_Fish">Go Fish!</a>.  Enjoy!
+
+<div id="game">
+	<div id="playerScores"></div>
+	<div id="aiPlayerChat"></div>
+	<div id="aiPlayerHand"></div>
+	<div id="aiPlayerGrab"></div>
+	<div id="ocean">🐟</div>
+	<div id="humanPlayerGrab"></div>
+	<div id="humanPlayerChat"></div>
+	<div id="humanPlayerHand"></div>
+</div>
+
+<p>It doesn't use any images, only the <a
+  href="https://en.wikipedia.org/wiki/Playing_cards_in_Unicode">Unicode
+  characters for playing cards</a> and a few emoji.  It ended up taking me
+maybe 4 or 5 hours instead of 0 or 1 (which surprised me a bit, since it's
+such a simple game).  Hopefully the next card game I make will be a bit
+easier with this as an example.
+
+<footer>
+  By <a xmlns:cc="http://creativecommons.org/ns#"
+      href="http://www.timswast.com" property="cc:attributionName"
+      rel="cc:attributionURL">Tim Swast</a> and licensed under a
+  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative
+  Commons Attribution 4.0 International License</a>.
+</footer>
+	
+<!-- BEGIN: Google Analytics -->
+<script type="text/javascript">	
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-10859320-1']);
+_gaq.push(['_trackPageview']);
+	
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+<!-- END: Google Analytics -->
+
+<script async src="card.js"></script>
