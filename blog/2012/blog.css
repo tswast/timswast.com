@@ -39,11 +39,11 @@ a.blog-article {
   display: block;
 }
 a.blog-article:after {
-  content: "(Read more...)"; 
+  content: "(Read more...)";
 }
 
 /* Make sure images are never too big (on mobile, especially) */
-img {
+img, video {
   max-width: 100%;
   display: block;
 }
