@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Bots with interests</title>
+<link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+<style>
+    .barchart { height: 1em; }
+</style>
+
+<div id="content-header">
+  <a href="/blog/2017/04/18/deploy-mastodon/"><h1>Deploying Swast.club Mastodon Instance</h1></a>
+  <span class="post-date">Tuesday, April 18, 2017</span>
+</div>
+
+<p>I've had on my todo list an item "host a personal Mastodon instance," which
+I added on December 9, 2016. At the time <a
+href="https://mastodon.social/about">mastodon.social</a> was still accepting
+open registrations, but since <a
+href="https://github.com/tootsuite/mastodon">Mastodon is an open source
+project</a> and it is supposed to be a distributed social network, it felt
+wrong to sign up for an account on a centralized server.
+
+<p>Today I have finally checked off that item. My Mastodon profile is <a
+  href="https://swast.club/@tim">@tim@swast.club</a>.
+
+<p>My docker-compose.yml file.
+
+<pre>
+version: '2'
+services:
+
+  db:
+    restart: always
+    image: postgres:alpine
+    networks:
+      - back
+### Uncomment to enable DB persistance
+    volumes:
+      - /home/tswast/postgres:/var/lib/postgresql/data
+
+  redis:
+    restart: always
+    image: redis:alpine
+    networks:
+      - back
+### Uncomment to enable REDIS persistance
+    volumes:
+      - /home/tswast/redis:/data
+
+  web:
+    restart: always
+    image: gargron/mastodon:v1.1.2
+    networks:
+      - reverse-proxy
+      - back
+    env_file: .env.production
+    environment:
+      - VIRTUAL_HOST=swast.club
+      - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST=swast.club
+      - LETSENCRYPT_EMAIL=REDACTED
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./public/assets:/mastodon/public/assets
+      - ./public/system:/mastodon/public/system
+
+  streaming:
+    restart: always
+    image: gargron/mastodon:v1.1.2
+    networks:
+      - back
+    env_file: .env.production
+    command: npm run start
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+      - redis
+
+  sidekiq:
+    restart: always
+    image: gargron/mastodon:v1.1.2
+    networks:
+      - back
+    env_file: .env.production
+    command: bundle exec sidekiq -q default -q mailers -q pull -q push
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./public/system:/mastodon/public/system
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+  back:
+    driver: bridge
+</pre>
+
+<p>My .env.production file.
+
+<pre>
+tswast@swast-dev ~/src/mastodon $ cat .env.production
+# Service dependencies
+REDIS_HOST=redis
+REDIS_PORT=6379
+# REDIS_DB=0
+DB_HOST=db
+DB_USER=postgres
+DB_NAME=postgres
+DB_PASS=
+DB_PORT=5432
+
+# Federation
+LOCAL_DOMAIN=swast.club
+LOCAL_HTTPS=true
+
+# Application secrets
+# Generate each with the `rake secret` task (`docker-compose run --rm web rake secret` if you use docker compose)
+PAPERCLIP_SECRET=REDACTED
+SECRET_KEY_BASE=REDACTED
+OTP_SECRET=REDACTED
+
+# E-mail configuration
+# Using Mailgun free tier
+SMTP_SERVER=smtp.mailgun.org
+SMTP_PORT=587
+SMTP_LOGIN=postmaster@example.com
+SMTP_PASSWORD=REDACTED
+SMTP_FROM_ADDRESS=postmaster@example.com
+</pre>
+
+
+<footer>
+  By <a xmlns:cc="http://creativecommons.org/ns#"
+      href="http://www.timswast.com" property="cc:attributionName"
+      rel="cc:attributionURL">Tim Swast</a> and licensed under a <a
+      rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative
+      Commons Attribution 4.0 International License</a>.
+</footer>
+
+<!-- BEGIN: Google Analytics -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() { var ga = document.createElement('script'); ga.type =
+   'text/javascript'; ga.async = true; ga.src = ('https:' ==
+       document.location.protocol ? 'https://ssl' : 'http://www') +
+   '.google-analytics.com/ga.js'; var s =
+   document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga,
+       s); })();
+
+</script>
+<!-- END: Google Analytics -->
