@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name = "viewport" content = "initial-scale = 1.0">
+<title>How many 3x3 images are there?</title>
+<link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+
+<div id="content-header">
+  <a href="/blog/2017/11/21/count-3x3-images/">
+    <h1>How many <abbr title="3 by 3">3x3</abbr> images with 3 colors are there?</h1>
+  </a>
+  <span class="post-date">Tuesday, November 21, 2017</span>
+</div>
+
+<p>There are <abbr title="3 to the ninth power">3⁹</abbr>, or <abbr
+title="nineteen thousand, six hundred eighty-three">19,683</abbr>, <abbr
+title="3 by 3">3x3</abbr> images with 3 colors. There are 9 pixels, each with
+3 possible values. Since pixels arranged in a different order are a different
+image, we multiply 3 for each pixel.
+
+<h2>What if the middle pixel is missing or always the same color?</h2>
+
+<p>I'm working on a project where I don't care about the center pixel because
+it will always be the same color. How many of these donut-shaped images are
+there?
+
+<p>There is only 1 possibility for the center pixel. There are
+still 3 possible colors for the remaining 8 pixels, so there are <abbr
+title="3 to the eighth power">3⁸</abbr>, or <abbr title="six thousand, five
+hundred sixty-one">6,561</abbr>, <abbr title="3 by 3">3x3</abbr> donut-shaped
+images with 3 colors.
+
+<h2>What if we consider a rotated image to be the same image?</h2>
+
+<p>If rotated images are considered the same, we know there are up to 4
+possible rotations. We might be tempted to divide 6,561 by 4, but there are
+some images that are rotationally symmetric. This means dividing by 4 will
+give us too few images.
+
+<p>To get the precise count, I've written this Python script:
+
+<p>1,665.
+
+<h2>What if we consider a reflected or rotated image to be the same image?</h2>
+
+<footer>
+  By <a xmlns:cc="http://creativecommons.org/ns#"
+      href="http://www.timswast.com" property="cc:attributionName"
+      rel="cc:attributionURL">Tim Swast</a> and licensed under a
+  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative
+  Commons Attribution 4.0 International License</a>.
+</footer>
+
+<!-- BEGIN: Google Analytics -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10859320-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- END: Google Analytics -->
