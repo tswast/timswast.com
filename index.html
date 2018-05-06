@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html ng-app>
+    <head>
+        <meta charset="utf-8">
+        <title>Tim Swast</title>
+        <style>
+            html, body {
+                width:  100%;
+                height: 100%;
+                margin: 0px;
+                background: url("img/20130810-bg.png");
+            }
+
+            canvas {
+                display: block;
+            }
+
+            .navigation {
+                position: absolute;
+                top: 1em;
+                left: 2em;
+                padding: 1em;
+                font-size: 2em;
+                font-family: sans-serif;
+                background-color: rgba(255, 255, 255, 0.8);
+                border-radius: 1em;
+            }
+
+            .navigation a {
+                color: black;
+            }
+
+            .icon {
+                width: 2em;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="background-landscape"></canvas>
+        <div class="navigation">
+            <a href="/blog/">
+                <h1>Blog</h1>
+            </a>
+            <a href="/cv/">
+                <h1>Curriculum Vit&aelig;</h1>
+            </a>
+
+            <!-- Social media icons -->
+            <a href="https://twitter.com/timswast"><img src="static/icons/iconmonstr-twitter-4.svg" class="icon" alt="Twitter" title="Tim Swast on Twitter"></a>
+            <a href="https://medium.com/@TimSwast"><img src="static/icons/iconmonstr-medium-4.svg" class="icon" alt="Medium" title="Tim Swast on Medium"></a>
+            <a href="https://github.com/tswast/"><img src="static/icons/iconmonstr-github-1.svg" class="icon" alt="GitHub" title="Tim Swast on GitHub"></a>
+            <a href="https://www.linkedin.com/in/tim-swast/"><img src="static/icons/iconmonstr-linkedin-4.svg" class="icon" alt="LinkedIn" title="Tim Swast on LinkedIn"></a>
+        </div>
+
+
+<script>
+            // window.requestAnimationFrame is useful when creating
+            // programmatic animations, but it is not supported in all browsers.
+            // Paul Irish provides this shim layer with setTimeout fallback.
+            // http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+            window.requestAnimFrame = (function(){
+              return  window.requestAnimationFrame       ||
+                      window.webkitRequestAnimationFrame ||
+                      window.mozRequestAnimationFrame    ||
+                      function( callback ){
+                        window.setTimeout(callback, 1000 / 60);
+                      };
+            })();
+
+
+        // Functions for working with Hilbert Curves.
+        // Copied from Wikipedia.
+        // http://en.wikipedia.org/wiki/Hilbert_curve#Applications_and_mapping_algorithms
+        //convert d to (x,y)
+        // n is the length of a side of the square being filled
+        function d2xy(n, d) {
+            var rx, ry, s,
+                t=d,
+                o = {};
+            o.x = o.y = 0;
+
+            for (s=1; s<n; s=s*2) {
+                rx = 1 & (t/2); // note (& and ^) are bitwise operators.
+                ry = 1 & (t ^ rx);
+                rot(s, o, rx, ry);
+                o.x += s * rx;
+                o.y += s * ry;
+                t /= 4;
+            }
+            return o;
+        }
+
+        //rotate/flip a quadrant appropriately
+        function rot(n, o, rx, ry) {
+            if (ry == 0) {
+                if (rx == 1) {
+                    o.x = n-1 - o.x;
+                    o.y = n-1 - o.y;
+                }
+
+                //Swap x and y
+                var t  = o.x;
+                o.x = o.y;
+                o.y = t;
+            }
+        }
+
+            // How should we represent a Markov chain?
+            // There are some number of states. These each have an associated color.
+            colors = [
+                "#420",
+                "#540",
+                "#560",
+                "#580",
+                "#aae",
+                "#cce"
+            ];
+            transitionMatrix = [
+                [.10, .900,  0,  .00, .00, .00],
+                [.89, .100, .02, .00, .00, .00],
+                [.00, .005, .095, .900, .00, .00],
+                [.00, .000, .900, .090, .010, .00],
+                [.00, .000, .000, .003, .100, .892],
+                [.00, .000, .000, .000, .900, .100]
+            ];
+            currentstate = 0;
+            function updateMarkovChain() {
+                var transitionSample = Math.random(),
+                    previousTransitions = 0,
+                    i = 0,
+                    transitions = transitionMatrix[currentstate];
+
+                for (i in transitions) {
+                    previousTransitions += transitions[i];
+                    if (transitionSample <= previousTransitions) {
+                        currentstate = i;
+                        break;
+                    }
+                }
+            }
+
+            // Start drawing to the canvas.
+            // See the tutorial at
+            // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Canvas_tutorial/Basic_usage
+            currentstep = 0;
+            canvassize = 512;
+            function step(timestamp) {
+                var canvas = document.getElementById('background-landscape');
+                var ctx = canvas.getContext('2d');
+
+                for (var i=0 ; i < 512 ; i++) {
+                    // Draw.
+                    var pos = d2xy(canvassize, currentstep);
+                    ctx.fillStyle = colors[currentstate];
+                    ctx.fillRect (pos.x, pos.y, 1, 1);
+
+                    // Get next state.
+                    currentstep = currentstep + 1;
+                    updateMarkovChain();
+                }
+
+                // keep animating.
+                window.requestAnimFrame(step);
+            }
+
+            function resize() {
+                var canvas = document.getElementById('background-landscape');
+                var ctx = canvas.getContext('2d');
+
+                // Make sure the canvas fills the screen.
+                // http://stackoverflow.com/a/3078427/101923
+                ctx.canvas.width  = window.innerWidth;
+                ctx.canvas.height = window.innerHeight;
+
+                canvassize = Math.max(window.innerWidth, window.innerHeight);
+
+                // Since the canvas is cleared on resize,
+                // start from the beginning again.
+                currentstep = 0;
+            }
+            window.onresize = resize;
+            resize();
+            window.requestAnimFrame(step);
+        </script>
+
+    </body>
+</html>
