@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/timswast
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://www.timswast.com
+  * I am timswast (https://keybase.io/timswast) on keybase.
+  * I have a public key ASCPBmBWMaMiH6y4FPDP2Z_EbU9q5ASgdl3zoJAXrM5fGwo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01208f06605631a3221facb814f0cfd99fc46d4f6ae404a0765df3a09017acce5f1b0a",
+      "host": "keybase.io",
+      "kid": "01208f06605631a3221facb814f0cfd99fc46d4f6ae404a0765df3a09017acce5f1b0a",
+      "uid": "35cbd4f70fcf9ab58d37092b1aedf319",
+      "username": "timswast"
+    },
+    "merkle_root": {
+      "ctime": 1527363199,
+      "hash": "2eac7d9301c3d2ec314eac119998e4f5be1eb1ee053d32798d5ee1d6a96d2bf5d43eb3f120636f0cf27786d4d2d9324821dcb9ff9fc41e123b3b64c9a90ecedd",
+      "hash_meta": "5ffa0e2a1d8dfb042d6cbcc47a5b0364fdabdb466cfcc58b8cf1e67b10c01212",
+      "seqno": 2933950
+    },
+    "service": {
+      "entropy": "RzJc6+N2BaJqHf5bS6Noz1Rl",
+      "hostname": "www.timswast.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "1.0.48"
+  },
+  "ctime": 1527363207,
+  "expire_in": 504576000,
+  "prev": "174c2fd0f159edb23451facf31ef37f6abd91b2257be92acc7b2af990f8b2759",
+  "seqno": 12,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgjwZgVjGjIh+suBTwz9mfxG1PauQEoHZd86CQF6zOXxsKp3BheWxvYWTESpcCDMQgF0wv0PFZ7bI0UfrPMe839qvZGyJXvpKsx7KvmQ+LJ1nEIH7cTbB5Ung16P98g6kUpwP7UXsLXX5tE/f7+Mq8vm8SAgHCo3NpZ8RAeQNijuZTMRX+d51kOZeMDvtNtCtY1RwZ1Ny6ylCzBUXMlk1oG1XuUFV9oEndC9nszZ00j2Uan1gRhLWUfYgTCKhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIOOYR/emadFHW1NPKRWcF4rXXeYu5A7EccMq6FDgqUjro3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/timswast
+
+==================================================================
