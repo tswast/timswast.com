@@ -4,19 +4,16 @@
         <meta charset="utf-8">
         <title>An introduction to Markov chains</title>
         <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../../third_party/katex/katex.min.css" />
         <meta name="viewport" content="initial-scale=1">
 
-        <!-- MathJax is used as a web-based LaTeX and MathML renderer. -->
-        <script type="text/javascript"
-            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_SVG">
-        </script>
-        <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({jax: ["input/TeX","output/SVG", "output/PreviewHTML"],extensions: ["tex2jax.js","MathMenu.js","MathZoom.js", "fast-preview.js", "AssistiveMML.js"],TeX: {extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]}});<\/script><script src="../../../../2013/js/mathjax/MathJax.js?config=TeX-AMS_SVG"><\/script>')</script>
-
+        <script type="text/javascript" src="../../../../../third_party/katex/katex.min.js"></script>
+        <script type="text/javascript" src="../../../../../third_party/katex/contrib/auto-render.min.js"></script>
         <script src="../../../../2013/js/angular.min.js"></script>
         <script src="js/controllers.js"></script>
     </head>
 
-    <body ng-controller="MarkovCtrl">
+    <body ng-controller="MarkovCtrl" onload="myRender()">
         <h1>An introduction to Markov chains.</h1>
         <p>
             A Markov chain generates a random sequence of states; it is a stochastic model which changes state over discrete time. It has a set of states, a matrix of transition probabilities, and its transitions depend only on the current state and not further history.
@@ -60,11 +57,15 @@
         <p>
             We can define Markov chains formally as well. Assume we have a set of \(n\) states,
         </p>
-        \[ S = \{ 1, 2, 3, \dots, n \}. \]
+        \[
+        S = \{ 1, 2, 3, \dots, n \}.
+        \]
         <p>
             The Markov chain generates a random sequence,
         </p>
-        \[ \{x_1, x_2, \dots, x_k, x_{k+1}, \dots \}. \]
+        \[
+        \{x_1, x_2, \dots, x_k, x_{k+1}, \dots \}.
+        \]
         <p>
             The probabilities of \(x_1\) being in any particular state follow an initial distribution, \(\{a_k\}.\) State transitions depend only on the previous state, that is, we only care about the conditional probabilities,
         </p>
@@ -494,5 +495,10 @@ ans =
           <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
           Copyright 2013, <a href="http://www.timswast.com" rel="author">Tim Swast</a>. All rights reserved.
         </footer>
+
+        <!-- Find and render LaTeX using KaTeX auto-render plugin. -->
+        <script>
+            renderMathInElement(document.body);
+        </script>
     </body>
 </html>
