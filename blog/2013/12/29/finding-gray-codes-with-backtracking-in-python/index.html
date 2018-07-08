@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Finding Gray codes with backtracking in Python</title>
-        <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+        <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1">
+        <title>Finding Gray codes with backtracking in Python</title>
+        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
     </head>
     <body>
         <div id="content-header">
@@ -12,7 +13,7 @@
             </a>
             <span class="post-date">Sunday, December 29, 2013</span>
         </div>
-        
+
         <p>
         <a href="http://en.wikipedia.org/wiki/Gray_code">Gray codes</a>
         are ways of writing numbers using only 0s and 1s. They share the property
@@ -21,36 +22,36 @@
         then two might be represented as &ldquo;011&rdquo;; only the middle bit
         changes.
         </p>
-        
-        
+
+
         <h2>How are Gray codes used?</h2>
         <p>
         There is a family of Gray codes which is widely used called reflected binary Gray codes. These are <a href="http://www.cs.cmu.edu/Groups/AI/html/faqs/ai/genetic/part6/faq-doc-1.html">simple to convert to and from standard binary notation</a>. This makes them useful in embedded systems. For example, some <a href="http://en.wikipedia.org/wiki/Rotary_encoder">rotary encoders</a> use reflected binary Gray codes to indicate position around a circle.
         </p>
         <img src="encoder.svg" width="100%" alt="a rotary encoder, which uses Gray codes to encode the angle of rotation. There are concentric rings, broken into wedges. The rings within the wedges are colored black to represent 0 and white to represent 1." />
-  
-       
-       <h2>Just how many Gray codes are there?</h2> 
+
+
+       <h2>Just how many Gray codes are there?</h2>
        <p>
        There are more Gray codes than the reflected binary Gray codes. In fact, there are <em>many</em> more. Since a Gray code can count arbitrarily high, there are an infinite number of different codes. What is more interesting is <a href="http://oeis.org/A003042">how many different Gray codes can be created using N bits.</a> Say we have 4 bits, which can represent 16 different numbers. How many Gray codes with 4 bits can create a cycle with 16 elements?
        </p>
-       
+
         <p>
             One way answering this question is to use <a href="http://en.wikipedia.org/wiki/Backtracking">backtracking.</a> Mostly, backtracking is a a way of saying &ldquo;search the whole set of possible solutions using a depth-first search,&bdquo; but if a partial solution in our search cannot possibly be correct, we do not need to continue searching solutions which include that partial solution. For example, if I was searching for solutions to the <a href="http://en.wikipedia.org/wiki/Eight_queens_puzzle"><em>n</em>-queens problem</a>, and I have a partial solution with only two queens and they are attacking each other, I do not need to continue searching for solutions that contain these two queen positions.
         </p>
-        
-        
+
+
         <h2>So how do we use backtracking?</h2>
         <p><a href="http://en.wikipedia.org/wiki/Backtracking#Pseudocode">According to Wikipedia</a>, we will need to provide 6 different methods, but for this problem we will take a little shortcut. Rather than use a <em>first()</em> and a <em>next()</em> method to generate the search tree of possible solutions, we will define an <em>extensions()</em> generator which will find all possible extensions, which add a single code point to a partial Gray code.</p>
-        
+
         <h3>root(#bits)</h3>
         <p>Create the starting partial solution for some number of bits. To keep things easy, this will output a partial solution with the first codepoint as all zeros.</p>
-        
+
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">makeroot</span><span class="p">(</span><span class="n">bits</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="bp">False</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bits</span><span class="p">)])]</span>
 </pre></div>
 
-        
+
         <h3>reject(partial solution)</h3>
         <p>Returns <em>true</em> if the partial solution is not worth completing. For example, if more than one bit changes between consecutive code points.</p>
         <div class="highlight"><pre><span class="k">def</span> <span class="nf">hammingdistance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -70,7 +71,7 @@
             <span class="k">return</span> <span class="bp">True</span>
     <span class="k">return</span> <span class="bp">False</span>
 </pre></div>
-        
+
         <h3>accept(possibly full solution)</h3>
         <p>Accept returns <em>true</em> only when the given code is a full Gray code cycle.</p>
         <div class="highlight"><pre><span class="k">def</span> <span class="nf">accept</span><span class="p">(</span><span class="n">codelen</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
@@ -88,7 +89,7 @@
         <span class="n">nextcodepoint</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">nextcodepoint</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">yield</span> <span class="n">code</span> <span class="o">+</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">nextcodepoint</span><span class="p">)]</span>
 </pre></div>
-        
+
         <h3>output(solution)</h3>
         For now, output the full code. Later, we will change this function to count the codes instead.
         <div class="highlight"><pre><span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
@@ -99,7 +100,7 @@
             <span class="k">print</span> <span class="n">codechar</span><span class="p">,</span>
         <span class="k">print</span>
 </pre></div>
-        
+
         <h3>backtrack(partial solution)</h3>
         Backtrack does the actual search. See that it looks very similar to depth-first search in the way it uses recursion.
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">backtrack</span><span class="p">(</span><span class="n">codelen</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
@@ -111,8 +112,8 @@
     <span class="k">for</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
         <span class="n">backtrack</span><span class="p">(</span><span class="n">codelen</span><span class="p">,</span> <span class="n">extension</span><span class="p">)</span>
 </pre></div>
-        
-        
+
+
         <h2>Let's try backtracking out.</h2>
         <p>What are the possible Gray codes when we have 2 bits and want the full length-4 cycles?</p>
         <div class="cell border-box-sizing code_cell">
@@ -150,7 +151,7 @@ code:
 </div>
 
 </div>
-        
+
         <h2>Making it count.</h2>
         <p>The number of Gray codes is going to blow up very quickly, so let's change the output to count instead of print all the results.  Since I used <a href="http://ipython.org/notebook.html">the IPython notebook</a> rather than writing a script or Python library, I was a bit sloppy and put the count in a global variable. This mean we will need to reset the count between calls.</p>
         <div class="highlight"><pre><span class="n">number_of_gray_codes</span> <span class="o">=</span> <span class="mi">0</span>
@@ -162,7 +163,7 @@ code:
     <span class="k">print</span> <span class="n">number_of_gray_codes</span>
     <span class="n">number_of_gray_codes</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
-        
+
         <p>Now, we can run <em>backtrack</em> to see how many different Gray codes there are.</p>
 <div class="cell border-box-sizing code_cell">
 <div class="input">
@@ -194,9 +195,9 @@ In&nbsp;[12]:
 </div>
 
 </div>
-        
+
         <p>Well, we knew that there were two Gray codes for 2 bits already. What if we had a few more bits to play with, but still wanted to keep the cycle length at 4?</p>
-        
+
 <div class="cell border-box-sizing code_cell">
 <div class="input">
 <div class="prompt input_prompt">
@@ -227,9 +228,9 @@ In&nbsp;[13]:
 </div>
 
 </div>
-        
+
         <p>Now, what if we get the maximum lenght cycle for this number of bits?</p>
-        
+
 <div class="cell border-box-sizing code_cell">
 <div class="input">
 <div class="prompt input_prompt">
@@ -290,12 +291,12 @@ In&nbsp;[15]:
 </div>
 
 </div>
-        
+
         <p>
             That grew fast! I also tried running this for 5 bits, but I &ldquo;Ctrl-C&rdquo;ed to cancel the computation because I got impatient waiting for an answer. It <a href="http://oeis.org/A003042">turns out</a>, that for 5 bits the answer is 1,813,091,520 which is a lot more than 2,688. No wonder it was taking so long!
         </p>
-        
-        
+
+
         <h2>What's the point of all this?</h2>
         <p>
             If we could find the answer on <a href="http://oeis.org/">OEIS,</a> what was the point of calculating it using backtracking? Firstly, backtracking is a very useful technique to know for searching solution spaces. Secondly, we were able to find Gray codes for non-power-of-two length cycles. We discovered that there are 6 gray codes of length 4 using 3 bits for the code points.
@@ -304,7 +305,7 @@ In&nbsp;[15]:
             Lastly, now that we have this framework, we can adjust our <em>accept</em> and <em>reject</em> functions to find other, more-specific kinds of Gray codes. For example, it would be interesting to see some Gray codes which can be flood-filled and to learn how many such codes there are.
         </p>
         <img src="flood-fill-gray-code.jpg" width="100%" alt="A Gray code of length 6 using 3 bits which can be flood filled in the 0s. {000, 001, 011, 010, 110, 100}" />
-        
+
         <footer>
           <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
           Copyright 2013, <a href="/" rel="author">Tim Swast</a>. All rights reserved.

@@ -15,6 +15,14 @@ h1 {
   font-size: 1.5em;
 }
 
+h2 {
+  font-family: sans-serif;
+}
+
+h3 {
+  font-family: sans-serif;
+}
+
 footer {
   margin: 4em 0em;
 }

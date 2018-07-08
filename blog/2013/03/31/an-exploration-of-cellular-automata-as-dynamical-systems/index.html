@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>An Exploration of Cellular Automata as Dynamical Systems : Tim Swast 2013.03.31</title>
-        <link rel="stylesheet" type="text/css" href="/blog/2012/blog.css" />
+        <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1">
+        <title>An Exploration of Cellular Automata as Dynamical Systems : Tim Swast 2013.03.31</title>
+        <link rel="stylesheet" type="text/css" href="/css/blog.css" />
         <style>
         span.code {
                 font-family: monospace;
             }
-        
+
             img {
                 max-width: 100%;
                 display: block;
@@ -17,7 +18,7 @@
             .oddrow {
               background-color: #eee;
             }
-    
+
             /* BEGIN: wysiwyg MATLAB html */
     p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier}
     p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier; min-height: 12.0px}
@@ -51,7 +52,7 @@
             distinguished from chaotic, class 3 cellular automata by the largest Lyapunov exponent
             of the chaotic orbits.
         </p>
-        
+
         <h2>What are cellular automata?</h2>
         <p>
             A cellular automata is a <a href="http://xkcd.com/505/">simple pattern</a>
@@ -60,11 +61,11 @@
             cellular automata which act on a string of white and black cells.
             I also call a white cell a one and a black cell a zero.
         </p>
-        
+
         <a href="cellular-automata-state.png">
         <img src="cellular-automata-state.png" alt="...010011011100..." />
         </a>
-        
+
         <p>
             The system starts at some initial state and then this state is updated each step
             by the cellular automaton's rule. In deciding what color a cell will become,
@@ -72,13 +73,13 @@
             in this set of experiments use the color of three cells: the cell's current
             color, the color of the immediate left neighbor, and of the right neighbor.
         </p>
-        
+
         <a href="cellular-automata-rules.png">
         <img src="cellular-automata-rules.png"
             alt="2^3 = 8 neighborhoods"
             title="2^3 = 8 neighborhoods" />
         </a>
-        
+
         <p>
             Since the elementary cellular automata consider three cells per update,
             and a cell is one of two possible colors,
@@ -86,26 +87,26 @@
             To have a well defined rule, the result for each of these neighborhoods must
             be defined. Will it become white or black, one or zero?
         </p>
-        
+
         <p>
             Because the result for each of these 8 possible neigborhoods can be one of two colors,
             there are 2<sup>8</sup> = 256 possible &ldquo;rules.&rdquo;
-            In this set of experiments, I calculate 1,000+ steps for each of the 256 rules. 
+            In this set of experiments, I calculate 1,000+ steps for each of the 256 rules.
         </p>
-        
+
         <h2>How do we name the cellular automata?</h2>
         <p>
-            These 256 rules have a natural naming scheme. 
+            These 256 rules have a natural naming scheme.
             There is a natural ordering for the 8 neigborhoods that define a rule.
             Consider each neighborhood a three-bit binary number, ranging from 0 to 7.
         </p>
-        
+
         <a href="cellular-automata-rules-numbered.png">
         <img src="cellular-automata-rules-numbered.png"
-            alt="8 rules, in order" 
+            alt="8 rules, in order"
             title="8 rules, in order" />
         </a>
-        
+
         <p>
             Note that for each neighborhood, a well defined rule will output a 0 or a 1.
             Ordering the output for the 8 different neighborhoods
@@ -115,7 +116,7 @@
             rule 1 would generate a 1 for the neighborhood 000, but
             it generates 0 for all other neighborhoods.
         </p>
-        
+
         <p>
             Since my computer has only finite memory, I cannot simulate a cellular automaton on
             an infinite number of bits. Instead, I use a finite
@@ -123,7 +124,7 @@
             Since it seems to simulate an infinite space the best, I choose to wrap the state
             space around. The left-most cell is an immediate neighbor to the right-most cell.
         </p>
-        
+
         <h2>Cellular automata as dynamical systems.</h2>
         <p>
             To apply the methods of analysis from
@@ -137,11 +138,11 @@
             number extends infinitely in only one direction (that of the fractional part),
             the most natural thing to do is to represent this infinite string by two real numbers.
         </p>
-        
+
         <a href="cellular-automata-2d.png">
         <img src="cellular-automata-2d.png" alt="Two real numbers can simulate an infinite binary string." />
         </a>
-        
+
         <p>
             Other representations are certainly possible. To represent a cellular automaton state
             as a single real number,
@@ -150,7 +151,7 @@
             This feels unnatural, since neighboring digits in the cellular automata state space
             are not immediate neighbors in the real number's representation.
         </p>
-        
+
         <p>
             With this mapping from cellular automaton state to a pair of real numbers, (x, y),
             a cellular automaton computation generates a list of 2D points.
@@ -166,7 +167,7 @@
             (Pilant <a href="http://mpeg.math.tamu.edu/home/mpilant/Math614/lecture12_raw/lecture12_raw.html">Lecture 12A</a> ;
             <a href="http://sprott.physics.wisc.edu/chaos/lyapexp.htm">Sprott</a>).
         </p>
-        
+
         <!-- Writeup -->
         <h2>Results</h2>
         <p>
@@ -174,7 +175,7 @@
             five hundred, two thousand, and five thousand. Rather than show the results of these 768
             calculations, I will show examples of 15 of the more interesting cases.
         </p>
-        
+
         <p>In the 500-length case, I used as state space of 1,000 bits. I then chose an
             <a href="#appendix-initial-states">initial condition</a>
             randomly with states of equal probability for 41 bits about its center
@@ -184,13 +185,13 @@ octave:2> s(480:520) = rand(41, 1) > 0.5;
             In terms of a dynamical system, this simulates picking a two rational numbers,
             each of which can be represented with a finite number of base-2 bits.
         </p>
-        
+
         <p>I do a similar thing in the 5,000-length orbits. With a state space of
             10,000 bits, I choose 101 bits at random with equal probability in the center.
         <code><pre>EDU>> s = zeros(10000, 1);
 EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
         </p>
-        
+
         <p>In the 2,000-length case I do something different. With a state space of 2000 bits
         I choose all 2000 bits randomly with equal probability. This is much closer to simulating
         an irrational value, especially since I chose to use circular boundary conditions.
@@ -200,8 +201,8 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
         <p>To reduce the filesizes transferred, I only show a short subset in the middle
         of each cellular automaton's &ldquo;history&rdquo; diagram.
         </p>
-        
-        
+
+
         <h3 id="rule150">Rule 150</h3>
         <p>
             Rule 150, 10010110<sub>2</sub>, is interesting because in the 2,000-length orbit
@@ -211,51 +212,51 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
             it seems to show aysmptotically periodic orbits, but with irrational initial conditions
             it shows chaotic orbits.
         </p>
-        
+
         <p>The calculated Lyapunov exponent was 1.45. Compare the history and orbit of the
             2,000-length case.</p>
-        
+
         <a href="rule150-history.pdf.png"><img src="rule150-history.pdf.png"></a>
-        
+
         <p>Compare to the 5,000-length case.</p>
-        
+
             <a href="rule150-history-10000.pdf.png"><img src="rule150-history-10000.pdf.png"></a>
-        
+
         <p>Once interpreted as two real numbers, it looks like the 5,000-length
         orbit is asymptotically periodic.</p>
-        
+
         <h3 id="rule105">Rule 105</h3>
         <p>Like <a href="#rule150">Rule 150</a>, Rule 105 only showed chaotic orbits in the
         2,000-length orbit case. Likely, this is for the same reason, the 2,000-length orbit
         more closely simulated an irrational initial condition.</p>
-        
+
         <p>The calculated Lyapunov exponent was 1.44</p>
-        
+
             <a href="rule105-history.pdf.png"><img src="rule105-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule90">Rule 90, 165</h3>
         <p>Rule 90 and Rule 165 are equivalent
             (<a href="http://atlas.wolfram.com/01/01/90/01_01_1_90.html#01_01_9_90">Atlas of Simple Programs</a>).
             Replace all black cells with white cells and vice versa to switch from rule to the other.
         </p>
-        
+
         <p>
             Like the previous two rules, these rules showed chaotic behavior only
             in the 2,000-length case, with a simulated irrational number. For both
             rules, I calculated a largest Lyapunov exponent as 1.39.
         </p>
-        
+
             <a href="rule90-history.pdf.png"><img src="rule90-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule22">Rule 22, 151</h3>
         <p>
             Rule 22 and Rule 151 are also equivalent by swapping black and white (zero and one).
             <em>Unlike</em> the previous sets of rules, I calculated chaotic orbits in all three
             experiments.
         </p>
-        
+
         <p>
             In the 2,000-length Rule 22 orbit, the largest Lyapunov exponent is 1.33, but
             in the 2,000-length Rule 151 orbit, the Lyapunov exponent is 1.57. Although these
@@ -263,49 +264,49 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
             the initial conditions were different. This means that the Lyapunov exponent must be
             very variable for the chaotic attractor (or there are more than one attractor).
         </p>
-        
+
         <p>
             This is output from rule 22.
         </p>
             <a href="rule22-history.pdf.png"><img src="rule22-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule45">Rule 45, 75, 89, 101</h3>
         <p>
             Rules 45, 75, 89, and 101 are equivalent. In the 2,000-length case I calculated
             Lyapunov exponents of 1.22, 1.23, 1.19, and 1.38, respectively.
         </p>
             <a href="rule45-history.pdf.png"><img src="rule45-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule60">Rule 60, 102, 153, 195</h3>
         <p>
             Rules 60, 102, 153, and 195 are equivalent. In the 2,000-length case I calculated
-            Lyapunov exponents of 
+            Lyapunov exponents of
             1.17, 1.09, 1.09, and 1.17, respectively.
         </p>
             <a href="rule60-history.pdf.png"><img src="rule60-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule106">Rule 106, 120, 169, 225</h3>
          <p>
             Rules 106, 120, 169, and 225 are equivalent. In the 2,000-length case I calculated
-            Lyapunov exponents of 
+            Lyapunov exponents of
             0.90, 1.03, 1.04, and 1.01,
             respectively.
         </p>
             <a href="rule106-history.pdf.png"><img src="rule106-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule30">Rule 30, 86, 135, 149</h3>
         <p>
             Rules 30, 86, 135, and 149 are equivalent. In the 2,000-length case I calculated
-            Lyapunov exponents of 
+            Lyapunov exponents of
             1.05, 1.07, 0.92, and 0.88, respectively.
         </p>
             <a href="rule30-history.pdf.png"><img src="rule30-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule126">Rule 126, 129</h3>
         <p>
             Rules 126 and 129 are equivalent.
@@ -314,8 +315,8 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
             for both.
         </p>
             <a href="rule126-history.pdf.png"><img src="rule126-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule146">Rule 146, 182</h3>
         <p>
             Rules 146 and 182 are equivalent.
@@ -324,8 +325,8 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
             respectively.
         </p>
             <a href="rule146-history.pdf.png"><img src="rule146-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule18">Rule 18, 183</h3>
         <p>
             Rules 18 and 183 are equivalent.
@@ -334,8 +335,8 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
             respectively.
         </p>
             <a href="rule18-history.pdf.png"><img src="rule18-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule122">Rule 122, 161</h3>
         <p>
             Rules 122 and 161 are equivalent.
@@ -344,8 +345,8 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
             respectively.
         </p>
             <a href="rule122-history.pdf.png"><img src="rule122-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule54">Rule 54, 147</h3>
         <p>
             Rules 54 and 147 are equivalent.
@@ -354,8 +355,8 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
             respectively.
         </p>
             <a href="rule54-history.pdf.png"><img src="rule54-history.pdf.png"></a>
-        
-        
+
+
         <h3 id="rule110">Rule 110, 124, 137, 193</h3>
         <p>
             Rules 110, 124, 137 and 193 are equivalent.
@@ -369,11 +370,11 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
         &ldquo;particle&rdquo; interactions. It is for this reason that it is
         classified as a &ldquo;complex,&rdquo; class IV rule. (Kunkle 11)
         </p>
-        
-        
-        
+
+
+
         <h2>References</h2>
-        
+
         <ul>
             <li>Alligood, Kathleen T., Tim Sauer, and James A. Yorke.
                 <em>Chaos: An Introduction to Dynamical Systems.</em>
@@ -385,7 +386,7 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
                 N.p., n.d. Web. 24 Mar. 2013.
                 &lt;<a href="http://atlas.wolfram.com/aboutatlas.html">http://atlas.wolfram.com/aboutatlas.html</a>&gt;.
             </li>
-            <li>Pilant, Michael S. <em>Math 614 : Chaos and Dynamical Systems : Course Homepage</em>, n.d. Web. 
+            <li>Pilant, Michael S. <em>Math 614 : Chaos and Dynamical Systems : Course Homepage</em>, n.d. Web.
                 &lt;<a href="http://www.math.tamu.edu/~mpilant/math614/">http://www.math.tamu.edu/~mpilant/math614/</a>&gt;.</li>
                 <li>
                 Kunkle, Daniel R. "Automatic Classication of One-Dimensional Cellular Automata." Rochester Institute of Technology Computer Science Department, 17 July 2003. Web.
@@ -396,12 +397,12 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
                 http://sprott.physics.wisc.edu/chaos/lyapexp.htm</a>&gt;.</li>
             <li>Wolfram, Stephen. <a href="http://www.wolframscience.com/nksonline/">A New Kind of Science</a>. Champaign, IL: Wolfram Media, 2002.</li>
         </ul>
-        
-        
-        
-        
+
+
+
+
         <h2>Appendix A (Matlab Codes)</h2>
-        
+
         <p>
             <a href="allcellularautomata.m">allcellularautomata.m</a> is the &ldquo;main loop&rdquo; function.
             It takes an initial state, a number of generations to calculate, and an array
@@ -510,8 +511,8 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
 
 
         </div>
-        
-        
+
+
         <p>
             <a href="n3rule.m">n3rule.m</a> is the function which does the caluclations
             for each rule. It works by looking at the bits for each neighborhood in
@@ -533,8 +534,8 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
 <p class="p1">out = bitand(bitmask, n) ~= 0;</p>
 <p class="p2"><span class="Apple-converted-space"> </span></p>
         </div>
-        
-        
+
+
         <p>
             <a href="multilyapunov.m">multilyapunov.m</a> calculates the largest
             Lyapunov exponent for a 2D orbit.
@@ -612,9 +613,9 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
 <p class="p6"><span class="s3">fprintf(fid, </span>'average value for lyapunov exponent is: %f\n'<span class="s3">, exp_avg);</span></p>
 <p class="p1">fclose(fid);</p>
         </div>
-        
-        
-        
+
+
+
         <p>
             <a href="ismultiple.m">ismultiple.m</a> is a helper function for calculating
             the largest Lyapunov exponent for a 2D orbit. It is used to determine points
@@ -643,7 +644,7 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
 <p class="p3">end</p>
 <p class="p4"><span class="Apple-converted-space"> </span></p>
         </div>
-        
+
         <h2>Appendix B (Lyapunov exponents)</h2>
 <table>
   <thead>
@@ -924,14 +925,14 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
     </tr>
   </tbody>
 </table>
-        
+
         <p>
-          [+] Labeled Chaotic in 
+          [+] Labeled Chaotic in
               <a href="http://www.ccs.neu.edu/home/kunkle/papers/kunkle-msthesis.pdf">Kunkle's classification thesis</a>.
-          [^] Labeled Complex in 
+          [^] Labeled Complex in
               <a href="http://www.ccs.neu.edu/home/kunkle/papers/kunkle-msthesis.pdf">Kunkle's classification thesis</a>.
           [W] Complexity from simple initial conditions (Wolfram p.58).
-        
+
         <h2 id="appendix-initial-states">Appendix C (Initial States)</h2>
         <p>
             For the curious, I am providing the initial states I used for these experiments.
@@ -942,7 +943,7 @@ EDU>> s(4950:5050) = rand(101,1) > 0.5;</pre></code>
             <a href="initial-10000.txt">5,000-length orbits</a>
             are more like rational initial states.
         </p>
-        
+
 <footer>
   <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
   Copyright 2013, <a href="/" rel="author">Tim Swast</a>. All rights reserved.

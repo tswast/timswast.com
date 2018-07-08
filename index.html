@@ -12,19 +12,30 @@
                 background: url("img/20130810-bg.png");
             }
 
-            canvas {
-                display: block;
-            }
-
             .navigation {
                 position: absolute;
-                top: 1em;
-                left: 2em;
-                padding: 1em;
+                top: 0.1em;
+                left: 0.2em;
+                padding: 15px 10px 0px 10px;
                 font-size: 2em;
                 font-family: sans-serif;
-                background-color: rgba(255, 255, 255, 0.8);
-                border-radius: 1em;
+                background-color: rgba(255, 255, 255, 0.95);
+                border-radius: 5px;
+            }
+
+            .navigation h1 {
+                font-size: 1em;
+                margin: 0px 0px 20px 0px;
+            }
+
+            .navigation ul {
+                list-style-type: none;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            .navigation li {
+                margin: 0px 0px 12px 0px;
             }
 
             .navigation a {
@@ -34,19 +45,23 @@
             .icon {
                 width: 2em;
             }
+
+            #background-landscape {
+                display: block;
+            }
         </style>
     </head>
     <body>
         <canvas id="background-landscape"></canvas>
         <div class="navigation">
-            <a href="/blog/">
-                <h1>Blog</h1>
-            </a>
-            <a href="/cv/">
-                <h1>Curriculum Vit&aelig;</h1>
-            </a>
+            <h1>Tim Swast</h1>
+            <ul>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/cv/">Curriculum Vit&aelig;</a></li>
+            </ul>
 
             <!-- Social media icons -->
+            <p>
             <a href="https://twitter.com/timswast"><img src="static/icons/iconmonstr-twitter-4.svg" class="icon" alt="Twitter" title="Tim Swast on Twitter"></a>
             <a href="https://medium.com/@TimSwast"><img src="static/icons/iconmonstr-medium-4.svg" class="icon" alt="Medium" title="Tim Swast on Medium"></a>
             <a href="https://github.com/tswast/"><img src="static/icons/iconmonstr-github-1.svg" class="icon" alt="GitHub" title="Tim Swast on GitHub"></a>

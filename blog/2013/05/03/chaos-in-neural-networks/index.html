@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>An Exploration of Chaos in Neural Networks : Tim Swast 2013.05.03</title>
-        <link rel="stylesheet" type="text/css" href="../../../../2012/blog.css" />
+        <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1">
+        <title>An Exploration of Chaos in Neural Networks : Tim Swast 2013.05.03</title>
+        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
         <style>
         span.code {
                 font-family: monospace;
             }
-        
+
             img {
                 max-width: 100%;
                 display: block;
@@ -17,7 +18,7 @@
             .oddrow {
               background-color: #eee;
             }
-    
+
             /* BEGIN: wysiwyg MATLAB html */
     p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier}
     p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Courier; color: #25992d}
@@ -42,7 +43,7 @@
 
         <!-- Statement of the problem -->
         <p>
-            Neural networks are models of the brain. Actually, there are many different kinds of 
+            Neural networks are models of the brain. Actually, there are many different kinds of
             neural network models. (<a href="#ref-neural-history">Wallis</a>)
             What they have in common is that they consist of nodes
             (which model neurons) hooked together in some way. Signals then propogate through
@@ -57,7 +58,7 @@
             (<a href="#ref-sdr-olfactory">Yu Y</a>). Specifically, I feed output
             back in as input to explore the dynamics of such a network.
         </p>
-        
+
         <h2>Related Work</h2>
         <p>
             With the variety of neural models, there have been many studies exploring the
@@ -76,7 +77,7 @@
             such machines have useful properties when it comes to building machine learning
             systems. (<a href="#ref-boltzmann">Suzuki</a>)
         </p>
-        
+
         <p>
             Rather than using continuous / real-number inputs and outputs for nodes in a
             neural network, there are also models which use discrete synapses.
@@ -87,7 +88,7 @@
             in the model are similar to the values from physical experiments.
         </p>
 
-        
+
         <h2>Derivation of Mathematics</h2>
         <p>
             The neural network model used in this experiment is simply a fully-connected graph.
@@ -95,11 +96,11 @@
             Edges have weights in [0, 1]. If an edge weight is above some threshold <em>t</em>,
             e.g. 0.5, activations will propogate, otherwise they do not.
         </p>
-        
+
         <img src="graph.png"
             alt="Fully connected graph with active nodes and only some edges propogating messages."
             />
-        
+
         <p>
             Each application of the network to an input consists of three steps.
         </p>
@@ -118,8 +119,8 @@
                 activate (enter state 1) and those that receive few or not will not activate (enter state 0).
             </li>
         </ol>
-        
-        
+
+
         <h3>Step 1: Representations</h3>
         <p>
             There are many choices for mapping between the binary states of nodes and a real number.
@@ -128,7 +129,7 @@
             whereas others will have O(2<sup>N</sup>) representable states. This makes a big difference
             when we try to find chaos in these models.
         </p>
-        
+
         <p>
             A simple sparse distributed representation for a number in [0, 1] is used in the
             cortical learning algorithms.
@@ -137,7 +138,7 @@
             in a line and set the left-most W nodes to active. Similarly, to represent a 1,
             we set the right-most W nodes to active.
         </p>
-        
+
         <p>
             A benefit of this approach is that numbers close to each other in magnitude will also
             be close in Hamming distance. That is, if we treat the state of the nodes as bit strings,
@@ -146,10 +147,10 @@
             With a width of 1 we can only represent N different numbers. The number of representable
             numbers decreases as the width increases.
         </p>
-        
+
         <img src="sliding.png"
             alt="Illustration for sliding representation." />
-        
+
         <p>
             Perhaps the most obvious representation is as a natural binary numeral. Treat one node
             as the 1/2 place, another node as the 1/4 place, yet another as the 1/8 place, et cetera.
@@ -159,10 +160,10 @@
             magnitude, 1/2 - 1/2<sup>N+1</sup>,
             will have a Hamming distance of N from each other, since every bit will be different.
         </p>
-        
+
         <img src="binary.png"
             alt="Illustration for natural binary numeral representation." />
-        
+
         <p>
             Another choice has both the benefits of 2<sup>N</sup> possible numeral representations
             and Hamming distance proportional to the difference in magnitudes.
@@ -171,31 +172,31 @@
             without repeating a previous representation. This is called a reflected binary Gray code.
             (<a href="#ref-gray-codes">Beasley</a>)
         </p>
-         
+
         <img src="gray.png"
             alt="Illustration for Gray code representation." />
-        
+
         <p>
             There is a property missing in this representation, and that is sparseness. We will
             see that sparseness is important in the dynamics of these networks. Without it, chaos
             is not possible. An orbit will go to a state with all ones or all zeros.
         </p>
-        
+
         <p>
             I believe it is possible to use Gray codes in such a way that all representable numbers
             have some number W states active. Instead of 0 being all bits zero, it will have
             W bits active, grouped together at one end. To create such a mapping, we could enumerate
             a Gray code as normally done but only consider those with W active bits.
         </p>
-        
+
         <p>
             Such a code would allow us to represent N choose W possible numbers. Perhaps this would
             be a happy medium between the sliding encoding and the Gray code representation?
             I did not find a way to efficiently compute a mapping between [0, 1] and these sparse
             Gray codes for this project, so this encoding will not be used in these experiments.
         </p>
-        
-        
+
+
         <h3>Step 2: Propogation</h3>
         <p>
             The propogation of active states is quite simple. Considering only those edges whose
@@ -203,22 +204,22 @@
             an active node. The recieving nodes merely add up the number of messages they recieve.
             This count will be used later to decide which state the nodes will become.
         </p>
-        
+
         <p>
             We can represent this adding up of messages with a matrix multiplication. If states
             of each node are a column vector <em>v</em> (values 0 or 1) and the active edges are a
             matrix <em>G</em> (with value 1 if the edge weight is above the threshold, and 0 if below),
             the number of messages propogated to each node is the column vector <em>vG.</em>
         </p>
-        
-        
+
+
         <h3>Step 3: Activation and Inhibition</h3>
         <p>
             In these experiments I tried two different methods for choosing the output state of the
             nodes. The first method is to pick a threshold M. If a node recieves &gt; M messages, it
             is activated, otherwise it is set to the inactive state.
         </p>
-        
+
         <p>
             It turns out for most graph configurations the first choice leads to rather uninteresting,
             fixed-point dynamics. Instead, we add a &ldquo;inhibition&rdquo; and &ldquo;boosting&rdquo;
@@ -227,9 +228,9 @@
             If multiple nodes have received the same number of messages, either all of these nodes
             will become active or all will become inactive.
         </p>
-        
-        
-        
+
+
+
         <!-- Writeup -->
         <h2>Results</h2>
         <p>
@@ -237,7 +238,7 @@
             for edges to be active, this defines a one-dimensional map. I then feed an initial state to
             this map and iterate to find an orbit.
         </p>
-        
+
         <h3>Slider representation</h3>
         <p>
             For my first set of experiments, I used a "slider" representation. Since only about N states
@@ -245,53 +246,53 @@
             back to a slider representation. For converting from these many states to floating points,
             I consider only the position of the median / middle active node.
         </p>
-        
+
         <p>
             I spent many hours of computation calculating orbits of various size graphs, edge thresholds,
             and node activation thresholds, but every orbit was either periodic or reached a fixed point!
             Here is a typical orbit.
         </p>
-        
+
         <img alt="a typical periodic slider orbit" src="orbit-slider.png">
-        
+
         <p>
             Looking back, it doesn't seem too surprising that I could not find any periodic orbits with
             this representation method. There are so few possible valid states that sensitive dependence
             on initial conditions becomes quite unlikely.
         </p>
-        
-        
+
+
         <h3>Natural binary numeral representation</h3>
         <p>
             Initially, my exploration using binary numeral representations did not look any more promising.
             Every orbit I tried went to 0 or 1 in a very short time. With a threshold too high, the orbit
             went to 0.
         </p>
-        
+
         <img alt="Orbit going to 0 with 'high' threshold."
             src="orbit-bitstate-noinhibition-thresh25.png" />
-        
+
         <p>
             With a threshold too low, the orbit went to 1.
         </p>
-        
+
         <img alt="Orbit going to 1 with 'low' threshold."
             src="orbit-bitstate-noinhibition-thresh20.png" />
-        
+
         <p>
             Since 0 means no nodes are active, it is trivial to see it is a fixed state. No messages
             will be sent! For 1, all nodes are active. To get here each node had to recieve enough messages to
             become active. With all nodes active, at least that many messages will be sent, so if we reach
             1 starting from a different state, 1 must be a fixed state.
         </p>
-        
+
         <p>
             Although these systems are completely deterministic, we can try to understand
             the dynamics a bit better with probability theory. Each node recieves input from
-            the a particular active input with a probability <em>p.</em> Since the graph is 
-            fully connected, <em>p</em> is equal to our edge threshold. 
+            the a particular active input with a probability <em>p.</em> Since the graph is
+            fully connected, <em>p</em> is equal to our edge threshold.
         </p>
-        
+
         <p>
             Therefore, if there are <em>I</em> active input nodes, each output node gets messages
             according to the binomial distribution <em>B(p, I).</em> If the threshold is set to be the
@@ -300,44 +301,44 @@
             we know that the walk will on average continue unbounded in one direction. Thus we reach
             one of our fixed states, 0 or 1.
         </p>
-        
+
         <p>
             To get more interesting dynamics, we use inhibition. We ensure that
             only a reasonable number of nodes are placed into the active state. By the same mechanism,
             we can ensure we also place at leaste a minimal number of nodes into active state.
         </p>
-        
+
         <p>
             Basically, we pick the threshold after each step based on the proportion of nodes we want
             to become active. For example, if we want half the nodes to become active, we set the threshold
             to be the medium number of messages received in each iteration. This yields orbits and return
             maps that look like this:
         </p>
-        
+
         <h4>Binary numeral orbit 1</h4>
         <img src="orbit-bitstate-inhibition-G1000.png"
             alt="Binary numeral orbit 1" />
         <img src="returnmap-bitstate-inhibition-G1000.png"
             alt="Return map for binary numeral orbit 1" />
-        
+
         <h4>Binary numeral orbit 2</h4>
         <img src="orbit-bitstate-inhibition-G1000-2.png"
             alt="Binary numeral orbit 2" />
-        
+
         <a href="returnmap-bitstate-inhibition-G1000-2.png">
         <img src="returnmap-bitstate-inhibition-G1000-2.png"
             alt="Return map for binary numeral orbit 2" />
         </a>
-        
+
         <h4>Binary numeral orbit 3</h4>
         <img src="orbit-bitstate-inhibition-G1000-3.png"
             alt="Binary numeral orbit 3" />
-        
+
         <a href="returnmap-bitstate-inhibition-G1000-3-100000o.png">
         <img src="returnmap-bitstate-inhibition-G1000-3-100000o.png"
             alt="Return map for binary numeral orbit 3" />
         </a>
-        
+
         <p>
             I calculated the Lyapunov numbers for this last graph for orbits of length 100, 1,000, and
             10,000. I got 14.1, 17.4, and 20.4, respectively. This increasing Lyapunov number reminds
@@ -345,7 +346,7 @@
             two numbers can be arbitrarily close to one another in magnitude but yield wildly different
             results.
         </p>
-        
+
         <p>
             We see from the return maps, we get a very discontinuous function.
             As we take the number of nodes N to infinity, the limit relation describes a
@@ -358,7 +359,7 @@
             the left or from the right, the limit of every subsequence should go to a
             particular value, f(x).
         </p>
-        
+
         <p>
             For each N, there are two values as close as possible to an interior point, x. These are
             x &plusmn; 2<sup>N</sup>. The map applied to these values should be nearer to the limit
@@ -368,9 +369,9 @@
             is less than 1. Thus the probability of picking a sequence of functions which makes the
             point <em>x</em> continuous is  <em>p<sub>1</sub>p<sub>2</sub>p<sub>3</sub>&hellip; &rarr; 0.</em>
         </p>
-        
-        
-        
+
+
+
         <h3>Gray code representation</h3>
         <p>
             Since a Gray code can also represent 2<sup>N</sup> possible states, when looking at just the
@@ -380,13 +381,13 @@
             we necessarily have a one-to-one function between the Gray code and the binary numeral representation.
             Therefore the maps are conjugate. (<a href="#ref-chaos-textbook">Alligood 115</a>)
         </p>
-        
+
         <p>
             Since the maps are conjugate, the same analysis from the binary numeral
             of the continuity of these functions applies. That is, the probability is 0 that we
             pick a sequence of graphs to define a function that is continuous even at a single point.
         </p>
-        
+
         <p>
             The property of Gray codes that the nearest numbers in magnitude are only Hamming distance
             1 away does help keep function values close together, though.
@@ -396,7 +397,7 @@
             are likely to be similar to each other, since they only differ in the messages sent from a single
             node. This is quite a bit &ldquo;nicer&rdquo; than we had in the binary numeral interpretation.
         </p>
-        
+
         <h4>Gray code orbit 1</h4>
         <a href="graycode-01000-orbit.png">
             <img src="graycode-01000-orbit.png"
@@ -406,12 +407,12 @@
             <img src="graycode-10000-returnmap.png"
                 alt="Return map for Gray code orbit 1" />
         </a>
-        
+
         <p>
             Lyapunov numbers for 100, 1,000, and 10,000 length orbits were calculated using Wolf's algorithm
             at 7.5, 13.8, and 18.4, respectively.
         </p>
-        
+
         <h4>Gray code orbit 2</h4>
         <a href="graycode-G2-01000-orbit.png">
             <img src="graycode-G2-01000-orbit.png"
@@ -421,36 +422,36 @@
             <img src="graycode-G2-10000-returnmap.png"
                 alt="Return map for Gray code orbit 2" />
         </a>
-        
+
         <p>
             Lyapunov numbers for 100, 1,000, and 10,000 length orbits were calculated using Wolf's algorithm
             at 8.7, 14.2, and 19.3, respectively.
         </p>
-        
+
         <p>
             These orbits actually look quite a bit different from those of the binary numerals, qualitatively.
             They seem to stay close to a certain value for most of the time with occasional deviations. This
             seems to be due to the property that numbers similar in magnitude are separated by a small
             Hamiltonian distance.
         </p>
-        
+
         <p>
             They remind me a bit of the plots of the successive differences in stock prices seen in the
             Fractal Geometry textbook. (<a href="#ref-fractal">Frame</a>) For example, this image of the successive
             differences in IBM stock price from 1959 to 1996.
         </p>
-        
+
         <img src="ibm-differences-1959-1996.gif"
             alt="The successive differences in IBM stock price has small deviations and large jumps." />
-        
+
         <p>
             While this is a very simple, 1-layer model of brain activity, perhaps numbers actually
             are represented by something akin to Gray codes in the brain? One can imagine stock traders
             with Gray code orbits in their brain of what the IBM stock price should be.
         </p>
-        
-        
-        
+
+
+
         <h3>Learning</h3>
         <p>
             In another set of experiments, I played with &ldquo;learning&rdquo; rules applied to these
@@ -458,23 +459,23 @@
             &ldquo;Hebbian&rdquo; learning rules, where nodes which fire in succession are wired
             more strongly together. The weight of the edge connecting them is increased.
         </p>
-        
+
         <p>
             It did not take long to see that the application of such a rule can &ldquo;tame&rdquo;
             chaos. Even with a binary numeral representation, what would have originally been
             chaotic orbits became fixed states
         </p>
-        
+
         <img src="orbit-learnedbitstate-3.png"
             alt="After few steps, the graph learns to be in a fixed state." />
-        
+
         <p>
             or periodic orbits.
         </p>
-        
+
         <img src="orbit-learnedbitstate-4-periodic.png"
             alt="Periodic after few steps." />
-        
+
         <p>
             The reason for this behavior is that the learning rule creates a feedback loop.
             By going to a particular number we become more likely to go to that number in the
@@ -482,7 +483,7 @@
             got the orbit in a state and decreasing the weights of those edges that did not
             contribute.
         </p>
-        
+
         <p>
             When the weights of edges are increased, more edges get weights above the edge threshold.
             Thus more messages are sent to nodes that have already become active. With 50% of the
@@ -490,8 +491,8 @@
             steps are quite similar. It doesn't take long for this affect to overwhelm any chaotic
             dynamics.
         </p>
-        
-        
+
+
         <h2>Summary</h2>
         <p>
             In a neural network with distributed representations, what seems to matter most for the
@@ -500,7 +501,7 @@
             the network can represent <em>O(2<sup>N</sup>)</em> possible states, we have no problem
             finding chaotic orbits.
         </p>
-        
+
         <p>
             Representation also seems to matter for qualitative properties of the orbits generated.
             Though the map using Gray codes to convert from node states and the map interpreting
@@ -508,7 +509,7 @@
             orbits look like. Orbits from gray codes seem to stay close to to a mean value with occasional
             large deviations. Orbits from binary numerals hop around a thicker band of values.
         </p>
-        
+
         <p>
             Since experiments have shown representations in real brains to be sparse and distributed
             (<a href="#ref-sdr-olfactory">Yu Y</a>)
@@ -518,11 +519,11 @@
             code. That is, numbers of similar magnitudes have similar bit strings, as in Gray codes, but
             only a fixed number of bits are active at a time.
         </p>
-        
-        
-        
+
+
+
         <h2>Appendix A : References</h2>
-        
+
         <ul>
             <li id="ref-chaos-textbook">Alligood, Kathleen T., Tim Sauer, and James A. Yorke.
                 <em>Chaos: An Introduction to Dynamical Systems.</em>
@@ -533,30 +534,30 @@
                 <a href="http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1000230">
                     Optimal Learning Rules for Discrete Synapses.
                 </a>
-                PLoS Comput Biol 4(11): e1000230. doi:10.1371/journal.pcbi.1000230 
+                PLoS Comput Biol 4(11): e1000230. doi:10.1371/journal.pcbi.1000230
             </li>
             <li id="ref-gray-codes">
-                Beasley, David. 
+                Beasley, David.
                 "Q21: What Are Gray Codes, and Why Are They Used?"
-                N.p., 11 Apr. 2001. Web. 02 May 2013. 
+                N.p., 11 Apr. 2001. Web. 02 May 2013.
                 &lt;<a href="http://www.cs.cmu.edu/Groups/AI/html/faqs/ai/genetic/part6/faq-doc-1.html">http://www.cs.cmu.edu/Groups/AI/html/faqs/ai/genetic/part6/faq-doc-1.html</a>&gt;.
             </li>
             <li id="ref-grok-sensor-region">
                 Grok.
             <a href="https://www.groksolutions.com/technology.html">"The Technology Behind Grok. Sensor Region"</a>
-                Grok. N.p., n.d. Web. 02 May 2013. 
+                Grok. N.p., n.d. Web. 02 May 2013.
             </li>
             <li id="ref-fractal">
                 Frame, Michael, Benoit Mandelbrot, and Nial Neger.
                 "Random Fractals and the Stock Market." Fractal Geometry.
-                N.p., n.d. Web. 03 May 2013. 
+                N.p., n.d. Web. 03 May 2013.
                 &lt;<a href="http://classes.yale.edu/fractals/randfrac/Market/DiffClPr/DiffClPr.html">
                 http://classes.yale.edu/fractals/randfrac/Market/DiffClPr/DiffClPr.html
                 </a>&gt;.
             </li>
             <li>
                 Pilant, Michael S. <em>Math 614 : Chaos and Dynamical Systems : Course Homepage</em>,
-                n.d. Web. 
+                n.d. Web.
                 &lt;<a href="http://www.math.tamu.edu/~mpilant/math614/">http://www.math.tamu.edu/~mpilant/math614/</a>&gt;.
             </li>
             <li id="ref-sprott">
@@ -588,16 +589,16 @@
                 PLoS Comput Biol 9(3): e1003014. doi:10.1371/journal.pcbi.1003014
             </li>
         </ul>
-        
-        
-        
-        
+
+
+
+
         <h2>Appendix B : Matlab Codes</h2>
         <p>
             Full source code for these experiments is <a href="https://bitbucket.org/tswast/discrete-htm-neural-network">available on Bitbucket</a>. The Lyapunov calculating functions are derived from the version available
             on Professor Pilant's Chaos and Dynamical Systems <a href="http://www.math.tamu.edu/~mpilant/math614/matlab_projects.html">course webpage</a>.
         </p>
-        
+
         <p>
             <em>calculateorbit.m</em> is perhaps the most important function.
             It creates an orbit using a given graph. In this case, it calculates the orbit using
@@ -645,8 +646,8 @@
 <p class="p6"><span class="Apple-converted-space"> </span></p>
 <p class="p5">end</p>
         </div>
-        
-        
+
+
         <p>
             <em>calculatelearnedbitorbit.m</em> is much like calculateorbit.
             It uses a learning rule to modify the graph as the orbit progresses.
@@ -735,7 +736,7 @@
 <p class="p5">end</p>
         </div>
 
-        
+
 <footer>
   <aside>Released under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License</a>.</aside>
   Copyright 2013, <a href="/" rel="author">Tim Swast</a>. All rights reserved.
