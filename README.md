@@ -1,47 +1,43 @@
 # www.timswast.com
 
-This is the public source code for Tim Swast's personal [blog](http://www.timswast.com/blog).
+This is the public source code for [Tim Swast's personal
+website](https://www.timswast.com/blog).
 
-The code is meant to be as simple as possible. Each "article" is meant
-to be a stand-alone HTML page. This means that each article is independent.
-This means that styles won't be updated to keep up with current trends, but it
-also means that each article is a reflection of the time in which it was
-written. By sticking to plain HTML, without a server-side component, I hope
-that these articles will have the potential to be served in their original
-form far into the future.
-
+By sticking to plain HTML, without a server-side component, I hope that these
+articles will have the potential to be served in their original form far into
+the future.
 
 ## License
 
+See [LICENSE](LICENSE) for details.
+
 Unless otherwise noted, the content is distributed under [Creative Commons
-Attribution-ShareAlike 3.0](http://creativecommons.org/licenses/by-sa/3.0/).
+Attribution 4.0](https://creativecommons.org/licenses/by/4.0/).
 
-### You are free:
+### You are free to:
 
-* to Share — to copy, distribute and transmit the work
-* to Remix — to adapt the work
-* to make commercial use of the work 
+* Share — to copy and redistribute the material in any medium or format
+* Adapt — remix, transform, and build upon the material for any purpose, even
+  commercially.
+
+The licensor cannot revoke these freedoms as long as you follow the license terms.
 
 ### Under the following conditions:
 
-* Attribution — You must attribute the work in the manner specified by the
-  author or licensor (but not in any way that suggests that they endorse you or
-  your use of the work).
-* Share Alike — If you alter, transform, or build upon this work, you may
-  distribute the resulting work only under the same or similar license to this
-  one. 
+* Attribution — You must give appropriate credit, provide a link to the
+  license, and indicate if changes were made. You may do so in any reasonable
+  manner, but not in any way that suggests the licensor endorses you or your
+  use.
+* No additional restrictions — You may not apply legal terms or technological
+  measures that legally restrict others from doing anything the license
+  permits.
 
-### With the understanding that:
+### Notices:
 
-* Waiver — Any of the above conditions can be waived if you get permission from
-  the copyright holder.
-* Public Domain — Where the work or any of its elements is in the public domain
-  under applicable law, that status is in no way affected by the license.
-* Other Rights — In no way are any of the following rights affected by the
-  license:
- * Your fair dealing or fair use rights, or other applicable copyright
-   exceptions and limitations;
- * The author's moral rights;
- * Rights other persons may have either in the work itself or in how the work
-   is used, such as publicity or privacy rights.
+You do not have to comply with the license for elements of the material in
+the public domain or where your use is permitted by an applicable exception
+or limitation.
 
+No warranties are given. The license may not give you all of the permissions
+necessary for your intended use. For example, other rights such as publicity,
+privacy, or moral rights may limit how you use the material.
