@@ -8,21 +8,21 @@
         <link href="../../../../../third_party/prettify201106/prettify.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="../../../../../third_party/prettify201106/prettify.js"></script>
     </head>
-    <body onload="prettyPrint()">
+    <body class="h-entry" onload="prettyPrint()">
 
 
 <div id="content-header">
     <a href="/blog/2011/11/21/gravity-v0-1-released/">
-        <h1>Gravity v0.1 released.</h1>
+        <h1 class="p-name">Gravity v0.1 released.</h1>
     </a>
     <span class="post-date">Wednesday, November 21, 2011</span>
 </div>
 
-<div class="entry">
+<div class="entry e-content">
 <p>I just put a new version of Gravity (beta) on <a href="http://www.kongregate.com/games/TimSwast/gravity-beta">Kongregate</a>.</p>
-<h1>Changes</h1>
+<h2>Changes</h2>
 <p>I added support for multiple masses and also obstacles. Also, I fixed a bug with the physics system. The physics are much more &#8220;realistic&#8221; now. Force actually decreases with distance now!</p>
-<h1>Lessons Learned</h1>
+<h2>Lessons Learned</h2>
 <p>When I added support for multiple masses, I noticed that the physics were acting &#8220;funny&#8221;. It seemed like the little boxes were being more attracted by masses on the opposite side of the map than the to ones they were near.</p>
 <p>It turns out that AS3 does not have an exponentiation operator. My late night coding resulted in the following mistake.</p>
 <pre class="prettyprint" title="">
@@ -42,7 +42,7 @@ var dist:Number = Math.sqrt(
 
 <footer>
   <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2011, <a href="/" rel="author">Tim Swast</a>. All rights reserved.
+  Copyright 2011, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
 </footer>
 
 

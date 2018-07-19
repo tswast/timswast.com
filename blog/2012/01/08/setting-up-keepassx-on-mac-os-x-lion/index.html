@@ -8,17 +8,17 @@
         <link href="../../../../../third_party/prettify201106/prettify.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="../../../../../third_party/prettify201106/prettify.js"></script>
     </head>
-    <body onload="prettyPrint()">
+    <body class="h-entry" onload="prettyPrint()">
 
 
 <div id="content-header">
     <a href="/blog/2012/01/08/setting-up-keepassx-on-mac-os-x-lion/">
-        <h1>Setting up KeePassX on Mac OS X Lion</h1>
+        <h1 class="p-name">Setting up KeePassX on Mac OS X Lion</h1>
     </a>
     <span class="post-date">Sunday, January 8, 2012</span>
 </div>
 
-
+<div class="e-content">
 <p>There are many prerequisites in order to build KeePassX on Mac.</p>
 <h1>Install GnuPG libraries</h1>
 <p>First download and install libgpg-error.<br />
@@ -65,11 +65,11 @@ make
 <pre class="prettyprint">./configure CC="gcc -arch i386" CXX="g++ -arch i386"
 make
 sudo make install</pre>
-
+</div>
 
 <footer>
   <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2012, <a href="/" rel="author">Tim Swast</a>. All rights reserved.
+  Copyright 2012, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
 </footer>
 
 

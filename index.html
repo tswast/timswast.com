@@ -17,7 +17,7 @@
                 top: 0.1em;
                 left: 0.2em;
                 padding: 15px 10px 0px 10px;
-                font-size: 2em;
+                font-size: 18pt;
                 font-family: sans-serif;
                 background-color: rgba(255, 255, 255, 0.95);
                 border-radius: 5px;
@@ -43,13 +43,26 @@
             }
 
             .icon {
-                width: 2em;
+                width: 40pt;
             }
 
             #background-landscape {
                 display: block;
             }
+
+            .h-card {
+                margin-top: 20pt;
+                font-size: 14pt;
+                max-width: 30em;
+                font-family: serif;
+            }
+
+            .u-photo {
+                float: left;
+                margin-right: 0.5em;
+            }
         </style>
+        <link rel="stylesheet" type="text/css" href="../css/pixel-art.css" />
     </head>
     <body>
         <canvas id="background-landscape"></canvas>
@@ -60,12 +73,38 @@
                 <li><a href="/cv/">Curriculum Vit&aelig;</a></li>
             </ul>
 
+            <div class="h-card">
+                <p class="p-note"><img class="u-photo pixel-art"
+                    src="./blog/2016/11/03/octobit/octobit00-neon.png"
+                    alt="">
+                <a href="/" class="u-url p-name">Tim
+                Swast</a> is a husband, artist, programmer, and technical
+                writer. He works for <a href="https://cloud.google.com"
+                class="p-org">Google Cloud</a> as <span
+                class="p-job-title">Software Friendliness Engineer</span> in
+                Seattle, where he writes client libraries, sample
+                applications, and tutorials about Big Data on Google Cloud
+                Platform. In his free time he <a
+                href="/blog/2016/11/03/octobit/">draws pixel art</a> and
+                codes <a
+                href="/blog/2013/08/07/markov-chains-tutorial/">mathematical
+                simulations</a>.
+
             <!-- Social media icons -->
             <p>
-            <a href="https://twitter.com/timswast"><img src="static/icons/iconmonstr-twitter-4.svg" class="icon" alt="Twitter" title="Tim Swast on Twitter"></a>
-            <a href="https://medium.com/@TimSwast"><img src="static/icons/iconmonstr-medium-4.svg" class="icon" alt="Medium" title="Tim Swast on Medium"></a>
-            <a href="https://github.com/tswast/"><img src="static/icons/iconmonstr-github-1.svg" class="icon" alt="GitHub" title="Tim Swast on GitHub"></a>
-            <a href="https://www.linkedin.com/in/tim-swast/"><img src="static/icons/iconmonstr-linkedin-4.svg" class="icon" alt="LinkedIn" title="Tim Swast on LinkedIn"></a>
+            <a href="https://twitter.com/timswast" rel="me"><img
+                src="static/icons/iconmonstr-twitter-4.svg" class="icon"
+                alt="Twitter" title="Tim Swast on Twitter"></a>
+            <a href="https://medium.com/@TimSwast" rel="me"><img
+                src="static/icons/iconmonstr-medium-4.svg" class="icon"
+                alt="Medium" title="Tim Swast on Medium"></a>
+            <a href="https://github.com/tswast/" rel="me"><img
+                src="static/icons/iconmonstr-github-1.svg" class="icon"
+                alt="GitHub" title="Tim Swast on GitHub"></a>
+            <a href="https://www.linkedin.com/in/tim-swast/" rel="me"><img
+                src="static/icons/iconmonstr-linkedin-4.svg" class="icon"
+                alt="LinkedIn" title="Tim Swast on LinkedIn"></a>
+            </div>
         </div>
 
 

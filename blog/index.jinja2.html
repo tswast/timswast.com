@@ -1,38 +1,7 @@
-<!DOCTYPE>
-<html>
-    <head>
-        <title>Tim Swast's Blog</title>
-        <link rel="stylesheet" type="text/css" href="../css/blog.css" />
-        <meta name="viewport" content="initial-scale=1">
-        <meta charset="UTF-8">
-    </head>
-    <body>
-
-<a href="/blog/">
-    <h1>Blog</h1>
-</a>
-
+<ul>
 {% for post in posts %}
-
-        <a href="{{ post.path }}" class="blog-article">
-            <h3><span
-                    class="blog-post-date"
-                    title='{{ post.date.strftime('%Y-%m-%d') }}'>
-                    {{ post.date.strftime('%B %-d, %Y') }}
-                </span>
-                {{ post.title }}
-            </h3>
-            {{ post.description }}
-        </a>
-
+  <li class="h-entry"><a href="{{ post.path }}" class="u-url"><time
+    class="dt-published">{{ post.date.strftime('%Y-%m-%d') }}</time>
+    <span class="p-name">{{ post.title }}</span></li>
 {% endfor %}
-
-<footer>
-  <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2013, <a href="/" rel="author">Tim Swast</a>. All rights reserved.
-  </footer>
-
-
-</body>
-</html>
-
+</ul>

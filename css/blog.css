@@ -50,27 +50,8 @@ a.blog-article:after {
   content: "(Read more...)";
 }
 
-/* Make sure images are never too big (on mobile, especially) */
+/* Images should always fit to the width of the text. */
 img, video {
-  max-width: 100%;
-  display: block;
-}
-
-/* This should make pixel art look more pixel-ly
- * See:
- * http://stackoverflow.com/questions/7615009/disable-interpolation-when-scaling-a-canvas
- * http://jsfiddle.net/VAXrL/21/
- *
- * image-rendering: optimize-contrast; is the only line specified in the CSS3 standard
- * working draft.
- */
-.pixel-art {
-  image-rendering: optimizeSpeed;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: optimize-contrast;
-  image-rendering: pixelated;
-  -ms-interpolation-mode: nearest-neighbor;
   width: 100%;
   display: block;
 }
@@ -87,3 +68,5 @@ img, video {
   zoom: 1.0;
   width: extend-to-zoom;
 }
+
+@import './pixel-art.css';
