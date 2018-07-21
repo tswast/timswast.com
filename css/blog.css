@@ -24,7 +24,7 @@ h3 {
 }
 
 footer {
-  margin: 4em 0em;
+  font-style: italic;
 }
 
 /* make links a little prettier */
@@ -69,6 +69,18 @@ img, video {
   width: extend-to-zoom;
 }
 
+/* IndieWeb Notes
+ * https://indieweb.org/note
+ *
+ * Notes should preserve whitespace and line-breaks.
+ */
+.h-entry .p-name.p-content {
+  white-space: pre-wrap;
+  margin-left: 1em;
+  padding-left: 1em;
+  border-left: 2px solid lightgray;
+}
+
 /* Make pixel art look more pixel-ly
  * See:
  * http://stackoverflow.com/questions/7615009/disable-interpolation-when-scaling-a-canvas
@@ -84,4 +96,9 @@ img, video {
   image-rendering: optimize-contrast;
   image-rendering: pixelated;
   -ms-interpolation-mode: nearest-neighbor;
+}
+
+img.icon {
+  width: 1em;
+  display: inline;
 }

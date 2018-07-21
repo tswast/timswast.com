@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name = "viewport" content = "initial-scale = 1.0">
+<title>Ssite for Handwritten Static Sites - Five Years Later</title>
+<link rel="stylesheet" type="text/css" href="/css/blog.css" />
+
+<article class="h-entry">
+<div id="content-header">
+  <h1 class="p-name">Ssite for Handwritten Static Sites - Five Years Later</h1>
+  Published: <time class="dt-published post-date" datetime="2018-07-21">July 21, 2018</time>
+</div>
+
+<div class="e-content">
+<p>Five years ago, I <a
+href="/blog/2013/06/10/introducting-locoloco-the-little-engine-that-didnt/">
+announced</a> that I had made the <a href="https://github.com/tswast/ssite">ssite
+static site enhancement tool</a> public. In this post, I’ll reflect on
+my experience of using ssite to maintain this website for the past half
+decade.
+
+<p><img alt="How this blog post was published. Google Docs exports to ugly
+HTML. Clean up with the ssite command and build an index."
+src="images/image1.jpg" />
+
+<h2>Posting a new article</h2>
+<p>The main purpose of this website is to serve as my personal blog, so the
+thing I do most often (but still not as often as I’d like), is post new
+articles to the site.
+
+<p>With ssite, the process of posting a new article is straightforward. For
+the full experience it requires the use of a couple Python scripts, but
+overall it should be natural to anyone that has ever drafted an HTML
+document.
+
+<ol start="1">
+  <li>
+  Write a draft. In the case of this article I'm writing in a Google Doc, but I
+drafted most posts as hand-written HTML.
+  </li>
+  <li>
+  Create a plain HTML version using a <a
+  href="https://github.com/tswast/timswast.com/blob/6049c19616b47761300ad6a0b2100b46a69dba3d/blog/template.html">simple
+  HTML template</a> and place the file at
+  <code>blog/YEAR/MONTH/DAY/TITLE/index.html</code> for publishing.
+  </li>
+  <li>
+  Run <code>ssite index</code> to update the blog post index page.
+  </li>
+  <li>
+  Publish the changes to the
+  <a href="https://github.com/tswast/timswast.com">GitHub repository</a>, the
+  <a href="https://www.timswast.com/">HTTPS version</a>, and the <a
+  href="dat://www.timswast.com">Dat version</a> (The Dat version is a recent
+  addition, managed by the <a href="https://docs.datproject.org/dat">Dat
+  CLI</a>, pinned by <a href="https://hashbase.io/">Hashbase</a>, and
+  viewable in <a href="https://beakerbrowser.com/">Beaker Browser</a>).
+  </li>
+</ol>
+
+<p>Overall, this process is smooth, but it is more cumbersome than I’d like.
+I haven't encountered any problems with hosting, but I do have some ideas
+about how to improve the process.
+
+<h2>Static sites keep serving simple</h2>
+<p>Instead of this manual process, I could use a blog engine like WordPress.
+Indeed, the whole flow would be easier if I could edit and publish blog posts
+entirely online. While I do want the process to be easy, I also want to
+minimize the time I spend maintaining the site. If I were to run this site on
+a blog engine, I would have to keep servers running, apply security patches,
+and keep the code updated to the latest versions.
+
+<p>With static HTML, any web server is capable of hosting my website. Because
+the site is just a collection of static files, I don’t need to do much of
+anything to keep it running. It’s a freeing feeling.
+
+<p>Keeping the server simple also makes the site easier to scale if any post
+gets popular. It’s much easier to scale up the number of instances of a
+static content server than it is to scale up a bunch of servers that
+dynamically generate pages.
+
+<p>For the same reasons that a static site is easy to scale, it is easy to
+archive. To host a backup copy, all someone needs is a copy of the content.
+They could download the files from my server or the whole site history from
+the source code on GitHub. With the <a href="https://datproject.org/">Dat
+protocol</a>, it is even easier to archive; anyone can keep the site alive by
+pinning it in Beaker Browser.
+
+<p>On the authoring side, one reason I like static HTML is that it’s quite
+easy to add JavaScript in <a
+href="https://www.timswast.com/blog/2013/08/07/markov-chains-tutorial/">rare
+posts with client-side dynamic content</a>. With other tools, I would have
+to much more careful to ensure the JavaScript I write does not conflict with
+the generated code. I might even have to write a blog engine plugin to insert
+the script tag at all.
+
+<h2>Enhance; don’t generate</h2>
+<p>A downside of static HTML is that it results in repeated code. For
+example, a navigation section must be repeated on all pages in the site. This
+is at odds with one of the cardinal rules of programming:
+   <a href="http://wiki.c2.com/?DontRepeatYourself">
+    don’t repeat yourself
+   </a>.
+One way to address this is to use templates and run a generator such as <a
+href="https://jekyllrb.com/">Jekyll</a> or <a
+href="https://gohugo.io/">Hugo</a> to create a rendered version of all pages.
+Previously, I generated this site using <a
+href="http://hyde.github.io/">Hyde</a>, but I disliked a few things about
+this process.
+
+<ul>
+  <li>
+  When editing, I had to run a build step every time that I want to see what the
+rendered version would look like.
+  </li>
+  <li>
+  I felt an obligation to keep the generator tools up-to-date, which sometimes
+mean that I have to make additional edits to the templates.
+  </li>
+  <li>
+  I wanted it to be very clear to anyone how to build my site and host it for
+archival purposes or if someone wanted to contribute content such as
+translations. With any static site generator, a contributor would have to learn
+the templating language and how to run the generator. Plain HTML is much easier
+to learn than how to run a generator.
+  </li>
+</ul>
+
+<p>I’ve started following a new principle: enhance, don’t generate. Use tools
+to make the static HTML files better and only generate the bare minimum that
+needs to be generated. In my case, the blog post index page is generated by
+ssite index, but in all other pages the source is the rendered version. Even
+with a generated blog index, I check the rendered version into version
+control. The whole site is complete from source without any external
+generator tools.
+
+<p>Without a generator, one way I’ve tried to avoid repeating code is that I
+don’t have a fancy navigation bar anymore. It was the first thing to go when
+I stopped generating the article pages. I have no regrets about dropping it;
+what people care about when they land on a blog post is the actual content.
+I’ve stripped away navigation links, header, and sidebars. That leaves just
+the content and a little footer note about attribution.
+
+<h2>Has this met my goals?</h2>
+<p>Overall, I’m pleased with the experience of using static HTML for my website. I
+do have some pain points, but I want to address those without sacrificing the
+simplicity of having the source files be the same as the rendered version.
+
+<h3>Easy of use for editing</h3>
+<p>I’ve become less satisfied drafting articles in hand-written HTML than
+when I started. At home, I use a phone and tablet more often than I do a
+laptop. I want to be able to continue editing a draft on any of my devices,
+whether I’m using a laptop, desktop, iPad, or phone. I’ve tried a handful of
+mobile HTML editors, but none as easy to use or synchronize across devices as
+Google Docs.
+
+<p>When I draft blog posts in hand-written HTML, I also find it awkward to to
+use a date-based path (<code>YYYY/MM/DD/title/index.html</code>) for the
+draft file. I don’t know exactly when I’ll finish something, so it’s awkward
+to pick a date in advance. I always have to edit the date again when I’m
+finally ready to publish the post, usually way past the date I first
+estimated.
+
+<p>I’m adding to ssite scripts to make this a little better. For example, I
+like to draft articles in Google Docs. Google Docs can export as HTML, but
+the HTML is a bit messy and isn’t compatible with the CSS of this site, so
+I’ve created a <code>ssite clean</code> script to remove messy markup that
+gets in the way of my site’s style.
+
+<p>Besides writing blog posts, I also draw pixel art illustrations and
+animations, but it’s rare for me to post my art here. I created collections
+of all the pixel art I drew for
+   <a href="https://www.timswast.com/blog/2016/11/03/octobit/">
+    Octobit 2016
+   </a>
+   and
+   <a href="https://www.timswast.com/blog/2017/10/31/octobit/">
+    Octobit 2017
+   </a>,
+but I posted those images here well was after I had posted them elsewhere.
+One reason I don’t post
+   <a href="https://www.timswast.com/blog/2016/08/11/steam-train-pixel-art/">
+    individual artworks
+   </a>
+often is that a blog post feels too heavy-weight for just an image with a
+caption. I’d like to explore ways to post art via
+   <a href="https://indieweb.org/note">
+    IndieWeb “notes”
+   </a>
+while maintaining the enhancement principle in ssite.
+
+<h3>Ease of use for publishing</h3>
+<p>It’s so much easier to post to elsewhere compared to writing static HTML
+and pushing it to a server. Even though that process is simple, it’s a few
+steps and it pretty much requires my laptop. Also, posting here can sometimes
+feel like duplicate work because when I do post here, I still feel that I
+have to post to social media, since that’s where my friends will actually see
+it.
+
+<p>An approach I’d like to explore is the <a
+href="https://indieweb.org/POSSE">IndieWeb POSSE model</a>.
+The idea is that it should be easy to make a post on my site and syndicate it
+to social media. When I post a pixel art image here, it should also appear on
+<a href="https://www.instagram.com/timswast/">Instagram</a>,
+<a href="https://twitter.com/timswast?lang=en">Twitter</a>,
+<a href="https://www.facebook.com/tswast">Facebook</a>,
+<a href="https://timswast.tumblr.com">Tumblr</a>,
+<a href="https://cybre.space/@timswast">Mastodon</a>,
+<a href="https://giphy.com/timswast">Giphy</a>, and
+<a href="https://plus.google.com/+TimSwast">Google+</a>.
+Some automation would help because it’s a lot of work to make posts by hand,
+especially when pixel art is involved, because each site
+<a
+href="https://twitter.com/pixel_dailies/status/705200381505048576?s=21">renders
+pixel art best when you upload to very specific file formats and sizes</a>.
+
+<h3>Maintenance burden</h3>
+<p>I did make some software upgrades in the past 5 years. I modified ssite to
+run on Python 3, and I replaced MathJax with KaTeX. Since I initiated these
+updates rather having been forced into them, they did not feel like a burden.
+
+<p>Overall, I’ve spent very little time (only a handful of hours) keeping my
+website maintained compared to writing content. I hardly think about about
+hosting and other software updates. Since I’ve kept the HTML and CSS quite
+simple, browsers render the sites just as well today as they did when I first
+wrote it.
+
+<h2>Conclusion</h2>
+<p>Overall, I’m happy with static HTML. I’ll continue to use hand-written
+HTML, but I will build more tools to improve the publishing and editing
+experience. I want to make it just as easy to publish here as it is to
+publish on social media, while still preserving the benefits of a static
+website.
+
+<footer>
+  Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>. Copyright 2018, <a href="/" rel="author"
+  class="p-author h-card">Tim Swast</a>.
+</footer>
+</article>
+
+<h2>Discussion</h2>
+
+<div class="h-entry">
+<a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
+class="u-photo pixel-art icon"> Tim Swast</a> on <time class="dt-published
+post-date" datetime="2018-07-21">July 21, 2018</time>:
+<p class="p-name p-content">‪After 5 years of static HTML for my personal #indieweb site.
+
+‪Working well:‬
+‪* Simple, scalable hosting
+‪* Easy to archive‬
+   ‪
+‪Needs improvement:‬
+‪* Drafting articles‬
+‪* Publishing to social media‬</p>
+</div>

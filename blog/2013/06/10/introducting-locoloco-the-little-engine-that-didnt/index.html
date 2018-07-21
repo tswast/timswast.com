@@ -1,58 +1,79 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1">
-        <title>Introducing Locoloco: The Little Engine that Didn't</title>
-        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
-    </head>
-    <body class="h-entry">
+<meta charset="utf-8">
+<meta name = "viewport" content = "initial-scale = 1.0">
+<title>Introducing Ssite: An Engine for Handwritten Static Sites</title>
+<link rel="stylesheet" type="text/css" href="/css/blog.css" />
 
-        <div id="content-header">
-            <a href="">
-                <h1>Introducing Locoloco:<br>
-                    The Little Engine that Didn't</h1>
-            </a>
-            <span class="post-date">Monday, June 10, 2013</span>
-        </div>
+<body class="h-entry">
 
-        <p>
-        Say hello to Locoloco, the (crazy) little (blog) engine that didn't. This past weekend I built a blog engine to keep my site organized. It differs from existing engines in that it does much less. It generates an index without modifying the articles at all.
-        </p>
+<div id="content-header">
+  <h1 class="p-name">Introducing Ssite: An Engine for Handwritten Static Sites</h1>
+  Published <time class="dt-published post-date" datetime="2013-06-10">June 10, 2013</time>
+</div>
 
-        <p>
-            You can check out the code on <a href="https://github.com/tswast/ssite">GitHub.</a>
-        </p>
+<div class="e-content">
+<p><b>Update: <time class="dt-updated" datetime="2018-07-21">July 21,
+2018</time>:</b>
+<em>I have posted a <a
+href="/blog/2018/07/21/5-years-of-ssite/">retrospective of 5 years using
+ssite</a> with more details on how I'm using it and why. Previously this page
+announced a tool called Locoloco. That name was not respectful of those with
+mental illness. I have changed the name to ssite, which also better reflects
+its purpose.</em>
 
-        <img src="locoloco-logo.jpg"
-            alt="crazy-eyed locomotive" />
+<p>Say hello to ssite, the little blog engine that doesn't do much. This
+past weekend I built a blog engine to keep my site organized. It differs from
+existing engines in that it does much less. It generates an index without
+templating or modifying the articles at all.
 
-        <h2>Isn't this crazy and/or pointless?</h2>
-        <p>
-            For various reasons, I have decided to keep my blog as simple, static HTML. There are many existing tools for this, such as the popular <a href="http://octopress.org/">Octopress</a>, <a href="http://jekyllrb.com/">Jekyll,</a> and <a href="http://hyde.github.io/">Hyde.</a> In these solutions, one writes articles in plain text, <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>, or a template lang of some sort. I would like to keep my blog articles as plain html rather than generating them. Therefore, Locoloco generates an index of the articles and nothing else.
-        </p>
+<p>You can check out the code on <a
+href="https://github.com/tswast/ssite">GitHub.</a>
 
-        <p>
-            The reason for doing things this way is two-fold. First, it fits my workflow better. I keep my blog synced to multiple computers on multiple different platforms. It was a pain to keep the same versions of the dependencies on Linux, Mac, and Windows.
-        </p>
+<h2>What's the point?</h2>
+<p>For various reasons, I have decided to keep my blog as simple, static
+HTML. There are many existing tools for this, such as the popular <a
+href="http://octopress.org/">Octopress</a>, <a
+href="http://jekyllrb.com/">Jekyll,</a> and <a
+href="http://hyde.github.io/">Hyde.</a> In these solutions, one writes
+articles in plain text, <a
+href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>, or a
+template language of some sort. I would like to keep my blog articles as
+plain HTML rather than generating them. Therefore, ssite generates an
+index of the articles and nothing else.
 
-        <p>
-            The most important reason I choose to keep the blog updated this way is stability. I have observed that plain HTML from the 1990s still works well today, even if it may look a little dated, but sites that depend on dynamic generation (including some of my early projects) are now defunct. By keeping things simple, I hope to make it more likely that links to sites that I built will continue to work long after I'm gone.
-        </p>
+<p>The reason for doing things this way is two-fold. First, it fits my
+workflow better. I keep my blog synced to multiple computers on multiple
+different platforms. It was a pain to keep the same versions of the
+dependencies on Linux, Mac, and Windows.
 
-        <h2>Getting started.</h2>
-        <p>
-            Using Locoloco is pretty easy.<br>
-            <code>blogindex.py $BLOGDIR</code><br>
-            It should "just work" if you use the same date-based directory scheme that I do.
-        </p>
+<p>The most important reason I choose to keep the blog updated this way is
+stability. I have observed that <a
+href="http://sprott.physics.wisc.edu/chaostsa/">sites from the 1990s</a>
+which were written in plain HTML <a
+href="https://users.math.yale.edu/public_html/People/frame/Fractals/">still
+work well today</a>, even if it may look a little dated, but sites that
+depend on dynamic generation (including some of my early projects) are now
+defunct. By keeping things simple, I hope to make it more likely that links
+to sites that I built will continue to work long after I'm gone.
 
+<h2>Getting started.</h2>
 
-<a href="https://github.com/tswast/ssite"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+<p><b>Update: <time class="dt-updated" datetime="2018-07-21">July 21,
+2018</time></b>:
+These instructions no longer work with the latest version of ssite. Check out
+the <a href="https://github.com/tswast/ssite">GitHub repository</a> for the
+most recent instructions.
+
+<p>Using ssite is pretty easy.<br>
+<code>blogindex.py $BLOGDIR</code><br>
+It should "just work" if you use the same date-based directory scheme of
+<code>YYYY/MM/DD/post-title/index.html</code> that I do.
+</div>
 
 <footer>
-  <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2013, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
+  <aside>Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.</aside> Copyright 2013-2018, <a href="/" rel="author"
+  class="p-author h-card">Tim Swast</a>.
 </footer>
-
-
