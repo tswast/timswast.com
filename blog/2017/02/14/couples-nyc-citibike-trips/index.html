@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name = "viewport" content = "initial-scale = 1.0">
+<title>What are the most popular Citibike destinations for NYC couples?</title>
+<link rel="stylesheet" type="text/css" href="/css/blog.css" />
+<link rel="canonical" href="https://medium.com/@TimSwast/what-are-the-most-popular-citibike-destinations-for-nyc-couples-1baf646fbba" />
+
+<article class="h-entry">
+<div id="content-header">
+  <h1 class="p-name">What are the most popular Citibike destinations for NYC
+  couples?</h1>
+  Published <time class="dt-published post-date"
+  datetime="2017-02-14">February 14, 2017</span><br>
+  Originally published on
+  <a
+  href="https://medium.com/@TimSwast/what-are-the-most-popular-citibike-destinations-for-nyc-couples-1baf646fbba">Medium</a>.
+</div>
+
+<div class="e-content">
+<p>For this Valentine’s Day themed data doodle, let’s use BigQuery and the
+<a href="https://cloud.google.com/bigquery/public-data/nyc-citi-bike">New
+York City public dataset on Citibike trips</a> and to find a romantic spot to
+bike to with a significant other.
+
+ <figure>
+  <img alt="" src="/third_party/loc/pictures/2017826066/image.jpg"
+  />
+  <figcaption>Boys and a girl on bicycles. Source: <a
+  href="http://www.loc.gov/pictures/resource/fsa.8c28579/">Library of
+  Congress Prints &amp; Photographs Division</a></figcaption>
+</figure>
+
+<p>The number 1 spot for groups of people to bike to together is the
+   <a href="https://www.google.com/maps/place/5th+Ave+%26+E+88th+St,+New+York,+NY+10128/@40.7799533,-73.9702846,15.08z/data=!4m5!3m4!1s0x89c258a29e220ba3:0x4f94dc983b291f7c!8m2!3d40.7828435!4d-73.9594741">
+    5 Ave &amp; E 88 St Citibike station</a>,
+right by Central Park, with 30% of trips completed by groups. Also in top
+spots were the other stations around Central Park:
+<a href="https://www.google.com/maps/place/5th+Ave+%26+E+78th+St,+New+York,+NY+10075/@40.7763249,-73.9664143,17z/data=!3m1!4b1!4m5!3m4!1s0x89c2589416c54e09:0xcaedfd474a96c06b!8m2!3d40.7763209!4d-73.9642256">
+    5 Ave &amp; E 78 St
+   </a>
+   and
+   <a href="https://www.google.com/maps/place/5th+Ave+%26+E+93rd+St,+New+York,+NY+10128/@40.7742504,-73.9747535,14.55z/data=!4m5!3m4!1s0x89c258a187f56d67:0x449ceb89987dd6c4!8m2!3d40.7859635!4d-73.9571813">
+    5 Ave &amp; E 93 St</a>.
+
+  <p>The runner-up is
+   <a href="https://www.google.com/maps/place/Tillary+St+%26+Cadman+Plaza+E,+Brooklyn,+NY+11201/@40.6963347,-73.9922202,17z/data=!3m1!4b1!4m5!3m4!1s0x89c25a49e66cda4f:0x16ddbe3ce6563191!8m2!3d40.6963307!4d-73.9900315">
+    Cadman Plaza E &amp; Tillary St
+   </a>
+   in Brooklyn, with 26% of trips completed by groups. Third place goes to
+   <a href="https://www.google.com/maps/place/Citi+Bike+-+Brooklyn+Bridge+Park+-+Pier+2/@40.6963866,-73.9987862,15z/data=!4m8!1m2!2m1!1zQnJvb2tseW4gQnJpZGdlIFBhcmvigIrigJTigIpQaWVyIDIgY2l0aWJpa2U!3m4!1s0x0:0xa5e291597d74e6d!8m2!3d40.6987794!4d-73.9971203">
+    Brooklyn Bridge Park — Pier 2</a>, with 22% of trips completed by groups.
+
+
+
+<p>Where does the data say you shouldn’t you take your significant other?
+Only 1% of trips completed at the <a
+href="https://www.citibikenyc.com/valet">Penn Station Valet station</a> were
+by groups of cyclists.
+
+<p>Code for the <a
+href="https://gist.github.com/tswast/6f64b09f5cd12fcb890bf30db06c6133#file-nyc-citibike-groups-destinations-sql">
+query to find where couples are going on the NYC Citibikes</a>:
+
+<pre><code>#standardSql
+SELECT
+  group_trips / (single_trips + group_trips) AS percent_groups,
+  single_trips + group_trips AS total_trips,
+  q.end_station_id AS end_station_id,
+  stations.name AS name,
+  stations.latitude AS latitude,
+  stations.longitude AS longitude
+FROM (
+  SELECT
+    COUNTIF(group_size = 1) AS single_trips,
+    COUNTIF(group_size != 1) AS group_trips,
+    end_station_id
+  FROM (
+    SELECT
+      ROUND(UNIX_SECONDS(starttime) / 120) AS start,
+      -- round to nearest 2 minutes
+      ROUND(UNIX_SECONDS(stoptime) / 120) AS stop,
+      -- round to nearest 2 minutes
+      start_station_id,
+      end_station_id,
+      COUNT(*) AS group_size
+    FROM
+      `bigquery-public-data.new_york.citibike_trips`
+    GROUP BY
+      start,
+      stop,
+      start_station_id,
+      end_station_id )
+  GROUP BY
+    end_station_id ) q
+LEFT JOIN
+  `bigquery-public-data.new_york.citibike_stations` AS stations
+ON
+  q.end_station_id = stations.station_id
+ORDER BY
+percent_groups DESC
+</code></pre>
+
+<p>Breaking this query down, I group Citibike trips together into ones that start
+and end at about the same time. If the grouped-together trip had more than one
+person in it, then it’s counted as a group trip. This could be a couple or a
+group of friends riding together. Possibly it could be people that happened
+to check out a bike at the same time and go to the same place at the same
+rate, but I’m considering that a rare occurrence. Then, I find which stations
+have the highest percentage of trips from groups versus single-rider
+trips.
+
+<p>If you want to run the analysis yourself, I’ve shared the query
+<a href="https://bigquery.cloud.google.com/savedquery/769108155013:3a6019fa0d2e461eaf2fab00c314273a">
+here</a>. You can run the BigQuery queries in this data doodle for
+<a href="https://cloud.google.com/blog/big-data/2017/01/how-to-run-a-terabyte-of-google-bigquery-queries-each-month-without-a-credit-card">
+free, no credit card required, with 1TB of free queries per month</a>.
+
+</div>
+
+<footer>
+  <aside>Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.</aside>
+  Copyright 2017, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>.
+</footer>
+</article>
