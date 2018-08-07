@@ -1,0 +1,13 @@
+
+{% for post in posts|sort(attribute='date', reverse=True) %}
+    <item>
+      <title>{{ post.title }}</title>
+      <description><![CDATA[
+        {{ post.body }}
+      ]]></description>
+      <pubDate>{{ post.date.strftime('%a, %d %b %Y %H:%M:%S %z') }}</pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/{{ post.path }}</guid>
+      <link>https://www.timswast.com/blog/{{ post.path }}</link>
+      <author>@timswast</author>
+    </item>
+{% endfor %}
