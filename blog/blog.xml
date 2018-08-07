@@ -4,6 +4,1211 @@
     <description>Tim's blog.</description>
     <link>https://www.timswast.com/blog/</link>
 <!--START INDEX-->
+
+    <item>
+      <title>Ssite for Handwritten Static Sites - Five Years Later</title>
+      <description><![CDATA[
+        <div class="e-content">
+<p>Five years ago, I <a href="/blog/2013/06/10/introducting-locoloco-the-little-engine-that-didnt/">
+announced</a> that I had made the <a href="https://github.com/tswast/ssite">ssite
+static site enhancement tool</a> public. In this post, I’ll reflect on
+my experience of using ssite to maintain this website for the past half
+decade.
+
+</p><p><img alt="How this blog post was published. Google Docs exports to ugly
+HTML. Clean up with the ssite command and build an index." src="/blog/2018/07/21/5-years-of-ssite/images/image1.jpg"/>
+
+</p><h2>Posting a new article</h2>
+<p>The main purpose of this website is to serve as my personal blog, so the
+thing I do most often (but still not as often as I’d like), is post new
+articles to the site.
+
+</p><p>With ssite, the process of posting a new article is straightforward. For
+the full experience it requires the use of a couple Python scripts, but
+overall it should be natural to anyone that has ever drafted an HTML
+document.
+
+</p><ol start="1">
+  <li>
+  Write a draft. In the case of this article I'm writing in a Google Doc, but I
+drafted most posts as hand-written HTML.
+  </li>
+  <li>
+  Create a plain HTML version using a <a href="https://github.com/tswast/timswast.com/blob/6049c19616b47761300ad6a0b2100b46a69dba3d/blog/template.html">simple
+  HTML template</a> and place the file at
+  <code>blog/YEAR/MONTH/DAY/TITLE/index.html</code> for publishing.
+  </li>
+  <li>
+  Run <code>ssite index</code> to update the blog post index page.
+  </li>
+  <li>
+  Publish the changes to the
+  <a href="https://github.com/tswast/timswast.com">GitHub repository</a>, the
+  <a href="https://www.timswast.com/">HTTPS version</a>, and the <a href="dat://www.timswast.com">Dat version</a> (The Dat version is a recent
+  addition, managed by the <a href="https://docs.datproject.org/dat">Dat
+  CLI</a>, pinned by <a href="https://hashbase.io/">Hashbase</a>, and
+  viewable in <a href="https://beakerbrowser.com/">Beaker Browser</a>).
+  </li>
+</ol>
+
+<p>Overall, this process is smooth, but it is more cumbersome than I’d like.
+I haven't encountered any problems with hosting, but I do have some ideas
+about how to improve the process.
+
+</p><h2>Static sites keep serving simple</h2>
+<p>Instead of this manual process, I could use a blog engine like WordPress.
+Indeed, the whole flow would be easier if I could edit and publish blog posts
+entirely online. While I do want the process to be easy, I also want to
+minimize the time I spend maintaining the site. If I were to run this site on
+a blog engine, I would have to keep servers running, apply security patches,
+and keep the code updated to the latest versions.
+
+</p><p>With static HTML, any web server is capable of hosting my website. Because
+the site is just a collection of static files, I don’t need to do much of
+anything to keep it running. It’s a freeing feeling.
+
+</p><p>Keeping the server simple also makes the site easier to scale if any post
+gets popular. It’s much easier to scale up the number of instances of a
+static content server than it is to scale up a bunch of servers that
+dynamically generate pages.
+
+</p><p>For the same reasons that a static site is easy to scale, it is easy to
+archive. To host a backup copy, all someone needs is a copy of the content.
+They could download the files from my server or the whole site history from
+the source code on GitHub. With the <a href="https://datproject.org/">Dat
+protocol</a>, it is even easier to archive; anyone can keep the site alive by
+pinning it in Beaker Browser.
+
+</p><p>On the authoring side, one reason I like static HTML is that it’s quite
+easy to add JavaScript in <a href="https://www.timswast.com/blog/2013/08/07/markov-chains-tutorial/">rare
+posts with client-side dynamic content</a>. With other tools, I would have
+to much more careful to ensure the JavaScript I write does not conflict with
+the generated code. I might even have to write a blog engine plugin to insert
+the script tag at all.
+
+</p><h2>Enhance; don’t generate</h2>
+<p>A downside of static HTML is that it results in repeated code. For
+example, a navigation section must be repeated on all pages in the site. This
+is at odds with one of the cardinal rules of programming:
+   <a href="http://wiki.c2.com/?DontRepeatYourself">
+    don’t repeat yourself
+   </a>.
+One way to address this is to use templates and run a generator such as <a href="https://jekyllrb.com/">Jekyll</a> or <a href="https://gohugo.io/">Hugo</a> to create a rendered version of all pages.
+Previously, I generated this site using <a href="http://hyde.github.io/">Hyde</a>, but I disliked a few things about
+this process.
+
+</p><ul>
+  <li>
+  When editing, I had to run a build step every time that I want to see what the
+rendered version would look like.
+  </li>
+  <li>
+  I felt an obligation to keep the generator tools up-to-date, which sometimes
+mean that I have to make additional edits to the templates.
+  </li>
+  <li>
+  I wanted it to be very clear to anyone how to build my site and host it for
+archival purposes or if someone wanted to contribute content such as
+translations. With any static site generator, a contributor would have to learn
+the templating language and how to run the generator. Plain HTML is much easier
+to learn than how to run a generator.
+  </li>
+</ul>
+
+<p>I’ve started following a new principle: enhance, don’t generate. Use tools
+to make the static HTML files better and only generate the bare minimum that
+needs to be generated. In my case, the blog post index page is generated by
+ssite index, but in all other pages the source is the rendered version. Even
+with a generated blog index, I check the rendered version into version
+control. The whole site is complete from source without any external
+generator tools.
+
+</p><p>Without a generator, one way I’ve tried to avoid repeating code is that I
+don’t have a fancy navigation bar anymore. It was the first thing to go when
+I stopped generating the article pages. I have no regrets about dropping it;
+what people care about when they land on a blog post is the actual content.
+I’ve stripped away navigation links, header, and sidebars. That leaves just
+the content and a little footer note about attribution.
+
+</p><h2>Has this met my goals?</h2>
+<p>Overall, I’m pleased with the experience of using static HTML for my website. I
+do have some pain points, but I want to address those without sacrificing the
+simplicity of having the source files be the same as the rendered version.
+
+</p><h3>Easy of use for editing</h3>
+<p>I’ve become less satisfied drafting articles in hand-written HTML than
+when I started. At home, I use a phone and tablet more often than I do a
+laptop. I want to be able to continue editing a draft on any of my devices,
+whether I’m using a laptop, desktop, iPad, or phone. I’ve tried a handful of
+mobile HTML editors, but none as easy to use or synchronize across devices as
+Google Docs.
+
+</p><p>When I draft blog posts in hand-written HTML, I also find it awkward to to
+use a date-based path (<code>YYYY/MM/DD/title/index.html</code>) for the
+draft file. I don’t know exactly when I’ll finish something, so it’s awkward
+to pick a date in advance. I always have to edit the date again when I’m
+finally ready to publish the post, usually way past the date I first
+estimated.
+
+</p><p>I’m adding to ssite scripts to make this a little better. For example, I
+like to draft articles in Google Docs. Google Docs can export as HTML, but
+the HTML is a bit messy and isn’t compatible with the CSS of this site, so
+I’ve created a <code>ssite clean</code> script to remove messy markup that
+gets in the way of my site’s style.
+
+</p><p>Besides writing blog posts, I also draw pixel art illustrations and
+animations, but it’s rare for me to post my art here. I created collections
+of all the pixel art I drew for
+   <a href="https://www.timswast.com/blog/2016/11/03/octobit/">
+    Octobit 2016
+   </a>
+   and
+   <a href="https://www.timswast.com/blog/2017/10/31/octobit/">
+    Octobit 2017
+   </a>,
+but I posted those images here well was after I had posted them elsewhere.
+One reason I don’t post
+   <a href="https://www.timswast.com/blog/2016/08/11/steam-train-pixel-art/">
+    individual artworks
+   </a>
+often is that a blog post feels too heavy-weight for just an image with a
+caption. I’d like to explore ways to post art via
+   <a href="https://indieweb.org/note">
+    IndieWeb “notes”
+   </a>
+while maintaining the enhancement principle in ssite.
+
+</p><h3>Ease of use for publishing</h3>
+<p>It’s so much easier to post to elsewhere compared to writing static HTML
+and pushing it to a server. Even though that process is simple, it’s a few
+steps and it pretty much requires my laptop. Also, posting here can sometimes
+feel like duplicate work because when I do post here, I still feel that I
+have to post to social media, since that’s where my friends will actually see
+it.
+
+</p><p>An approach I’d like to explore is the <a href="https://indieweb.org/POSSE">IndieWeb POSSE model</a>.
+The idea is that it should be easy to make a post on my site and syndicate it
+to social media. When I post a pixel art image here, it should also appear on
+<a href="https://www.instagram.com/timswast/">Instagram</a>,
+<a href="https://twitter.com/timswast?lang=en">Twitter</a>,
+<a href="https://www.facebook.com/tswast">Facebook</a>,
+<a href="https://timswast.tumblr.com">Tumblr</a>,
+<a href="https://cybre.space/@timswast">Mastodon</a>,
+<a href="https://giphy.com/timswast">Giphy</a>, and
+<a href="https://plus.google.com/+TimSwast">Google+</a>.
+Some automation would help because it’s a lot of work to make posts by hand,
+especially when pixel art is involved, because each site
+<a href="https://twitter.com/pixel_dailies/status/705200381505048576?s=21">renders
+pixel art best when you upload to very specific file formats and sizes</a>.
+
+</p><h3>Maintenance burden</h3>
+<p>I did make some software upgrades in the past 5 years. I modified ssite to
+run on Python 3, and I replaced MathJax with KaTeX. Since I initiated these
+updates rather having been forced into them, they did not feel like a burden.
+
+</p><p>Overall, I’ve spent very little time (only a handful of hours) keeping my
+website maintained compared to writing content. I hardly think about about
+hosting and other software updates. Since I’ve kept the HTML and CSS quite
+simple, browsers render the sites just as well today as they did when I first
+wrote it.
+
+</p><h2>Conclusion</h2>
+<p>Overall, I’m happy with static HTML. I’ll continue to use hand-written
+HTML, but I will build more tools to improve the publishing and editing
+experience. I want to make it just as easy to publish here as it is to
+publish on social media, while still preserving the benefits of a static
+website.
+
+</p><footer>
+  Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>. Copyright 2018, <a class="p-author h-card" href="/" rel="author">Tim Swast</a>.
+</footer>
+</div>
+      ]]></description>
+      <pubDate>Sat, 21 Jul 2018 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2018/07/21/5-years-of-ssite/</guid>
+      <link>https://www.timswast.com/blog/2018/07/21/5-years-of-ssite/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
+      <title>What are the most popular Citibike destinations for NYC
+  couples?</title>
+      <description><![CDATA[
+        <div class="e-content">
+<p>For this Valentine’s Day themed data doodle, let’s use BigQuery and the
+<a href="https://cloud.google.com/bigquery/public-data/nyc-citi-bike">New
+York City public dataset on Citibike trips</a> and to find a romantic spot to
+bike to with a significant other.
+
+ </p><figure>
+  <img alt="" src="/third_party/loc/pictures/2017826066/image.jpg"/>
+  <figcaption>Boys and a girl on bicycles. Source: <a href="http://www.loc.gov/pictures/resource/fsa.8c28579/">Library of
+  Congress Prints &amp; Photographs Division</a></figcaption>
+</figure>
+
+<p>The number 1 spot for groups of people to bike to together is the
+   <a href="https://www.google.com/maps/place/5th+Ave+%26+E+88th+St,+New+York,+NY+10128/@40.7799533,-73.9702846,15.08z/data=!4m5!3m4!1s0x89c258a29e220ba3:0x4f94dc983b291f7c!8m2!3d40.7828435!4d-73.9594741">
+    5 Ave &amp; E 88 St Citibike station</a>,
+right by Central Park, with 30% of trips completed by groups. Also in top
+spots were the other stations around Central Park:
+<a href="https://www.google.com/maps/place/5th+Ave+%26+E+78th+St,+New+York,+NY+10075/@40.7763249,-73.9664143,17z/data=!3m1!4b1!4m5!3m4!1s0x89c2589416c54e09:0xcaedfd474a96c06b!8m2!3d40.7763209!4d-73.9642256">
+    5 Ave &amp; E 78 St
+   </a>
+   and
+   <a href="https://www.google.com/maps/place/5th+Ave+%26+E+93rd+St,+New+York,+NY+10128/@40.7742504,-73.9747535,14.55z/data=!4m5!3m4!1s0x89c258a187f56d67:0x449ceb89987dd6c4!8m2!3d40.7859635!4d-73.9571813">
+    5 Ave &amp; E 93 St</a>.
+
+  </p><p>The runner-up is
+   <a href="https://www.google.com/maps/place/Tillary+St+%26+Cadman+Plaza+E,+Brooklyn,+NY+11201/@40.6963347,-73.9922202,17z/data=!3m1!4b1!4m5!3m4!1s0x89c25a49e66cda4f:0x16ddbe3ce6563191!8m2!3d40.6963307!4d-73.9900315">
+    Cadman Plaza E &amp; Tillary St
+   </a>
+   in Brooklyn, with 26% of trips completed by groups. Third place goes to
+   <a href="https://www.google.com/maps/place/Citi+Bike+-+Brooklyn+Bridge+Park+-+Pier+2/@40.6963866,-73.9987862,15z/data=!4m8!1m2!2m1!1zQnJvb2tseW4gQnJpZGdlIFBhcmvigIrigJTigIpQaWVyIDIgY2l0aWJpa2U!3m4!1s0x0:0xa5e291597d74e6d!8m2!3d40.6987794!4d-73.9971203">
+    Brooklyn Bridge Park — Pier 2</a>, with 22% of trips completed by groups.
+
+
+
+</p><p>Where does the data say you shouldn’t you take your significant other?
+Only 1% of trips completed at the <a href="https://www.citibikenyc.com/valet">Penn Station Valet station</a> were
+by groups of cyclists.
+
+</p><p>Code for the <a href="https://gist.github.com/tswast/6f64b09f5cd12fcb890bf30db06c6133#file-nyc-citibike-groups-destinations-sql">
+query to find where couples are going on the NYC Citibikes</a>:
+
+</p><pre><code>#standardSql
+SELECT
+  group_trips / (single_trips + group_trips) AS percent_groups,
+  single_trips + group_trips AS total_trips,
+  q.end_station_id AS end_station_id,
+  stations.name AS name,
+  stations.latitude AS latitude,
+  stations.longitude AS longitude
+FROM (
+  SELECT
+    COUNTIF(group_size = 1) AS single_trips,
+    COUNTIF(group_size != 1) AS group_trips,
+    end_station_id
+  FROM (
+    SELECT
+      ROUND(UNIX_SECONDS(starttime) / 120) AS start,
+      -- round to nearest 2 minutes
+      ROUND(UNIX_SECONDS(stoptime) / 120) AS stop,
+      -- round to nearest 2 minutes
+      start_station_id,
+      end_station_id,
+      COUNT(*) AS group_size
+    FROM
+      `bigquery-public-data.new_york.citibike_trips`
+    GROUP BY
+      start,
+      stop,
+      start_station_id,
+      end_station_id )
+  GROUP BY
+    end_station_id ) q
+LEFT JOIN
+  `bigquery-public-data.new_york.citibike_stations` AS stations
+ON
+  q.end_station_id = stations.station_id
+ORDER BY
+percent_groups DESC
+</code></pre>
+
+<p>Breaking this query down, I group Citibike trips together into ones that start
+and end at about the same time. If the grouped-together trip had more than one
+person in it, then it’s counted as a group trip. This could be a couple or a
+group of friends riding together. Possibly it could be people that happened
+to check out a bike at the same time and go to the same place at the same
+rate, but I’m considering that a rare occurrence. Then, I find which stations
+have the highest percentage of trips from groups versus single-rider
+trips.
+
+</p><p>If you want to run the analysis yourself, I’ve shared the query
+<a href="https://bigquery.cloud.google.com/savedquery/769108155013:3a6019fa0d2e461eaf2fab00c314273a">
+here</a>. You can run the BigQuery queries in this data doodle for
+<a href="https://cloud.google.com/blog/big-data/2017/01/how-to-run-a-terabyte-of-google-bigquery-queries-each-month-without-a-credit-card">
+free, no credit card required, with 1TB of free queries per month</a>.
+
+</p></div>
+      ]]></description>
+      <pubDate>Tue, 14 Feb 2017 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2017/02/14/couples-nyc-citibike-trips/</guid>
+      <link>https://www.timswast.com/blog/2017/02/14/couples-nyc-citibike-trips/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
+      <title>Introducing Ssite: An Engine for Handwritten Static Sites</title>
+      <description><![CDATA[
+        <div class="e-content">
+<p><b>Update: <time class="dt-updated" datetime="2018-07-21">July 21,
+2018</time>:</b>
+<em>I have posted a <a href="/blog/2018/07/21/5-years-of-ssite/">retrospective of 5 years using
+ssite</a> with more details on how I'm using it and why. Previously this page
+announced a tool called Locoloco. That name was not respectful of those with
+mental illness. I have changed the name to ssite, which also better reflects
+its purpose.</em>
+
+</p><p>Say hello to ssite, the little blog engine that doesn't do much. This
+past weekend I built a blog engine to keep my site organized. It differs from
+existing engines in that it does much less. It generates an index without
+templating or modifying the articles at all.
+
+</p><p>You can check out the code on <a href="https://github.com/tswast/ssite">GitHub.</a>
+
+</p><h2>What's the point?</h2>
+<p>For various reasons, I have decided to keep my blog as simple, static
+HTML. There are many existing tools for this, such as the popular <a href="http://octopress.org/">Octopress</a>, <a href="http://jekyllrb.com/">Jekyll,</a> and <a href="http://hyde.github.io/">Hyde.</a> In these solutions, one writes
+articles in plain text, <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>, or a
+template language of some sort. I would like to keep my blog articles as
+plain HTML rather than generating them. Therefore, ssite generates an
+index of the articles and nothing else.
+
+</p><p>The reason for doing things this way is two-fold. First, it fits my
+workflow better. I keep my blog synced to multiple computers on multiple
+different platforms. It was a pain to keep the same versions of the
+dependencies on Linux, Mac, and Windows.
+
+</p><p>The most important reason I choose to keep the blog updated this way is
+stability. I have observed that <a href="http://sprott.physics.wisc.edu/chaostsa/">sites from the 1990s</a>
+which were written in plain HTML <a href="https://users.math.yale.edu/public_html/People/frame/Fractals/">still
+work well today</a>, even if it may look a little dated, but sites that
+depend on dynamic generation (including some of my early projects) are now
+defunct. By keeping things simple, I hope to make it more likely that links
+to sites that I built will continue to work long after I'm gone.
+
+</p><h2>Getting started.</h2>
+
+<p><b>Update: <time class="dt-updated" datetime="2018-07-21">July 21,
+2018</time></b>:
+These instructions no longer work with the latest version of ssite. Check out
+the <a href="https://github.com/tswast/ssite">GitHub repository</a> for the
+most recent instructions.
+
+</p><p>Using ssite is pretty easy.<br/>
+<code>blogindex.py $BLOGDIR</code><br/>
+It should "just work" if you use the same date-based directory scheme of
+<code>YYYY/MM/DD/post-title/index.html</code> that I do.
+</p></div>
+      ]]></description>
+      <pubDate>Mon, 10 Jun 2013 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2013/06/10/introducting-locoloco-the-little-engine-that-didnt/</guid>
+      <link>https://www.timswast.com/blog/2013/06/10/introducting-locoloco-the-little-engine-that-didnt/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
+      <title>Compiling matplotlib 1.1.0 for Solaris on SPARC and x86</title>
+      <description><![CDATA[
+        <div class="e-content">
+<p>
+This is part 1 of a three-part series on building and packaging matplotlib as a multi-architecture, Solaris IPS package.
+</p>
+
+<ol>
+    <a href="../compiling-matplotlib-with-solaris-studio/"><li>
+        Compiling matplotlib 1.1.0 for Solaris on SPARC and x86
+    </li></a>
+    <a href="../setting-up-ips-for-multi-arch-packages/"><li>
+        Setting up Solaris IPS servers to host packages for SPARC and x86
+    </li></a>
+    <a href="../packaging-matplotlib-for-multi-arch/"><li>
+        Packaging matplotlib 1.1.0 for Solaris on SPARC and x86
+    </li></a>
+</ol>
+
+<p>
+At the end of this series, you should be able to install matplotlib as easily as any other Solaris 11 package, on both SPARC and x86 machines.
+</p><pre>  pkg install library/python-2/python-matplotlib-26
+</pre>
+<p></p>
+
+
+
+
+<img alt="Example of a plot made with matplotlib" src="../images/cohere_demo1.png" style="float: right; width: 20em;" title="Example of a plot made with matplotlib"/>
+
+<h1>Overview</h1>
+
+<a href="http://matplotlib.sourceforge.net/">Matplotlib</a> is a library for creating plots from Python.
+
+<p>
+Matplotlib has become a frequently used tool in my toolbox. I love how simple it is to go from a couple numpy arrays to many different types of plots.
+</p>
+
+
+
+<h1>Setup build environment</h1>
+
+<p>
+For this build we will be using <a href="http://www.oracle.com/technetwork/server-storage/solarisstudio/overview/index.html">Solaris Studio</a>. Add Solaris Studio to your path. My Solaris Studio was installed at /opt/SUNWspro, so I ran:
+</p><pre>  export PATH="/opt/SUNWspro/bin:${PATH}"
+</pre>
+<p></p>
+
+<p>
+Solaris 11 comes with Python 2.6 and numpy libraries built-in. Using these worked just fine for me.
+</p>
+
+<p>
+If not done before, install system headers, for compilation. If these are not present, you will get an error like: "/usr/include/python2.6/Python.h", line 22: Error: #error "Something's broken.  UCHAR_MAX should be defined in limits.h.".
+
+</p><pre>  sudo pkg install system/header
+</pre>
+<p></p>
+
+<p>
+We need to trick Python distutils into using C++ instead of C. The easiest way I found to do this was to set the C compiler environment variable to the Solaris Studio C++ compiler.
+
+</p><pre>  export CC=CC
+</pre>
+<p></p>
+
+
+
+<h1>Apply changes to matplotlib 1.1.0</h1>
+
+<p>
+I used the <a href="http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-1.1.0/matplotlib-1.1.0.tar.gz/download">source distribution of matplotlib 1.1.0</a> for these instructions. Different changes may be needed for other versions.
+</p>
+
+<p>
+There are only a few changes needed to get matplotlib to compile with Solaris Studio. Basically, I needed to set the standard libraries to ['Crun', 'Cstd']. I then had to change every library listed in the build file to link with the standard libraries (add the std_libs extension to all build_* functions in compile).
+
+</p><pre>diff -r matplotlib-1.1.0/setupext.py matplotlib-1.1.0-modified/setupext.py
+43a44,47
+&gt; SOLARIS
+&gt;
+&gt;   &gt; python setup.py build --compiler=?
+&gt;
+260a265,267
+&gt; elif sys.platform == 'sunos5':
+&gt;     std_libs = ['Crun', 'Cstd']
+&gt;     print "sunos5 libraries set"
+343a351
+&gt;     module.include_dirs.append('/usr/include')
+1044a1053,1054
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1057a1068,1069
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1071a1084,1085
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1094a1109,1110
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1113a1130,1131
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1153d1170
+&lt;
+1154a1172,1174
+&gt;
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1187d1206
+&lt;
+1188a1208,1210
+&gt;
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1221d1242
+&lt;
+1222a1244,1246
+&gt;
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1249d1272
+&lt;
+1250a1274,1276
+&gt;
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1270a1297,1299
+&gt;
+&gt; 	# put this last for library link order
+&gt;     delaunay.libraries.extend(std_libs)
+1286d1314
+&lt;
+1287a1316,1318
+&gt;
+&gt; 	# put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1302d1332
+&lt;
+1304a1335,1336
+&gt;     # put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1305a1338
+&gt;
+1323d1355
+&lt;
+1325a1358,1359
+&gt;     # put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+1326a1361,1362
+&gt;
+&gt;
+1340a1377,1380
+&gt;
+&gt;     # put this last for library link order
+&gt;     module.libraries.extend(std_libs)
+&gt;
+
+</pre>
+<a href="setupext.py.diff">setupext.py.diff</a>
+
+
+
+<h1>Compile!</h1>
+
+<p>
+If this is the only machine on which you need matplotlib, you can go ahead an run the standard
+
+</p><pre>  python setup.py build
+  python setup.py install
+</pre>
+<p></p>
+
+<p>
+To build a multiple architecture matplotlib IPS package, the easiest thing to do is to build on a SPARC machine and an x86 machine. This means following these instructions twice, once on each machine.
+</p>
+
+<p>
+In order to create a package of matplotlib for use on other machines, one
+should install to a "prototype" installation folder. Since Python is
+installed in /usr on S11, we create a faux "usr" directory in our prototype
+installation folder. Replace [sparc|i386] with whichever architecture you are
+currently building.
+
+</p><pre>  mkdir ../install_[sparc|i386]
+  mkdir ../install_[sparc|i386]/usr
+</pre>
+<p></p>
+
+<p>
+Next, use the <a href="http://docs.python.org/install/index.html#alternate-installation-unix-the-prefix-scheme">distutils --prefix option</a> to install into your prototype installation folder.
+
+</p><pre>  python setup.py install --prefix ../install_[sparc|x86]/usr
+</pre>
+<p></p>
+
+<p>
+That's it! Now all we need to do is package it. :-)
+</p>
+
+<p>
+Thanks to Yong Sun for his very helpful instructions on <a href="http://yongsun.me/2008/11/build-matplotlib-0-98-3-on-solaris-with-sunstudio-12/">building version 0.98.3</a>.
+</p>
+
+<p>
+The next step after compiling is finding a way to distribute it. In <a href="../setting-up-ips-for-multi-arch-packages/">part 2</a>, I walk you through setting up the IPS servers you'll need to publish matplotlib for SPARC and x86.
+</p>
+</div>
+      ]]></description>
+      <pubDate>Mon, 06 Aug 2012 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2012/08/06/compiling-matplotlib-with-solaris-studio/</guid>
+      <link>https://www.timswast.com/blog/2012/08/06/compiling-matplotlib-with-solaris-studio/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
+      <title>Packaging matplotlib 1.1.0 for Solaris on SPARC and x86</title>
+      <description><![CDATA[
+        <div class="e-content">
+<p>
+This is part 3 of a three-part series on building and packaging matplotlib as a multi-architecture, Solaris IPS package.
+</p>
+
+<ol>
+    <a href="../compiling-matplotlib-with-solaris-studio/"><li>
+        Compiling matplotlib 1.1.0 for Solaris on SPARC and x86
+    </li></a>
+    <a href="../setting-up-ips-for-multi-arch-packages/"><li>
+        Setting up Solaris IPS servers to host packages for SPARC and x86
+    </li></a>
+    <a href="../packaging-matplotlib-for-multi-arch/"><li>
+        Packaging matplotlib 1.1.0 for Solaris on SPARC and x86
+    </li></a>
+</ol>
+
+<p>
+For this tutorial, I go through creating a multiple architecture (fat) IPS
+package. I assume that the software has already been built and "installed" to
+a prototype installation folder on x86 and SPARC machines (I go through this
+for <a href="http://matplotlib.sourceforge.net">matplotlib</a> in <a href="../compiling-matplotlib-with-solaris-studio/">part 1</a>). Second,
+I assume that three IPS servers are running, which I go through in
+<a href="../packaging-matplotlib-for-multi-arch/">part 2</a>.
+
+</p>
+
+<h1>Create the IPS package / manifest</h1>
+
+Since the directions are exactly the same for both sparc and x86, I only include one set of directions here. Where you see $ARCH, replace it with sparc on a sparc machine and i386 on an Intel machine.
+
+<p>
+Generate initial list of actions based on the "prototype install" folder.
+
+</p><pre>  $ pkgsend generate ~/install_$ARCH &gt; mypackage.$ARCH.pkgsend
+</pre>
+
+Add metadata. For larger projects, one could use pkgmogrify to automatically fill in $ARCH and other variables, but I just use a text file to keep things simple for this example.
+
+<pre>  $ vim mypackage.$ARCH.metadata
+  set name=pkg.fmri value=pkg://mycompany/mypackage
+  set name=variant.arch value=$ARCH
+  set name=pkg.description value="my package example."
+  set name=pkg.summary value="my package example."
+</pre>
+
+Combine.
+
+<pre>  $ cat mypackage.$ARCH.metadata mypackage.$ARCH.pkgsend &gt; mypackage.$ARCH.initial
+</pre>
+
+When I created my package, the /usr directory was listed as having group bin. This conflicts with standard Solaris packages which expect the group to be sys, so this line needs to be changed. If a /usr/share line is present, it may need to be changed, too.
+
+<pre>  $ vim mypackage.$ARCH.initial
+  ...
+  Change this line:
+  dir group=bin mode=0755 owner=root path=usr
+  To:
+  dir group=sys mode=0755 owner=root path=usr
+</pre>
+
+Generate file dependencies.
+
+<pre>  % pkgdepend generate -d ./install_$ARCH mypackage.$ARCH.initial &gt; mypackage.$ARCH.depend
+</pre>
+
+Resolve to package dependencies. This creates a *.res file. The justification for creating a file rather than outputting to stdout is that it can resolve multiple files to save work this way.
+
+<pre>  % pkgdepend resolve mypackage.$ARCH.depend
+</pre>
+
+Check out the resolution file and append it to the manifest.
+
+<pre>  % ls *.res
+  mypackage.$ARCH.depend.res
+  % cat mypackage.$ARCH.initial mypackage.$ARCH.depend.res &gt; mypackage.$ARCH.manifest
+</pre>
+
+Take care of cosmetic issues, like proper line wrapping at 80 characters.
+
+<pre>  % pkgfmt mypackage.$ARCH.manifest
+</pre>
+
+As a final check, run pkglint. Be sure to fix any errors that appear.
+
+<pre>  % pkglint mypackage.$ARCH.manifest
+</pre>
+
+Give manifest a *.p5m extension for publishing.
+
+<pre>  % cp mypackage.$ARCH.manifest mypackage.$ARCH.p5m
+</pre>
+
+Finally, publish the packages to the appropriate server. In this example I use http://myipsserver:8000 for sparc and http://myipsserver:8001 for x86.
+
+<pre>  % sudo pkgsend publish \
+        -d ./install_sparc \
+        -s http://myipsserver:8000 \
+        mypackage.sparc.p5m
+  % sudo pkgsend publish \
+        -d ./install_i386 \
+        -s http://myipsserver:8001 \
+        mypackage.i386.p5m
+</pre>
+
+
+
+<h1>Merge the packages</h1>
+
+Finally, now that each architecture-specific package is published, we can merge the two repositories into the multiple architecture repository.
+
+<pre>  $ pkgmerge -s arch=sparc,http://myipsserver:8000 \
+      -s arch=i386,http://myipsserver:8001 \
+      -d http://myipsserver
+</pre>
+
+
+<h1>Test the package</h1>
+
+The final step is to install the package and see if it worked. I recommend testing on a sparc machine and an x86 machine. I assume that the IPS (pkg command) publishers are setup correctly (pointing to the multiple architecture repository and with the correct publisher name).
+
+<pre>  pkg install pkg://mycompany/mypackage
+</pre>
+
+
+
+<h1>Resources</h1>
+
+<ul>
+    <li>
+        <a href="https://blogs.oracle.com/barts/entry/phattening_packages_supporting_multiple_variants">General idea for creating "fat" packages from Bart Smaalders (an IPS developer)</a>
+    </li>
+    <li>
+        <a href="http://docs.oracle.com/cd/E23824_01/html/E21796/pkgmerge-1.html">pkgmerge man page</a>
+    </li>
+</ul>
+</div>
+      ]]></description>
+      <pubDate>Mon, 06 Aug 2012 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2012/08/06/packaging-matplotlib-for-multi-arch/</guid>
+      <link>https://www.timswast.com/blog/2012/08/06/packaging-matplotlib-for-multi-arch/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
+      <title>Setting up Solaris IPS servers for multiple architecture (fat) packages</title>
+      <description><![CDATA[
+        <div class="e-content">
+<p>
+This is part 2 of a three-part series on building and packaging matplotlib as a multi-architecture, Solaris IPS package.
+</p>
+
+<ol>
+    <a href="../compiling-matplotlib-with-solaris-studio/"><li>
+        Compiling matplotlib 1.1.0 for Solaris on SPARC and x86
+    </li></a>
+    <a href="../setting-up-ips-for-multi-arch-packages/"><li>
+        Setting up Solaris IPS servers to host packages for SPARC and x86
+    </li></a>
+    <a href="../packaging-matplotlib-for-multi-arch/"><li>
+        Packaging matplotlib 1.1.0 for Solaris on SPARC and x86
+    </li></a>
+</ol>
+
+<img alt="pkg logo" src="../images/pkg-block-logo.png" style="float: right; width: 5em;"/>
+
+
+<p>
+IPS made is a huge step forward compared to SysV packaging. One can still
+create and use SysV packages in Solaris 11, but why would you? IPS provides
+easy package distribution, upgrades, dependency resolution, and it's still <a href="http://hub.opensolaris.org/bin/view/Project+pkg/">open</a> <a href="http://src.opensolaris.org/source/xref/pkg/gate/">source</a>!
+</p>
+
+<p>
+Conceptually, IPS is a bit different from System V packages. An IPS package is
+not just a collection of scripts and files. Instead, IPS works by specifying
+"actions" (e.g. create directory, copy file, etc.). Similar to other packaging
+systems, it also includes metadata in a manifest file (e.g. pkg dependencies,
+descriptions).
+</p>
+
+
+<h1>Overview</h1>
+
+<p>
+These instructions will go through the steps necessary to setup IPS servers
+needed to create and host multiple architecture (fat) IPS packages. Basically,
+we will create three repositories and three IPS servers to host them. To keep
+things as simple as possible, I'll assume they will all be hosted from the
+same physical machine (and the same zone).
+</p>
+
+<p>
+For projects that need to be compiled for SPARC and x86 (IPS calls them the
+sparc and i386 variants, respectively), ideally one would create a
+"universal" package that can be installed to sparc or x86 machines. The way
+this is done in Solaris is to create a separate package for each "variant" and
+then to "merge" them into one package. This means three IPS servers are
+required, one for each architecture, and one for the merged package.
+</p>
+
+<h1>Concepts</h1>
+
+The last paragraph had quite a few terms in it that have special meaning in
+IPS-speak. Learning the following terms will help quite a bit in understanding
+what needs to be done to create and host IPS packages.
+
+<dl>
+    <dt>package</dt>
+    <dd>This is the "what" in IPS. What is it you would like to install?</dd>
+    <dt>publisher</dt>
+    <dd>This is the "who" in IPS. Who is it that is providing this package?</dd>
+    <dt>variant</dt>
+    <dd>This is more specifically, what kind of package are you installing?
+    Examples include sparc/i386 and debug/non-debug.</dd>
+    <dt>repository</dt>
+    <dd>This is a collection of packages. It can include packages from
+    multiple publishers, for example, if one wanted to mirror Oracle packages
+    in addition to internally-created packages.</dd>
+    <dt>server</dt>
+    <dd>This is the software responsible for <em>hosting</em> a repository.</dd>
+    <dt>merge</dt>
+    <dd>This means combining two IPS package variants into one package.</dd>
+</dl>
+
+<p>
+Note that the publisher name is associated with a package, not the particular
+server. A server does have a default publisher, though. When you query for
+packages and send new packages to the server, the default publisher is used
+unless otherwise specified.
+
+</p><h1>Create repositories</h1>
+
+<p>
+In order to create a package which supports multiple architectures, we need
+three repositories. One for sparc variants, one for i386 variants, and one for
+the merged packages. This does not mean we need three machines, or even three
+zones. We will simply run multiple IPS servers, each on a different port.
+
+</p><p>
+To keep the instructions simple, we are going to use the same default
+publisher name for all three servers we create.  Remember, the publisher is
+supposed to identify "who" publishes a package, not "where" they are
+published. It makes sense that each repository should have the same default
+publisher name. For this example we will use "mycompany" as the publisher.
+
+</p><h1>Setup local ZFS filesystems</h1>
+
+The first thing we will do is create ZFS filesystems for each repository.
+
+<pre>  zfs create rpool/export/ips
+  zfs create rpool/export/ips/default
+  zfs create rpool/export/ips/sparc
+  zfs create rpool/export/ips/x86
+  zfs set mountpoint=/export/ips rpool/export/ips
+</pre>
+
+Next, we create a skeleton for each IPS repository.
+
+<pre>  pkgrepo create /export/ips/default
+  pkgrepo create /export/ips/sparc
+  pkgrepo create /export/ips/x86
+</pre>
+
+Finally, we set the publisher name. As I said before, this is the "who"
+publishes the package, not "where" it is published. I use "mycompany" in this
+example, since I'm creating a package for my company's internal use.
+
+<pre>  pkgrepo set -s /export/ips/default publisher/prefix=mycompany
+  pkgrepo set -s /export/ips/sparc publisher/prefix=mycompany
+  pkgrepo set -s /export/ips/x86 publisher/prefix=mycompany
+</pre>
+
+
+<h1>Setup SMF-based IPS servers</h1>
+
+For this example, we create multiple instances of the SMF-based pkg server.
+There are other options, file-system based sharing for example, but it seems
+that creating multiple server instances is the best-supported method of
+hosting.
+
+<h1>Setup IPS default (multi-architecture) server</h1>
+
+The first thing we will do is setup the default server on the standard http port (80).
+
+<pre>  svccfg -s application/pkg/server setprop pkg/port=80
+</pre>
+
+Next, tell it which repository to use.
+
+<pre>  svccfg -s application/pkg/server setprop pkg/inst_root=/export/ips/default
+</pre>
+
+Since we want to be able to publish to this repository, change the readonly property to false.
+
+<pre>  svccfg -s pkg/server setprop pkg/readonly=false
+</pre>
+
+Refresh the pkg/server SMF service, to make sure the configuration changes get loaded.
+
+<pre>  svcadm refresh application/pkg/server
+</pre>
+
+Start the repository service.
+
+<pre>  svcadm enable application/pkg/server
+</pre>
+
+The IPS server can now be reached at http://myipsserver Check that it is running with the svcs command.
+
+<pre>  % svcs pkg/server
+  STATE          STIME    FMRI
+  online         May_08   svc:/application/pkg/server:default
+</pre>
+
+
+<h1>Setup IPS sparc server</h1>
+
+We need to add a new instance to SMF. Since we're already using the default
+instance, we give it the name "sparc". We then need to do some basic
+configuration.
+
+<pre>  svccfg -s pkg/server add sparc
+  svccfg -s pkg/server:sparc addpg pkg application
+  svccfg -s pkg/server:sparc addpg general framework
+  svccfg -s pkg/server:sparc setprop general/complete=astring:\"\"
+  svccfg -s pkg/server:sparc setprop general/enabled=boolean: true
+</pre>
+
+Next, we set the port number. Since 80 is used already, we can use 8000.
+
+<pre>  svccfg -s pkg/server:sparc setprop pkg/port=8000
+</pre>
+
+Set the root repository directory.
+
+<pre>  svccfg -s pkg/server:sparc setprop pkg/inst_root=/export/ips/sparc
+</pre>
+
+Change the readonly property to false.
+
+<pre>  svccfg -s pkg/server:sparc setprop pkg/readonly=false
+</pre>
+
+Refresh to get configuration changes.
+
+<pre>  svcadm disable pkg/server:sparc
+  svcadm refresh pkg/server:sparc
+</pre>
+
+Start the server.
+
+<pre>  svcadm enable pkg/server:sparc
+</pre>
+
+The IPS server can now be reached at http://myipsserver:8000
+
+
+<h1>Setup IPS x86 server</h1>
+
+Now we'll add the final server instance to SMF. As before, we're already using
+the default instance, so we give this one a name. Finally, we add basic
+configuration.
+
+<pre>  svccfg -s pkg/server add x86
+  svccfg -s pkg/server:x86 addpg pkg application
+  svccfg -s pkg/server:x86 addpg general framework
+  svccfg -s pkg/server:x86 setprop general/complete=astring:\"\"
+  svccfg -s pkg/server:x86 setprop general/enabled=boolean: true
+</pre>
+
+Next, we set the port number. Since 80 and 8000 are already use, we can use 8001.
+
+<pre>  svccfg -s pkg/server:x86 setprop pkg/port=8001
+</pre>
+
+Set the root repository directory.
+
+<pre>  svccfg -s pkg/server:x86 setprop pkg/inst_root=/export/ips/x86
+</pre>
+
+Change the readonly property to false.
+
+<pre>  svccfg -s pkg/server:x86 setprop pkg/readonly=false
+</pre>
+
+Refresh to get configuration changes.
+
+<pre>  svcadm disable pkg/server:x86
+  svcadm refresh pkg/server:x86
+</pre>
+
+Start the server.
+
+<pre>  svcadm enable pkg/server:x86
+</pre>
+
+The IPS server can now be reached at http://myipsserver:8001
+
+
+<h1>Build and publish the package</h1>
+
+Now that we have all the IPS servers setup, we can build and publish our
+package. In <a href="../packaging-matplotlib-for-multi-arch/">part 3</a>, we
+will create a multi-architecture (fat) IPS package for matplotlib, which we
+compiled in <a href="../compiling-matplotlib-with-solaris-studio/">part 1</a>.
+
+
+<h1>Resources</h1>
+
+
+<ul>
+    <li>
+        <a href="http://www.oracle.com/technetwork/systems/hands-on-labs/introduction-to-ips-1534596.html"> An Introduction to IPS (OTN tutorial)</a>
+    </li><li>
+    </li>
+        <a href="https://blogs.oracle.com/barts/entry/publishing_your_own_packages_with">Short tutorial from Bart Smaalders<br/>(an IPS developer)</a>
+    
+    <li>
+        <a href="http://docs.oracle.com/cd/E19963-01/html/820-6572/ghyer.html">IPS Concepts (from the IPS documentation)</a>
+    </li>
+    <li>
+        <a href="http://docs.oracle.com/cd/E23824_01/html/E21802/gkokf.html">PKG Command documentation</a>
+    </li>
+    <li>
+        <a href="http://hub.opensolaris.org/bin/download/Project+pkg/files/ipsdevguide.pdf">IPS Developer's Guide (pdf book)</a>
+    </li>
+</ul>
+</div>
+      ]]></description>
+      <pubDate>Mon, 06 Aug 2012 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2012/08/06/setting-up-ips-for-multi-arch-packages/</guid>
+      <link>https://www.timswast.com/blog/2012/08/06/setting-up-ips-for-multi-arch-packages/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
+      <title>Setting up KeePassX on Mac OS X Lion</title>
+      <description><![CDATA[
+        <div class="e-content">
+<p>There are many prerequisites in order to build KeePassX on Mac.</p>
+<h1>Install GnuPG libraries</h1>
+<p>First download and install libgpg-error.<br/>
+<a href="http://www.gnupg.org/download/#libgpg-error" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.gnupg.org']);"> http://www.gnupg.org/download/#libgpg-error</a></p>
+<p>Build and install. (Should go to /usr/local/*.)</p>
+
+<pre class="prettyprint">./configure
+make
+sudo make install</pre>
+<p>Then, download and install libgcrypt.<br/>
+<a href="http://www.gnupg.org/download/#libgcrypt" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.gnupg.org']);">http://www.gnupg.org/download/#libgcrypt</a></p>
+<p>Build and install.</p>
+
+<pre class="prettyprint">./configure
+make
+sudo make install</pre>
+<h1>Install Qt4</h1>
+<p>Download and install Qt4 from <a href="http://qt.nokia.com/downloads" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://qt.nokia.com']);">http://qt.nokia.com/downloads</a>.</p>
+<p>Note that in order for me to get the installer to work, I had to install to a subdirectory of my home directory, not in a global location. I think this is because the post-install scripts don’t ask for the proper permissions. They’ll fail if you don’t have write permissions to a directory.</p>
+<p>After it was installed, I had to add the Qt utilities to my ~/.bash_profile. For me, these were located in ~/QtSDK/Desktop/Qt/474/gcc/bin.</p>
+<h1>Build KeePassX</h1>
+<p>In order to build KeePassX, I had to add a “bundle destination” to src/CMakeLists.txt.</p>
+<pre class="prettyprint">$ diff src/CMakeLists.txt.old src/CMakeLists.txt
+  add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE main.cpp )
+  target_link_libraries( ${PROGNAME} keepassx_core \
+    ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} \
+    ${GCRYPT_LIBRARIES} ${ZLIB_LIBRARIES} )
+- install(TARGETS ${PROGNAME} DESTINATION ${BIN_INSTALL_DIR})
++ install(TARGETS ${PROGNAME}
++     BUNDLE DESTINATION .
++     RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT Runtime)
+</pre>
+<p>Then, as the INSTALL file says, run</p>
+<pre class="prettyprint">mkdir build
+cd build
+cmake ..
+make
+</pre>
+<h1>Notes</h1>
+<p>For this project, I thought I had to tell configure to use the 32-bit architecture, since it couldn’t find symbols when I tried the default 64-bit. (It turns out that I just hadn’t installed the libraries in the correct order.)</p>
+<p>For future reference, if you need to force a 32-bit architecture, do this.</p>
+<pre class="prettyprint">./configure CC="gcc -arch i386" CXX="g++ -arch i386"
+make
+sudo make install</pre>
+</div>
+      ]]></description>
+      <pubDate>Sun, 08 Jan 2012 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2012/01/08/setting-up-keepassx-on-mac-os-x-lion/</guid>
+      <link>https://www.timswast.com/blog/2012/01/08/setting-up-keepassx-on-mac-os-x-lion/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
+      <title>Gravity v0.1 released.</title>
+      <description><![CDATA[
+        <div class="entry e-content">
+<p>I just put a new version of Gravity (beta) on <a href="http://www.kongregate.com/games/TimSwast/gravity-beta">Kongregate</a>.</p>
+<h2>Changes</h2>
+<p>I added support for multiple masses and also obstacles. Also, I fixed a bug with the physics system. The physics are much more “realistic” now. Force actually decreases with distance now!</p>
+<h2>Lessons Learned</h2>
+<p>When I added support for multiple masses, I noticed that the physics were acting “funny”. It seemed like the little boxes were being more attracted by masses on the opposite side of the map than the to ones they were near.</p>
+<p>It turns out that AS3 does not have an exponentiation operator. My late night coding resulted in the following mistake.</p>
+<pre class="prettyprint" title="">// I don't think I ordered an XOR.
+var dist:Number = Math.sqrt(
+        (massPt.x - object.x) ^ 2 +
+        (massPt.y - object.y) ^ 2);
+
+// this is what I should have said.
+var dist:Number = Math.sqrt(
+        Math.pow(massPt.x - object.x, 2) +
+        Math.pow(massPt.y - object.y, 2));
+</pre>
+<p>Also, it turns out that Flixel makes the nice memory-saving optimization of reusing graphics of the same size when you do makeGraphic(). I had to tell it to make a unique version so that I could change the background color on my buttons for add / remove.</p>
+<div class="clear"></div>
+
+
+<footer>
+  <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
+  Copyright 2011, <a class="p-author h-card" href="/" rel="author">Tim Swast</a>. All rights reserved.
+</footer>
+
+
+
+
+
+</div>
+      ]]></description>
+      <pubDate>Mon, 21 Nov 2011 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2011/11/21/gravity-v0-1-released/</guid>
+      <link>https://www.timswast.com/blog/2011/11/21/gravity-v0-1-released/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
+      <title>Gravity for the 0h Game Jam</title>
+      <description><![CDATA[
+        <div class="e-content">
+<p>Last night was the <a href="http://www.ludumdare.com/compo/2011/10/30/0h-game-jam-not-over-yet/">0h Game Jam</a>, since it was daylight savings. You can play my game at <a href="http://www.kongregate.com/games/TimSwast/gravity-beta">Kongregate</a>.</p>
+<p>I decided to make a very simple physics game, where you place a mass in order to make the little “crates” hit a target.</p>
+<h2>Overview</h2>
+<p>The main idea of the game is that it is a puzzle game build around Newton’s gravity equation. Force = G * Mass1 * Mass2 / Distance^2</p>
+<h2>Lessons Learned</h2>
+<p>Most of my time was spent just getting Flash Builder to compile a template project. I should have created an ActionScript project instead of a Flex project.</p>
+<p>Once I got going, I think I did the right thing by not worrying much about making it have just the right architecture. Instead, I created one FlxState and did all the game logic there. For a simple game like this, there wasn’t much need to to make things object-oriented.</p>
+<h2>Plans</h2>
+<p>I hope to make more levels and add obstacles to make this more of a puzzle game. Also, I’d very much like to port this to mobile devices.</p>
+</div>
+      ]]></description>
+      <pubDate>Sun, 06 Nov 2011 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2011/11/06/gravity-for-the-0h-game-jam/</guid>
+      <link>https://www.timswast.com/blog/2011/11/06/gravity-for-the-0h-game-jam/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
+      <title>Python List Comprehensions are Easy!</title>
+      <description><![CDATA[
+        <div class="e-content" id="post-content">
+
+<!-- Hyde::Article::Begin -->
+
+<!-- Hyde::Excerpt::Begin -->
+
+<p>I've know about list comprehensions for a while now, but I never really bothered learning how to use them. Today, I found that they really aren't that bad. In fact, if you already know how to populate a python list inside a for loop, you're 95% there already.</p>
+
+<!-- Hyde::Excerpt::End -->
+
+<p>Say you wanted to populate a python list with 7, 7's. You might go about it by doing something like this:</p>
+
+<pre class="prettyprint"><code>spam = []
+
+for x in range(7):
+ spam.append(7)
+</code></pre>
+<p>With list comprehensions this becomes a one-liner:</p>
+<pre class="prettyprint"><code>spam = [7 for x in range(7)]
+</code></pre>
+<p>Basically, you take your for loop and shove it inside the list declaration. Whatever you were appending goes first. Thus, if we wanted to change our list to be 7 powers of 7, you'd write:</p>
+<pre class="prettyprint"><code># this gives us [1, 7, 49, ...]
+spam = [7**x for x in range(7)]
+</code></pre>
+<p>Something as scary sounding as "list comprehension" really isn't anything more than shoving a for loop (or two) into where you declare the list. It's quite powerful, for being so simple. </p>
+
+</div>
+      ]]></description>
+      <pubDate>Wed, 11 Jun 2008 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2008/06/11/python-list-comprehensions/</guid>
+      <link>https://www.timswast.com/blog/2008/06/11/python-list-comprehensions/</link>
+      <author>@timswast</author>
+    </item>
+
 <!--END INDEX-->
   </channel>
 </rss>

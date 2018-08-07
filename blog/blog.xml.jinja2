@@ -1,13 +1,12 @@
-
-{% for post in posts|sort(attribute='date', reverse=True) %}
+{% for entry in entries|sort(attribute='published', reverse=True) %}
     <item>
-      <title>{{ post.title }}</title>
+      {% if entry.name != entry.content %}<title>{{ entry.name }}</title>{% endif %}
       <description><![CDATA[
-        {{ post.body }}
+        {{ entry.content }}
       ]]></description>
-      <pubDate>{{ post.date.strftime('%a, %d %b %Y %H:%M:%S %z') }}</pubDate>
-      <guid isPermalink="true">https://www.timswast.com/blog/{{ post.path }}</guid>
-      <link>https://www.timswast.com/blog/{{ post.path }}</link>
+      <pubDate>{{ entry.published.strftime('%a, %d %b %Y %H:%M:%S %z') }}</pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/{{ entry.path }}</guid>
+      <link>https://www.timswast.com/blog/{{ entry.path }}</link>
       <author>@timswast</author>
     </item>
 {% endfor %}
