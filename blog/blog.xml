@@ -16,7 +16,7 @@ my experience of using ssite to maintain this website for the past half
 decade.
 
 </p><p><img alt="How this blog post was published. Google Docs exports to ugly
-HTML. Clean up with the ssite command and build an index." src="/blog/2018/07/21/5-years-of-ssite/images/image1.jpg"/>
+HTML. Clean up with the ssite command and build an index." src="images/image1.jpg"/>
 
 </p><h2>Posting a new article</h2>
 <p>The main purpose of this website is to serve as my personal blog, so the
@@ -228,29 +228,6 @@ website.
       <pubDate>Sat, 21 Jul 2018 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2018/07/21/5-years-of-ssite/</guid>
       <link>https://www.timswast.com/blog/2018/07/21/5-years-of-ssite/</link>
-      <author>@timswast</author>
-    </item>
-
-    <item>
-      
-      <description><![CDATA[
-        ‪After 5 years of static HTML for my personal #indieweb site.
-
-‪Working well:‬
-‪* Simple, scalable hosting
-‪* Easy to archive‬
-   ‪
-‪Needs improvement:‬
-‪* Drafting articles‬
-‪* Publishing to social media
-
-<a class="u-in-reply-to" href="../5-years-of-ssite/">www.timswast.com/blog/2018/07/21/5-years-of-ssite/</a>
-
-<img class="u-photo" src="/blog/2018/07/21/5-years-of-ssite/images/image1.jpg"/>
-      ]]></description>
-      <pubDate>Sat, 21 Jul 2018 00:00:00 </pubDate>
-      <guid isPermalink="true">https://www.timswast.com/blog/2018/07/21/5-years-of-ssite-reply-1/</guid>
-      <link>https://www.timswast.com/blog/2018/07/21/5-years-of-ssite-reply-1/</link>
       <author>@timswast</author>
     </item>
 
