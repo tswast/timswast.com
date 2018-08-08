@@ -5,9 +5,8 @@
   <li class="h-entry">
     <a href="{{ entry.path }}" class="u-url"><time class="dt-published"
     datetime="{{ entry.published.strftime('%Y-%m-%d') }}">{{ entry.published.strftime('%B %-d') }}</time>
-    - <span class="p-name{%
-    if entry.name == entry.content %} p-content{%
-    endif %}">{{ entry.name }}</span></a>
+    {% if entry.name %}- <span class="p-name">{{ entry.name }}</span>{% endif %}</a>
+    {% if not entry.name %}<p class="p-name e-content">{{ entry.content }}</p>{% endif %}
   </li>
 {% endfor %}
 </ul>

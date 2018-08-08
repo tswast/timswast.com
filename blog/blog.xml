@@ -8,7 +8,7 @@
     <item>
       <title>Ssite for Handwritten Static Sites - Five Years Later</title>
       <description><![CDATA[
-        <div class="e-content">
+        
 <p>Five years ago, I <a href="/blog/2013/06/10/introducting-locoloco-the-little-engine-that-didnt/">
 announced</a> that I had made the <a href="https://github.com/tswast/ssite">ssite
 static site enhancement tool</a> public. In this post, I’ll reflect on
@@ -223,7 +223,7 @@ website.
   Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
   Attribution License</a>. Copyright 2018, <a class="p-author h-card" href="/" rel="author">Tim Swast</a>.
 </footer>
-</div>
+
       ]]></description>
       <pubDate>Sat, 21 Jul 2018 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2018/07/21/5-years-of-ssite/</guid>
@@ -232,10 +232,33 @@ website.
     </item>
 
     <item>
+      
+      <description><![CDATA[
+        ‪After 5 years of static HTML for my personal #indieweb site.
+
+‪Working well:‬
+‪* Simple, scalable hosting
+‪* Easy to archive‬
+   ‪
+‪Needs improvement:‬
+‪* Drafting articles‬
+‪* Publishing to social media
+
+<a class="u-in-reply-to" href="../5-years-of-ssite/">www.timswast.com/blog/2018/07/21/5-years-of-ssite/</a>
+
+<img class="u-photo" src="/blog/2018/07/21/5-years-of-ssite/images/image1.jpg"/>
+      ]]></description>
+      <pubDate>Sat, 21 Jul 2018 00:00:00 </pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/2018/07/21/5-years-of-ssite-reply-1/</guid>
+      <link>https://www.timswast.com/blog/2018/07/21/5-years-of-ssite-reply-1/</link>
+      <author>@timswast</author>
+    </item>
+
+    <item>
       <title>What are the most popular Citibike destinations for NYC
   couples?</title>
       <description><![CDATA[
-        <div class="e-content">
+        
 <p>For this Valentine’s Day themed data doodle, let’s use BigQuery and the
 <a href="https://cloud.google.com/bigquery/public-data/nyc-citi-bike">New
 York City public dataset on Citibike trips</a> and to find a romantic spot to
@@ -330,7 +353,7 @@ here</a>. You can run the BigQuery queries in this data doodle for
 <a href="https://cloud.google.com/blog/big-data/2017/01/how-to-run-a-terabyte-of-google-bigquery-queries-each-month-without-a-credit-card">
 free, no credit card required, with 1TB of free queries per month</a>.
 
-</p></div>
+</p>
       ]]></description>
       <pubDate>Tue, 14 Feb 2017 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2017/02/14/couples-nyc-citibike-trips/</guid>
@@ -341,7 +364,7 @@ free, no credit card required, with 1TB of free queries per month</a>.
     <item>
       <title>Introducing Ssite: An Engine for Handwritten Static Sites</title>
       <description><![CDATA[
-        <div class="e-content">
+        
 <p><b>Update: <time class="dt-updated" datetime="2018-07-21">July 21,
 2018</time>:</b>
 <em>I have posted a <a href="/blog/2018/07/21/5-years-of-ssite/">retrospective of 5 years using
@@ -390,7 +413,7 @@ most recent instructions.
 <code>blogindex.py $BLOGDIR</code><br/>
 It should "just work" if you use the same date-based directory scheme of
 <code>YYYY/MM/DD/post-title/index.html</code> that I do.
-</p></div>
+</p>
       ]]></description>
       <pubDate>Mon, 10 Jun 2013 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2013/06/10/introducting-locoloco-the-little-engine-that-didnt/</guid>
@@ -401,7 +424,7 @@ It should "just work" if you use the same date-based directory scheme of
     <item>
       <title>Compiling matplotlib 1.1.0 for Solaris on SPARC and x86</title>
       <description><![CDATA[
-        <div class="e-content">
+        
 <p>
 This is part 1 of a three-part series on building and packaging matplotlib as a multi-architecture, Solaris IPS package.
 </p>
@@ -607,7 +630,7 @@ Thanks to Yong Sun for his very helpful instructions on <a href="http://yongsun.
 <p>
 The next step after compiling is finding a way to distribute it. In <a href="../setting-up-ips-for-multi-arch-packages/">part 2</a>, I walk you through setting up the IPS servers you'll need to publish matplotlib for SPARC and x86.
 </p>
-</div>
+
       ]]></description>
       <pubDate>Mon, 06 Aug 2012 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2012/08/06/compiling-matplotlib-with-solaris-studio/</guid>
@@ -618,7 +641,7 @@ The next step after compiling is finding a way to distribute it. In <a href="../
     <item>
       <title>Packaging matplotlib 1.1.0 for Solaris on SPARC and x86</title>
       <description><![CDATA[
-        <div class="e-content">
+        
 <p>
 This is part 3 of a three-part series on building and packaging matplotlib as a multi-architecture, Solaris IPS package.
 </p>
@@ -754,7 +777,7 @@ The final step is to install the package and see if it worked. I recommend testi
         <a href="http://docs.oracle.com/cd/E23824_01/html/E21796/pkgmerge-1.html">pkgmerge man page</a>
     </li>
 </ul>
-</div>
+
       ]]></description>
       <pubDate>Mon, 06 Aug 2012 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2012/08/06/packaging-matplotlib-for-multi-arch/</guid>
@@ -765,7 +788,7 @@ The final step is to install the package and see if it worked. I recommend testi
     <item>
       <title>Setting up Solaris IPS servers for multiple architecture (fat) packages</title>
       <description><![CDATA[
-        <div class="e-content">
+        
 <p>
 This is part 2 of a three-part series on building and packaging matplotlib as a multi-architecture, Solaris IPS package.
 </p>
@@ -1046,7 +1069,7 @@ compiled in <a href="../compiling-matplotlib-with-solaris-studio/">part 1</a>.
         <a href="http://hub.opensolaris.org/bin/download/Project+pkg/files/ipsdevguide.pdf">IPS Developer's Guide (pdf book)</a>
     </li>
 </ul>
-</div>
+
       ]]></description>
       <pubDate>Mon, 06 Aug 2012 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2012/08/06/setting-up-ips-for-multi-arch-packages/</guid>
@@ -1057,7 +1080,7 @@ compiled in <a href="../compiling-matplotlib-with-solaris-studio/">part 1</a>.
     <item>
       <title>Setting up KeePassX on Mac OS X Lion</title>
       <description><![CDATA[
-        <div class="e-content">
+        
 <p>There are many prerequisites in order to build KeePassX on Mac.</p>
 <h1>Install GnuPG libraries</h1>
 <p>First download and install libgpg-error.<br/>
@@ -1102,7 +1125,7 @@ make
 <pre class="prettyprint">./configure CC="gcc -arch i386" CXX="g++ -arch i386"
 make
 sudo make install</pre>
-</div>
+
       ]]></description>
       <pubDate>Sun, 08 Jan 2012 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2012/01/08/setting-up-keepassx-on-mac-os-x-lion/</guid>
@@ -1113,7 +1136,7 @@ sudo make install</pre>
     <item>
       <title>Gravity v0.1 released.</title>
       <description><![CDATA[
-        <div class="entry e-content">
+        
 <p>I just put a new version of Gravity (beta) on <a href="http://www.kongregate.com/games/TimSwast/gravity-beta">Kongregate</a>.</p>
 <h2>Changes</h2>
 <p>I added support for multiple masses and also obstacles. Also, I fixed a bug with the physics system. The physics are much more “realistic” now. Force actually decreases with distance now!</p>
@@ -1143,7 +1166,7 @@ var dist:Number = Math.sqrt(
 
 
 
-</div>
+
       ]]></description>
       <pubDate>Mon, 21 Nov 2011 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2011/11/21/gravity-v0-1-released/</guid>
@@ -1154,7 +1177,7 @@ var dist:Number = Math.sqrt(
     <item>
       <title>Gravity for the 0h Game Jam</title>
       <description><![CDATA[
-        <div class="e-content">
+        
 <p>Last night was the <a href="http://www.ludumdare.com/compo/2011/10/30/0h-game-jam-not-over-yet/">0h Game Jam</a>, since it was daylight savings. You can play my game at <a href="http://www.kongregate.com/games/TimSwast/gravity-beta">Kongregate</a>.</p>
 <p>I decided to make a very simple physics game, where you place a mass in order to make the little “crates” hit a target.</p>
 <h2>Overview</h2>
@@ -1164,7 +1187,7 @@ var dist:Number = Math.sqrt(
 <p>Once I got going, I think I did the right thing by not worrying much about making it have just the right architecture. Instead, I created one FlxState and did all the game logic there. For a simple game like this, there wasn’t much need to to make things object-oriented.</p>
 <h2>Plans</h2>
 <p>I hope to make more levels and add obstacles to make this more of a puzzle game. Also, I’d very much like to port this to mobile devices.</p>
-</div>
+
       ]]></description>
       <pubDate>Sun, 06 Nov 2011 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2011/11/06/gravity-for-the-0h-game-jam/</guid>
@@ -1175,15 +1198,15 @@ var dist:Number = Math.sqrt(
     <item>
       <title>Python List Comprehensions are Easy!</title>
       <description><![CDATA[
-        <div class="e-content" id="post-content">
+        
 
-<!-- Hyde::Article::Begin -->
+ Hyde::Article::Begin 
 
-<!-- Hyde::Excerpt::Begin -->
+ Hyde::Excerpt::Begin 
 
 <p>I've know about list comprehensions for a while now, but I never really bothered learning how to use them. Today, I found that they really aren't that bad. In fact, if you already know how to populate a python list inside a for loop, you're 95% there already.</p>
 
-<!-- Hyde::Excerpt::End -->
+ Hyde::Excerpt::End 
 
 <p>Say you wanted to populate a python list with 7, 7's. You might go about it by doing something like this:</p>
 
@@ -1201,7 +1224,7 @@ spam = [7**x for x in range(7)]
 </code></pre>
 <p>Something as scary sounding as "list comprehension" really isn't anything more than shoving a for loop (or two) into where you declare the list. It's quite powerful, for being so simple. </p>
 
-</div>
+
       ]]></description>
       <pubDate>Wed, 11 Jun 2008 00:00:00 </pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/2008/06/11/python-list-comprehensions/</guid>

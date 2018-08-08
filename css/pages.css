@@ -39,14 +39,3 @@ a h1 {
     color: black;
 }
 
-/* index styles */
-span.blog-post-date:after {
-    content: " - ";
-}
-a.blog-article {
-    display: block;
-}
-a.blog-article:after {
-    content: "(Read more...)";
-}
-

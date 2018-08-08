@@ -1,6 +1,6 @@
 {% for entry in entries|sort(attribute='published', reverse=True) %}
     <item>
-      {% if entry.name != entry.content %}<title>{{ entry.name }}</title>{% endif %}
+      {% if entry.name %}<title>{{ entry.name }}</title>{% endif %}
       <description><![CDATA[
         {{ entry.content }}
       ]]></description>
