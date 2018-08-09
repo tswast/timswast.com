@@ -6,37 +6,57 @@
 
 <article class="h-entry">
 <div id="content-header">
-    <a href="/blog/2012/01/08/setting-up-keepassx-on-mac-os-x-lion/">
-        <h1 class="p-name">Setting up KeePassX on Mac OS X Lion</h1>
-    </a>
-    <span class="post-date">Sunday, January 8, 2012</span>
+  <h1 class="p-name">Setting up KeePassX on Mac OS X Lion</h1>
+  Published: <time class="dt-published post-date"
+  datetime="2012-01-08">Sunday, January 8, 2012</time>
 </div>
 
 <div class="e-content">
-<p>There are many prerequisites in order to build KeePassX on Mac.</p>
-<h1>Install GnuPG libraries</h1>
+<p class="p-summary">This guide walks through the steps I followed to build
+<a href="https://www.keepassx.org/">KeePassX</a> on my Mac. I found I needed
+to install many prerequisites in order for it to build.</p>
+
+<h2>Install GnuPG libraries</h2>
+
 <p>First download and install libgpg-error.<br />
-<a href="http://www.gnupg.org/download/#libgpg-error" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.gnupg.org']);"> http://www.gnupg.org/download/#libgpg-error</a></p>
-<p>Build and install. (Should go to /usr/local/*.)</p>
+<a href="http://www.gnupg.org/download/#libgpg-error">http://www.gnupg.org/download/#libgpg-error</a></p>
+
+<p>Build and install. (Should go to <code>/usr/local/*</code>.)</p>
 
 <pre>./configure
 make
 sudo make install</pre>
+
 <p>Then, download and install libgcrypt.<br />
-<a href="http://www.gnupg.org/download/#libgcrypt" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.gnupg.org']);">http://www.gnupg.org/download/#libgcrypt</a></p>
+<a href="http://www.gnupg.org/download/#libgcrypt">http://www.gnupg.org/download/#libgcrypt</a></p>
+
 <p>Build and install.</p>
 
 <pre>./configure
 make
 sudo make install</pre>
-<h1>Install Qt4</h1>
-<p>Download and install Qt4 from <a href="http://qt.nokia.com/downloads" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://qt.nokia.com']);">http://qt.nokia.com/downloads</a>.</p>
-<p>Note that in order for me to get the installer to work, I had to install to a subdirectory of my home directory, not in a global location. I think this is because the post-install scripts don&#8217;t ask for the proper permissions. They&#8217;ll fail if you don&#8217;t have write permissions to a directory.</p>
-<p>After it was installed, I had to add the Qt utilities to my ~/.bash_profile. For me, these were located in ~/QtSDK/Desktop/Qt/474/gcc/bin.</p>
-<h1>Build KeePassX</h1>
-<p>In order to build KeePassX, I had to add a &#8220;bundle destination&#8221; to src/CMakeLists.txt.</p>
-<pre>
-$ diff src/CMakeLists.txt.old src/CMakeLists.txt
+
+<h2>Install Qt4</h2>
+
+<p>Download and install Qt4 from <a
+href="http://qt.nokia.com/downloads">http://qt.nokia.com/downloads</a>.</p>
+
+<p>Note that in order for me to get the installer to work, I had to install
+to a subdirectory of my home directory, not in a global location. I think
+this is because the post-install scripts don&#8217;t ask for the proper
+permissions. They&#8217;ll fail if you don&#8217;t have write permissions to
+a directory.</p>
+
+<p>After it was installed, I had to add the Qt utilities to my
+<code>~/.bash_profile</code>. For me, these were located in
+<code>~/QtSDK/Desktop/Qt/474/gcc/bin</code>.</p>
+
+<h2>Build KeePassX</h2>
+
+<p>In order to build KeePassX, I had to add a &#8220;bundle
+destination&#8221; to <code>src/CMakeLists.txt</code>.</p>
+
+<pre>$ diff src/CMakeLists.txt.old src/CMakeLists.txt
   add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE main.cpp )
   target_link_libraries( ${PROGNAME} keepassx_core \
     ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} \
@@ -46,23 +66,32 @@ $ diff src/CMakeLists.txt.old src/CMakeLists.txt
 +     BUNDLE DESTINATION .
 +     RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT Runtime)
 </pre>
+
 <p>Then, as the INSTALL file says, run</p>
-<pre>
-mkdir build
+<pre>mkdir build
 cd build
 cmake ..
 make
 </pre>
-<h1>Notes</h1>
-<p>For this project, I thought I had to tell configure to use the 32-bit architecture, since it couldn&#8217;t find symbols when I tried the default 64-bit. (It turns out that I just hadn&#8217;t installed the libraries in the correct order.)</p>
-<p>For future reference, if you need to force a 32-bit architecture, do this.</p>
+
+<h2>Notes</h2>
+<p>For this project, I thought I had to tell configure to use the 32-bit
+architecture, since it couldn&#8217;t find symbols when I tried the default
+64-bit. (It turns out that I just hadn&#8217;t installed the libraries in the
+correct order.)</p>
+
+<p>For future reference, if you need to force a 32-bit architecture, do
+this.</p>
+
 <pre>./configure CC="gcc -arch i386" CXX="g++ -arch i386"
 make
 sudo make install</pre>
 </div>
 
 <footer>
-  <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2012, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>.
+  Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>. Copyright 2012, <a href="/" rel="author"
+  class="p-author h-card">Tim Swast</a>.
 </footer>
 </article>

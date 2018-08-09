@@ -1,161 +1,151 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
-        <title>Packaging matplotlib 1.1.0 for Solaris on SPARC and x86</title>
-    </head>
-    <body class="h-entry">
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
+<title>Packaging matplotlib 1.1.0 for Solaris on SPARC and x86</title>
 
+<article class="h-entry">
 <div id="content-header">
-    <a href="">
-        <h1 class="p-name">Packaging matplotlib 1.1.0 for Solaris on SPARC and x86</h1>
-    </a>
-    <span class="post-date">Monday, August 6, 2012</span>
+  <h1 class="p-name">Packaging matplotlib 1.1.0 for Solaris on SPARC and x86</h1>
+  Published: <time class="dt-published post-date"
+  datetime="2012-08-06">Monday, August 6, 2012</time>
 </div>
 
 <div class="e-content">
-<p>
-This is part 3 of a three-part series on building and packaging matplotlib as a multi-architecture, Solaris IPS package.
-</p>
+<p class="p-summary">This is part 3 of a three-part series on building and
+packaging matplotlib as a multi-architecture, Solaris IPS package. In this
+tutorial, I go through creating a multiple architecture (fat) IPS package.</p>
 
 <ol>
-    <a href="../compiling-matplotlib-with-solaris-studio/"><li>
-        Compiling matplotlib 1.1.0 for Solaris on SPARC and x86
-    </li></a>
-    <a href="../setting-up-ips-for-multi-arch-packages/"><li>
-        Setting up Solaris IPS servers to host packages for SPARC and x86
-    </li></a>
-    <a href="../packaging-matplotlib-for-multi-arch/"><li>
-        Packaging matplotlib 1.1.0 for Solaris on SPARC and x86
-    </li></a>
+  <a href="../compiling-matplotlib-with-solaris-studio/"><li>
+    Compiling matplotlib 1.1.0 for Solaris on SPARC and x86
+  </li></a>
+  <a href="../setting-up-ips-for-multi-arch-packages/"><li>
+    Setting up Solaris IPS servers to host packages for SPARC and x86
+  </li></a>
+  <a href="../packaging-matplotlib-for-multi-arch/"><li>
+    Packaging matplotlib 1.1.0 for Solaris on SPARC and x86
+  </li></a>
 </ol>
 
-<p>
-For this tutorial, I go through creating a multiple architecture (fat) IPS
-package. I assume that the software has already been built and "installed" to
-a prototype installation folder on x86 and SPARC machines (I go through this
+<p>I assume that the software has already been built and "installed" to a
+prototype installation folder on x86 and SPARC machines (I go through this
 for <a href="http://matplotlib.sourceforge.net">matplotlib</a> in <a
-    href="../compiling-matplotlib-with-solaris-studio/">part 1</a>). Second,
-I assume that three IPS servers are running, which I go through in
-<a href="../packaging-matplotlib-for-multi-arch/">part 2</a>.
+href="../compiling-matplotlib-with-solaris-studio/">part 1</a>). Second, I
+assume that three IPS servers are running, which I go through in <a
+href="../packaging-matplotlib-for-multi-arch/">part 2</a>.
 
-</p>
+<h2>Create the IPS package / manifest</h2>
 
-<h1>Create the IPS package / manifest</h1>
+<p>Since the directions are exactly the same for both sparc and x86, I only
+include one set of directions here. Where you see $ARCH, replace it with
+sparc on a sparc machine and i386 on an Intel machine.
 
-Since the directions are exactly the same for both sparc and x86, I only include one set of directions here. Where you see $ARCH, replace it with sparc on a sparc machine and i386 on an Intel machine.
+<p>Generate initial list of actions based on the "prototype install" folder.
 
-<p>
-Generate initial list of actions based on the "prototype install" folder.
-
-<pre>
-  $ pkgsend generate ~/install_$ARCH > mypackage.$ARCH.pkgsend
+<pre>$ pkgsend generate ~/install_$ARCH > mypackage.$ARCH.pkgsend
 </pre>
 
-Add metadata. For larger projects, one could use pkgmogrify to automatically fill in $ARCH and other variables, but I just use a text file to keep things simple for this example.
+<p>Add metadata. For larger projects, one could use pkgmogrify to
+automatically fill in $ARCH and other variables, but I just use a text file
+to keep things simple for this example.
 
-<pre>
-  $ vim mypackage.$ARCH.metadata
-  set name=pkg.fmri value=pkg://mycompany/mypackage
-  set name=variant.arch value=$ARCH
-  set name=pkg.description value="my package example."
-  set name=pkg.summary value="my package example."
+<pre>$ vim mypackage.$ARCH.metadata
+set name=pkg.fmri value=pkg://mycompany/mypackage
+set name=variant.arch value=$ARCH
+set name=pkg.description value="my package example."
+set name=pkg.summary value="my package example."
 </pre>
 
-Combine.
+<p>Combine.
 
-<pre>
-  $ cat mypackage.$ARCH.metadata mypackage.$ARCH.pkgsend > mypackage.$ARCH.initial
+<pre>$ cat mypackage.$ARCH.metadata mypackage.$ARCH.pkgsend > mypackage.$ARCH.initial
 </pre>
 
-When I created my package, the /usr directory was listed as having group bin. This conflicts with standard Solaris packages which expect the group to be sys, so this line needs to be changed. If a /usr/share line is present, it may need to be changed, too.
+<p>When I created my package, the <code>/usr</code> directory was listed as
+having group <code>bin</code>. This conflicts with standard Solaris packages
+which expect the group to be <code>sys</code>, so this line needs to be
+changed. If a <code>/usr/share</code> line is present, it may need to be
+changed, too.
 
-<pre>
-  $ vim mypackage.$ARCH.initial
-  ...
-  Change this line:
-  dir group=bin mode=0755 owner=root path=usr
-  To:
-  dir group=sys mode=0755 owner=root path=usr
+<pre>$ vim mypackage.$ARCH.initial
+...
+# Change this line from:
+dir group=bin mode=0755 owner=root path=usr
+# To:
+dir group=sys mode=0755 owner=root path=usr
 </pre>
 
-Generate file dependencies.
+<p>Generate file dependencies.
 
-<pre>
-  % pkgdepend generate -d ./install_$ARCH mypackage.$ARCH.initial > mypackage.$ARCH.depend
+<pre>% pkgdepend generate -d ./install_$ARCH mypackage.$ARCH.initial > mypackage.$ARCH.depend
 </pre>
 
-Resolve to package dependencies. This creates a *.res file. The justification for creating a file rather than outputting to stdout is that it can resolve multiple files to save work this way.
+<p>Resolve to package dependencies. This creates a *.res file. The
+justification for creating a file rather than outputting to stdout is that it
+can resolve multiple files to save work this way.
 
-<pre>
-  % pkgdepend resolve mypackage.$ARCH.depend
+<pre>% pkgdepend resolve mypackage.$ARCH.depend
 </pre>
 
-Check out the resolution file and append it to the manifest.
+<p>Check out the resolution file and append it to the manifest.
 
-<pre>
-  % ls *.res
-  mypackage.$ARCH.depend.res
-  % cat mypackage.$ARCH.initial mypackage.$ARCH.depend.res > mypackage.$ARCH.manifest
+<pre>% ls *.res
+mypackage.$ARCH.depend.res
+% cat mypackage.$ARCH.initial mypackage.$ARCH.depend.res > mypackage.$ARCH.manifest
 </pre>
 
-Take care of cosmetic issues, like proper line wrapping at 80 characters.
+<p>Take care of cosmetic issues, like proper line wrapping at 80 characters.
 
-<pre>
-  % pkgfmt mypackage.$ARCH.manifest
+<pre>% pkgfmt mypackage.$ARCH.manifest
 </pre>
 
-As a final check, run pkglint. Be sure to fix any errors that appear.
+<p>As a final check, run pkglint. Be sure to fix any errors that appear.
 
-<pre>
-  % pkglint mypackage.$ARCH.manifest
+<pre>% pkglint mypackage.$ARCH.manifest
 </pre>
 
-Give manifest a *.p5m extension for publishing.
+<p>Give manifest a *.p5m extension for publishing.
 
-<pre>
-  % cp mypackage.$ARCH.manifest mypackage.$ARCH.p5m
+<pre>% cp mypackage.$ARCH.manifest mypackage.$ARCH.p5m
 </pre>
 
-Finally, publish the packages to the appropriate server. In this example I use http://myipsserver:8000 for sparc and http://myipsserver:8001 for x86.
+<p>Finally, publish the packages to the appropriate server. In this example I
+use http://myipsserver:8000 for sparc and http://myipsserver:8001 for x86.
 
-<pre>
-  % sudo pkgsend publish \
-        -d ./install_sparc \
-        -s http://myipsserver:8000 \
-        mypackage.sparc.p5m
-  % sudo pkgsend publish \
-        -d ./install_i386 \
-        -s http://myipsserver:8001 \
-        mypackage.i386.p5m
+<pre>% sudo pkgsend publish \
+      -d ./install_sparc \
+      -s http://myipsserver:8000 \
+      mypackage.sparc.p5m
+% sudo pkgsend publish \
+      -d ./install_i386 \
+      -s http://myipsserver:8001 \
+      mypackage.i386.p5m
 </pre>
 
+<h2>Merge the packages</h2>
 
+<p>Finally, now that each architecture-specific package is published, we can
+merge the two repositories into the multiple architecture repository.
 
-<h1>Merge the packages</h1>
-
-Finally, now that each architecture-specific package is published, we can merge the two repositories into the multiple architecture repository.
-
-<pre>
-  $ pkgmerge -s arch=sparc,http://myipsserver:8000 \
-      -s arch=i386,http://myipsserver:8001 \
-      -d http://myipsserver
+<pre>$ pkgmerge -s arch=sparc,http://myipsserver:8000 \
+    -s arch=i386,http://myipsserver:8001 \
+    -d http://myipsserver
 </pre>
 
 
-<h1>Test the package</h1>
+<h2>Test the package</h2>
 
-The final step is to install the package and see if it worked. I recommend testing on a sparc machine and an x86 machine. I assume that the IPS (pkg command) publishers are setup correctly (pointing to the multiple architecture repository and with the correct publisher name).
+<p>The final step is to install the package and see if it worked. I recommend
+testing on a sparc machine and an x86 machine. I assume that the IPS (pkg
+command) publishers are setup correctly (pointing to the multiple
+architecture repository and with the correct publisher name).
 
-<pre>
-  pkg install pkg://mycompany/mypackage
+<pre>pkg install pkg://mycompany/mypackage
 </pre>
 
 
-
-<h1>Resources</h1>
+<h2>Resources</h2>
 
 <ul>
     <li>
@@ -172,10 +162,9 @@ The final step is to install the package and see if it worked. I recommend testi
 </div>
 
 <footer>
-  <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2012, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
+  Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>. Copyright 2012, <a href="/" rel="author"
+  class="p-author h-card">Tim Swast</a>.
 </footer>
-
-
-</body>
-</html>
+</article>
