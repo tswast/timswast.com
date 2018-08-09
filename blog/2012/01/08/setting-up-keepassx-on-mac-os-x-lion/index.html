@@ -1,16 +1,10 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1">
-        <title>Setting up KeePassX on Mac OS X Lion</title>
-        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
-        <link href="../../../../../third_party/prettify201106/prettify.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="../../../../../third_party/prettify201106/prettify.js"></script>
-    </head>
-    <body class="h-entry" onload="prettyPrint()">
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1">
+<title>Setting up KeePassX on Mac OS X Lion</title>
+<link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
 
-
+<article class="h-entry">
 <div id="content-header">
     <a href="/blog/2012/01/08/setting-up-keepassx-on-mac-os-x-lion/">
         <h1 class="p-name">Setting up KeePassX on Mac OS X Lion</h1>
@@ -25,14 +19,14 @@
 <a href="http://www.gnupg.org/download/#libgpg-error" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.gnupg.org']);"> http://www.gnupg.org/download/#libgpg-error</a></p>
 <p>Build and install. (Should go to /usr/local/*.)</p>
 
-<pre class="prettyprint">./configure
+<pre>./configure
 make
 sudo make install</pre>
 <p>Then, download and install libgcrypt.<br />
 <a href="http://www.gnupg.org/download/#libgcrypt" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.gnupg.org']);">http://www.gnupg.org/download/#libgcrypt</a></p>
 <p>Build and install.</p>
 
-<pre class="prettyprint">./configure
+<pre>./configure
 make
 sudo make install</pre>
 <h1>Install Qt4</h1>
@@ -41,7 +35,7 @@ sudo make install</pre>
 <p>After it was installed, I had to add the Qt utilities to my ~/.bash_profile. For me, these were located in ~/QtSDK/Desktop/Qt/474/gcc/bin.</p>
 <h1>Build KeePassX</h1>
 <p>In order to build KeePassX, I had to add a &#8220;bundle destination&#8221; to src/CMakeLists.txt.</p>
-<pre class="prettyprint">
+<pre>
 $ diff src/CMakeLists.txt.old src/CMakeLists.txt
   add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE main.cpp )
   target_link_libraries( ${PROGNAME} keepassx_core \
@@ -53,7 +47,7 @@ $ diff src/CMakeLists.txt.old src/CMakeLists.txt
 +     RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT Runtime)
 </pre>
 <p>Then, as the INSTALL file says, run</p>
-<pre class="prettyprint">
+<pre>
 mkdir build
 cd build
 cmake ..
@@ -62,16 +56,13 @@ make
 <h1>Notes</h1>
 <p>For this project, I thought I had to tell configure to use the 32-bit architecture, since it couldn&#8217;t find symbols when I tried the default 64-bit. (It turns out that I just hadn&#8217;t installed the libraries in the correct order.)</p>
 <p>For future reference, if you need to force a 32-bit architecture, do this.</p>
-<pre class="prettyprint">./configure CC="gcc -arch i386" CXX="g++ -arch i386"
+<pre>./configure CC="gcc -arch i386" CXX="g++ -arch i386"
 make
 sudo make install</pre>
 </div>
 
 <footer>
   <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2012, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
+  Copyright 2012, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>.
 </footer>
-
-
-</body>
-</html>
+</article>

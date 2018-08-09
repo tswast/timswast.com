@@ -1,60 +1,53 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1">
-        <title>Python List Comprehensions are Easy! </title>
-        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
-        <link href="../../../../../third_party/prettify201106/prettify.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="../../../../../third_party/prettify201106/prettify.js"></script>
-    </head>
-    <body class="h-entry" onload="prettyPrint()">
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1">
+<title>Python List Comprehensions are Easy! </title>
+<link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
 
-
+<article class="h-entry">
 <div id="content-header">
-    <a href="/blog/2008/06/11/python-list-comprehensions/">
-        <h1 class="p-name">Python List Comprehensions are Easy!</h1>
-    </a>
+    <h1 class="p-name">Python List Comprehensions are Easy!</h1>
     <span class="post-date">Wed 11 Jun 2008</span>
 </div>
 
 
 <div id="post-content" class="e-content">
+<p class="p-summary">I've been aware list comprehensions for a while now, but
+they seemed complicated, so I was afraid to use them. Today, I found that
+they really aren't that bad. In fact, if you already know how to populate a
+python list inside a for loop, you're 95% there&nbsp;already.</p>
 
-<!-- Hyde::Article::Begin -->
-
-<!-- Hyde::Excerpt::Begin -->
-
-<p>I've know about list comprehensions for a while now, but I never really bothered learning how to use them. Today, I found that they really aren't that bad. In fact, if you already know how to populate a python list inside a for loop, you're 95% there&nbsp;already.</p>
-
-<!-- Hyde::Excerpt::End -->
-
-<p>Say you wanted to populate a python list with 7, 7's. You might go about it by doing something like&nbsp;this:</p>
+<p>Say you wanted to populate a python list with 7, 7's. You might go about
+it by doing something like&nbsp;this:</p>
 
 <pre class="prettyprint"><code>spam = []
 
-for x in range(7):
- spam.append(7)
+<b>for</b> x <b>in</b> range(7):
+   spam.append(7)
 </code></pre>
-<p>With list comprehensions this becomes a&nbsp;one-liner:</p>
-<pre class="prettyprint"><code>spam = [7 for x in range(7)]
-</code></pre>
-<p>Basically, you take your for loop and shove it inside the list declaration. Whatever you were appending goes first. Thus, if we wanted to change our list to be 7 powers of 7, you'd&nbsp;write:</p>
-<pre class="prettyprint"><code># this gives us [1, 7, 49, ...]
-spam = [7**x for x in range(7)]
-</code></pre>
-<p>Something as scary sounding as "list comprehension" really isn't anything more than shoving a for loop (or two) into where you declare the list. It's quite powerful, for being so&nbsp;simple. </p>
 
+<p>With list comprehensions this becomes a&nbsp;one-liner:</p>
+
+<pre><code>spam = [7 <b>for</b> x <b>in</b> range(7)]
+</code></pre>
+
+<p>Basically, you take your for loop and shove it inside the list
+declaration. Whatever you were appending goes first. Thus, if we wanted to
+change our list to be 7 powers of 7, you'd&nbsp;write:</p>
+
+<pre><code># this gives us [1, 7, 49, ...]
+spam = [7 <b>**</b> x <b>for</b> x <b>in</b> range(7)]
+</code></pre>
+
+<p>Something as scary sounding as "list comprehension" really isn't anything
+more than shoving a for loop (or two) into where you declare the list. It's
+quite powerful, for being so&nbsp;simple.</p>
 </div>
 
-
-
-
 <footer>
-  <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2008, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
+  <aside>Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.</aside>
+  Copyright 2008, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>.
 </footer>
-
-
-</body>
-</html>
+</article>
