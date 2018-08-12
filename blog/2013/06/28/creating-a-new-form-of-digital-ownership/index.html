@@ -1,65 +1,76 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1">
-        <title>Creating a new form of digital ownership</title>
-        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
-        <style>
-            img {
-                max-width: 100%;
-                display: block;
-            }
-        </style>
-    </head>
-    <body class="h-entry">
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1">
+<title>Creating a new form of digital ownership</title>
+<link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
 
-        <div id="content-header">
-            <a href="">
-                <h1>Creating a new form of digital ownership</h1>
-            </a>
-            <span class="post-date">Friday, June 28, 2013</span>
-        </div>
+<article class="h-entry">
+<div id="content-header">
+  <h1 class="p-name">Creating a new form of digital ownership</h1>
+  Published <time class="dt-published post-date"
+  datetime="2013-06-28">Friday, June 28, 2013</time>
+</div>
 
-        <p>
-        Why is it that we <a href="http://youtu.be/E_9R45RLNR0">buy digital hats</a> but not blog posts or web comics? <a href="http://store-xkcd-com.myshopify.com/">Some</a> <a href="http://shop.theoatmeal.com/">artists</a> make money by selling physical items like posters or t-shirts, but for all-digital content it seems that the only options of monetizing them are through paywalls or advertising.
-        </p>
+<div class="e-content">
+<p class="e-summary">Why is it that we <a
+href="http://youtu.be/E_9R45RLNR0">buy digital hats</a> but not blog posts or
+web comics? <a href="http://store-xkcd-com.myshopify.com/">Some</a> <a
+href="http://shop.theoatmeal.com/">artists</a> make money by selling physical
+items like posters or t-shirts, but for all-digital content it seems that the
+only options of monetizing them are through paywalls or advertising. </p>
 
-        <img src="hats.jpg"
-            alt="TF2 hats" />
+<img src="hats.jpg" alt="TF2 hats" />
 
-        <p>
-            I have a few problems with applying these models to my content. By requiring payment to view it, whatever price I set it to, some people won't be able to see it. Advertising has many problems : for small sites like mine, I would gain no measurable benefit in exchange losing control of my site. If I were to retain control and decide which advertisers to work with, I then become part of Chomsky's propoganda model, <em>self-censoring</em> myself to please <em>advertisers.</em>
-        </p>
+<p> I have a few problems with applying these models to my content. By
+requiring payment to view it, whatever price I set it to, some people won't
+be able to see it. Advertising has many problems : for small sites like mine,
+I would gain no measurable benefit in exchange losing control of my site. If
+I were to retain control and decide which advertisers to work with, I then
+become part of Chomsky's propoganda model, <em>self-censoring</em> myself to
+please <em>advertisers.</em> </p>
 
-        <h1>A proposal</h1>
+<h2>A proposal</h2>
 
-        <p>
-            There are other ways. For printed art, atists often mark their works with a print or edition number. Potentially, we could do this for blog posts and other digital content by tying a sequence number to a digital currency like bitcoin.
-        </p>
+<p> There are other ways. For printed art, atists often mark their works with
+a print or edition number. Potentially, we could do this for blog posts and
+other digital content by tying a sequence number to a digital currency like
+bitcoin. </p>
 
-        <img src="blog-with-edition-number.jpg"
-            alt="blog post ; 42 of unlimited" />
+<img src="blog-with-edition-number.jpg" alt="blog post ; 42 of unlimited" />
 
-        <p>
-            This would allow for even more flexibility than with physical art. Since we can track the whole chain of ownership of a particular edition, we can pay the original author whenever it is sold. By paying the original author, say 30% of the selling price, for each transfer we can keep the original, 1st edition, at a low price without worrying that it will immediately be sold for much more!
-        </p>
+<p> This would allow for even more flexibility than with physical art. Since
+we can track the whole chain of ownership of a particular edition, we can pay
+the original author whenever it is sold. By paying the original author, say
+30% of the selling price, for each transfer we can keep the original, 1st
+edition, at a low price without worrying that it will immediately be sold for
+much more! </p>
 
+<h2>How might it work?</h2>
 
-        <h1>How might it work?</h1>
+<p>Since bitcoin and similar currencies create a linear block chain of
+transactions with transactions appearing in some order in each block, we
+could simply use the convention that each piece of content is assigned a new
+address. Any payments to this address will be ordered in some way. Thus, the
+first to pay would own the first edition by convention.</p>
 
-        <p>Since bitcoin and similar currencies create a linear block chain of transactions with transactions appearing in some order in each block, we could simply use the convention that each piece of content is assigned a new address. Any payments to this address will be ordered in some way. Thus, the first to pay would own the first edition by convention.</p>
+<p> A big problem with the ownership by convention method is that editions
+cannot be resold. Instead, it would be better to create something like
+namecoin, where names can be bought but then editions of those names can be
+sold and resold. This would give the most flexibility. If the "names" were
+hashes of the document being traded, perhaps this could double as a P2P
+distribution method as well? </p>
 
-        <p>
-            A big problem with the ownership by convention method is that editions cannot be resold. Instead, it would be better to create something like namecoin, where names can be bought but then editions of those names can be sold and resold. This would give the most flexibility. If the "names" were hashes of the document being traded, perhaps this could double as a P2P distribution method as well?
-        </p>
+<h2>The way forward</h2>
 
+<p> One could pretty easily implement such a monetization method in a
+centralized way. Either each individual content creator runs their own store
+or a company offers to sell editions as a service. In my opinion, I doubt I
+would feel nearly as much personal ownership of an edition with a centralized
+solution as I would in a P2P system I partially control. Perhaps then, the
+next step is to fork bitcoin, namecoin, ... and start implementing? If we
+build it, will people use it? </p>
+</div>
 
-        <h1>The way forward</h1>
-
-        <p>
-            One could pretty easily implement such a monetization method in a centralized way. Either each individual content creator runs their own store or a company offers to sell editions as a service. In my opinion, I doubt I would feel nearly as much personal ownership of an edition with a centralized solution as I would in a P2P system I partially control. Perhaps then, the next step is to fork bitcoin, namecoin, ... and start implementing? If we build it, will people use it?
-        </p>
 <footer>
   <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
   Copyright 2013, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
