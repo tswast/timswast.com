@@ -18,8 +18,10 @@
     {% if entry.photos %}
     <p class="index-item-photos">
       {% for photo in entry.photos %}
-      <img class="index-item-photo{% if photo['is_pixel_art'] %} pixel-art{% endif %}"
-        src="{{ photo.src }}" alt="{{ photo.alt }}" />
+      <a href="{{ entry.path }}">
+        <img class="index-item-photo{% if photo['is_pixel_art'] %} pixel-art{% endif %}"
+          src="{{ photo.src }}" alt="{{ photo.alt }}" />
+      </a>
       {% endfor %}
     </p>
     {% endif %}
