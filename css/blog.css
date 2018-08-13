@@ -74,11 +74,22 @@ img, video {
  *
  * Notes should preserve whitespace and line-breaks.
  */
-.h-entry .p-name.p-content,.p-name.e-content {
+.p-name.p-content,.p-name.e-content {
   white-space: pre-wrap;
   margin-left: 1em;
   padding-left: 1em;
   border-left: 2px solid lightgray;
+}
+
+.index-item-summary,.index-item-photos {
+  margin-left: 1em;
+  padding-left: 1em;
+  border-left: 2px solid lightgray;
+}
+
+.index-item-photo {
+  display: inline-block;
+  width: 4em;
 }
 
 /* Make pixel art look more pixel-ly
