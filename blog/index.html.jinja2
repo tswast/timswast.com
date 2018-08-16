@@ -10,23 +10,24 @@
     class="u-photo pixel-art icon"> Tim Swast</a> posted
     <a href="{{ entry.path }}" class="p-name">{{ entry.name }}</a>
     {% if entry.summary %}<p class="index-item-summary">{{ entry.summary}}</p>{% endif %}
-    <p class="index-item-summary"><a href="{{ entry.path }}">Read the full article</a>.
     {% else %}
     - <a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
     class="u-photo pixel-art icon"> Tim Swast</a> posted an
     <a href="{{ entry.path }}">untitled note</a>:
     <p class="p-name e-content">{{ entry.content }}</p>
+    {% endif %}
     {% if entry.photos %}
     <p class="index-item-photos">
       {% for photo in entry.photos %}
-      <a href="{{ entry.path }}">
-        <img class="index-item-photo{% if photo['is_pixel_art'] %} pixel-art{% endif %}"
+      <a href="{{ entry.path }}{% if photo.id %}#{{ photo.id }}{% endif %}">
+        <img class="index-item-photo{% if photo.is_pixel_art %} pixel-art{% endif %}"
           src="{{ photo.src }}" alt="{{ photo.alt }}" />
       </a>
       {% endfor %}
     </p>
     {% endif %}
-    {% endif %}
+    {% if entry.name %}<p class="index-item-summary"><a href="{{ entry.path }}">Read
+    the full article</a>.{% endif %}
   </li>
 {% endfor %}
 </ul>
