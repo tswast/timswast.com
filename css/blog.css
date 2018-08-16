@@ -92,6 +92,14 @@ img, video {
   width: 4em;
 }
 
+.blog-post-screenshot {
+  /* Leave some gap so the text between images doesn't get lost. */
+  width: 80%;
+  /* Center the image */
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Make pixel art look more pixel-ly
  * See:
  * http://stackoverflow.com/questions/7615009/disable-interpolation-when-scaling-a-canvas
