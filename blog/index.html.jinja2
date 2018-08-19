@@ -4,7 +4,7 @@
 {% for entry in year_entrys|sort(attribute='published', reverse=True) %}
   <li class="h-entry">
     <a href="{{ entry.path }}" class="u-url"><time class="dt-published"
-    datetime="{{ entry.published.strftime('%Y-%m-%d') }}">{{ entry.published.strftime('%B %-d') }}</time></a>
+    datetime="{{ entry.published.strftime('%Y-%m-%d') }}">{{ entry.published.strftime('%B %-d, %Y') }}</time></a>
     {% if entry.name %}
     - <a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
     class="u-photo pixel-art icon"> Tim Swast</a> posted
