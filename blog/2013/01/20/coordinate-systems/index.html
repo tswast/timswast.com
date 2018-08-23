@@ -1,197 +1,188 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Coordinate Systems Matter : Tim Swast 2013.01.20</title>
-        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
-        <meta name="viewport" content="initial-scale=1">
-        <style>
-        span.code {
-                font-family: monospace;
-            }
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1">
+<title>Coordinate Systems Matter : Tim Swast 2013.01.20</title>
+<link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
 
-            img {
-                max-width: 100%;
-                display: block;
-            }
-        </style>
-    </head>
-    <body class="h-entry">
-
+<article class="h-entry">
 <div id="content-header">
-    <a href="">
-        <h1>Coordinate Systems Matter</h1>
-    </a>
-    <span class="post-date">Sunday, January 20, 2013</span>
+  <h1 class="p-name">Coordinate Systems Matter</h1>
+  <a href="/" rel="author" class="p-author h-card"><img
+  src="/img/profile.png" class="u-photo pixel-art icon"> Tim Swast</a> on
+  <time class="dt-published post-date"
+  datetime="2013-01-20">Sunday, January 20, 2013</time>
 </div>
 
-        <p>
-        I have discovered more than once in recent free-time projects, that
-        <a href="http://www.dijkstrascry.com/node/86">exploiting symmetry</a>
-        can help make code much simpler to write and understand. In fact, it makes some problems feel tractable, when at first they
-        felt as though a complicated "brute force" technique was needed.
-        </p>
+<div class="e-content">
+<p class="e-summary">
+I have discovered more than once in recent free-time projects, that
+<a href="http://www.dijkstrascry.com/node/86">exploiting symmetry</a>
+can help make code much simpler to write and understand. In fact, it makes
+some problems feel tractable, when at first they felt as though a complicated
+"brute force" technique was needed.
+</p>
 
-        <p>
-            I'll give some examples of where simply adjusting coordinate systems
-            made my problems much easier to understand and solve.
-            By changing to the right coordinate system,
-            <a href="http://www.dijkstrascry.com/node/86">symmetries</a>
-            in the problem can become more apparent.
-        </p>
+<p>
+    I'll give some examples of where simply adjusting coordinate systems
+    made my problems much easier to understand and solve.
+    By changing to the right coordinate system,
+    <a href="http://www.dijkstrascry.com/node/86">symmetries</a>
+    in the problem can become more apparent.
+</p>
 
-        <h1>
-             Hexagons
-        </h1>
+<h2>
+     Hexagons
+</h2>
 
-        <p>
-            One project I have been working on in my spare time is a digital instrument
-            that uses the Lattice Boltzmann Method to simulate fluids. In it, I have
-            fill the screen with hexagons (2DQ7), where each hexagon simulates how pressure
-            waves move through a two dimensional surface. Thus, the problem arises:
-            &ldquo;In what structure store the hexagons, how would I map hexagon indices
-            to screen positions, and how do I find neighboring hexagons?&rdquo;
-        </p>
+<p>
+    One project I have been working on in my spare time is a digital instrument
+    that uses the Lattice Boltzmann Method to simulate fluids. In it, I have
+    fill the screen with hexagons (2DQ7), where each hexagon simulates how pressure
+    waves move through a two dimensional surface. Thus, the problem arises:
+    &ldquo;In what structure store the hexagons, how would I map hexagon indices
+    to screen positions, and how do I find neighboring hexagons?&rdquo;
+</p>
 
-        <p>
-            When I started the project, I approached these question the same way I would
-            a lattice of squares (2DQ9). Working with pixels much longer than I have
-            <a href="http://www.hexels.com/">hexels,</a> it was difficult to start from
-            first principles.
-        </p>
+<p>
+    When I started the project, I approached these question the same way I would
+    a lattice of squares (2DQ9). Working with pixels much longer than I have
+    <a href="http://www.hexels.com/">hexels,</a> it was difficult to start from
+    first principles.
+</p>
 
-        <p>
-            The nice thing with a lattice of squares / screen of pixels is that a 2D array
-            maps directly onto it in a reasonably straight-forward manner. In fact, it can
-            be as simple as directly translating array index to pixel position.
-        </p>
+<p>
+    The nice thing with a lattice of squares / screen of pixels is that a 2D array
+    maps directly onto it in a reasonably straight-forward manner. In fact, it can
+    be as simple as directly translating array index to pixel position.
+</p>
 
-        <img src="d2q9-lattice.png"
-            alt="3 by 3 grid of squared, numbered identically to a 2D array"
-            title="The coordinates in this picture could just as easily label pixel coordinates or postition in a 2D array." />
+<img src="d2q9-lattice.png"
+    alt="3 by 3 grid of squared, numbered identically to a 2D array"
+    title="The coordinates in this picture could just as easily label pixel coordinates or postition in a 2D array." />
 
-        <p>
-            I attempted to do a similar mapping with hexagons, and it &ldquo;worked,&rdquo; but
-            I went through many iterations and errors as I walked through the different cases for
-            drawing and finding neighbors. Doing things this way, I was shoving a hexagonal peg
-            into a square hole.
-        </p>
+<p>
+    I attempted to do a similar mapping with hexagons, and it &ldquo;worked,&rdquo; but
+    I went through many iterations and errors as I walked through the different cases for
+    drawing and finding neighbors. Doing things this way, I was shoving a hexagonal peg
+    into a square hole.
+</p>
 
-        <img src="d2q7-lattice-nonlinear-mapping.png"
-            alt="A sample of hexagons labeled s.t. the index was nearest to the 2D array / pixel mapping."
-            title="This labeling is non-linear!" />
+<img src="d2q7-lattice-nonlinear-mapping.png"
+    alt="A sample of hexagons labeled s.t. the index was nearest to the 2D array / pixel mapping."
+    title="This labeling is non-linear!" />
 
-        <p>
-            Doing this was frustrating in two ways. The first is that I could draw such a numbering by
-            hand easily enough, but it took many wrong implementations translating the procedure to
-            code. The drawing code for even rows and that for odd rows ends up being very different
-            from each other. Second, even once the code was implemented correctly, it felt wrong
-            to be doing things this way. After all, a hexagon in an even row looks exactly the same
-            as a hexagon in an odd row. The code should reflect this symmetry. My code reaked of
-            <a href="http://c2.com/cgi/wiki?CodeSmell">code smell</a>.
-        </p>
+<p>
+    Doing this was frustrating in two ways. The first is that I could draw such a numbering by
+    hand easily enough, but it took many wrong implementations translating the procedure to
+    code. The drawing code for even rows and that for odd rows ends up being very different
+    from each other. Second, even once the code was implemented correctly, it felt wrong
+    to be doing things this way. After all, a hexagon in an even row looks exactly the same
+    as a hexagon in an odd row. The code should reflect this symmetry. My code reaked of
+    <a href="http://c2.com/cgi/wiki?CodeSmell">code smell</a>.
+</p>
 
-        <p>
-            Ideally, we can find a mapping where hexagons are treated more symmetrically. That is,
-            the mapping from 2D array index to screen position should be linear. Meaning, it should
-            be a simple addition and multiplication. There should be no difference in even versus odd
-            rows or any other unnecessary distinction between the different hexagons.
-        </p>
+<p>
+    Ideally, we can find a mapping where hexagons are treated more symmetrically. That is,
+    the mapping from 2D array index to screen position should be linear. Meaning, it should
+    be a simple addition and multiplication. There should be no difference in even versus odd
+    rows or any other unnecessary distinction between the different hexagons.
+</p>
 
-        <p>
-            In this light, we see that our choice to attempt to fit the x and y directions at 90 degrees
-            is a poor fit for a lattice of hexagons. Instead, we should choose an x and y direction (the
-            <em><a href="http://en.wikipedia.org/wiki/Basis_%28linear_algebra%29">basis</a></em> in linear-algebra-speak)
-        </p>
+<p>
+    In this light, we see that our choice to attempt to fit the x and y directions at 90 degrees
+    is a poor fit for a lattice of hexagons. Instead, we should choose an x and y direction (the
+    <em><a href="http://en.wikipedia.org/wiki/Basis_%28linear_algebra%29">basis</a></em> in linear-algebra-speak)
+</p>
 
-        <img src="d2q7-mapping-choices.png"
-            alt="Choose x, y directions (the basis) in a way that makes sense for hexagons."
-            title="Use the symmetry in a hexagon to your advantage." />
+<img src="d2q7-mapping-choices.png"
+    alt="Choose x, y directions (the basis) in a way that makes sense for hexagons."
+    title="Use the symmetry in a hexagon to your advantage." />
 
-        <p>
-            Choosing an x and y direction not 90 degrees apart may look strange, but to do so when
-            drawing a grid of hexagons will cause more pain that needed. Had I looked at the problem
-            this way from the beginning it would have saved me at least four iterations of bug fixing,
-            finding missing cases in drawing code and neighbor finding code.
-        </p>
+<p>
+    Choosing an x and y direction not 90 degrees apart may look strange, but to do so when
+    drawing a grid of hexagons will cause more pain that needed. Had I looked at the problem
+    this way from the beginning it would have saved me at least four iterations of bug fixing,
+    finding missing cases in drawing code and neighbor finding code.
+</p>
 
-        <img src="d2q7-good-mapping.png"
-            alt="This mapping has a basis going south-west and south-east."
-            title="By using a better basis, we have removed ugly asymmetries." />
+<img src="d2q7-good-mapping.png"
+    alt="This mapping has a basis going south-west and south-east."
+    title="By using a better basis, we have removed ugly asymmetries." />
 
-        <h1>
-            Queens
-        </h1>
+<h2>
+    Queens
+</h2>
 
-        <p>
-            Looking at symmetries in coordinate systems is also helpful when looking at the
-            <a href="http://en.wikipedia.org/wiki/Eight_queens_puzzle">n queens problem</a>.
-            The first part of this is to specify what exactly it means for a set of queens
-            to be attacking each other. Queens are said to be attacking each other if they
-            lie in the same row, column, or diagonal.
-        </p>
+<p>
+    Looking at symmetries in coordinate systems is also helpful when looking at the
+    <a href="http://en.wikipedia.org/wiki/Eight_queens_puzzle">n queens problem</a>.
+    The first part of this is to specify what exactly it means for a set of queens
+    to be attacking each other. Queens are said to be attacking each other if they
+    lie in the same row, column, or diagonal.
+</p>
 
-        <img src="queen-directions.png"
-            alt="Queens attack columns, rows, and diagonals."
-            title="There are four directions in which queens attack."
-        />
+<img src="queen-directions.png"
+    alt="Queens attack columns, rows, and diagonals."
+    title="There are four directions in which queens attack."
+/>
 
-        <p>
-            Can we translate the notion of queens attacking each other into mathematics?
-            If we are given a set of queens as (row, column) positions, can we determine
-            if any are attacking each other?
-        </p>
+<p>
+    Can we translate the notion of queens attacking each other into mathematics?
+    If we are given a set of queens as (row, column) positions, can we determine
+    if any are attacking each other?
+</p>
 
-        <p>
-            Let's start with the rows. If more than one queen shares a row, then these
-            queens are said to be attacking each other along that row. So, looping through
-            all the row coordinates of the queens and finding the existence of duplicates
-            (with a hash set, by sorting, or whatever other method you'd like to find duplicates)
-            is equivalent to finding out if the queens are attacking along some row. The
-            same argument applies to finding queens attacking along some column.
-        </p>
+<p>
+    Let's start with the rows. If more than one queen shares a row, then these
+    queens are said to be attacking each other along that row. So, looping through
+    all the row coordinates of the queens and finding the existence of duplicates
+    (with a hash set, by sorting, or whatever other method you'd like to find duplicates)
+    is equivalent to finding out if the queens are attacking along some row. The
+    same argument applies to finding queens attacking along some column.
+</p>
 
-        <p>
-            Is there a simple way to find queens attacking along the diagonals? Would it
-            work in the same way as the rows and columns. It feels as though the problem
-            and solution should be symmetric. We are just finding if the queens lie along
-            a certain line in the row, column, and diagonals cases, after all.
-        </p>
+<p>
+    Is there a simple way to find queens attacking along the diagonals? Would it
+    work in the same way as the rows and columns. It feels as though the problem
+    and solution should be symmetric. We are just finding if the queens lie along
+    a certain line in the row, column, and diagonals cases, after all.
+</p>
 
-        <img src="queen-rotate.png"
-            alt="By rotating a chess boad by 45 degrees, diagonals look just like rows and columns! row' = row + col, col' = col - row."
-            title="By rotating 45 degrees, diagonals look just like rows and columns!" />
+<img src="queen-rotate.png"
+    alt="By rotating a chess boad by 45 degrees, diagonals look just like rows and columns! row' = row + col, col' = col - row."
+    title="By rotating 45 degrees, diagonals look just like rows and columns!" />
 
-        <p>
-            Just as with the hexagons problem, with a change of coordinates
-            (in this case, by rotating 45 degrees and scaling), what we at first thought
-            was difficult now looks easy. By converting the queens' (row, column) coordinates
-            to (row + column, column - row) coordinates, what we have <em>really</em> done
-            is convert the queens' coordinates to (south-east diagonal, south-west diagonal)
-            form.
-        </p>
+<p>
+    Just as with the hexagons problem, with a change of coordinates
+    (in this case, by rotating 45 degrees and scaling), what we at first thought
+    was difficult now looks easy. By converting the queens' (row, column) coordinates
+    to (row + column, column - row) coordinates, what we have <em>really</em> done
+    is convert the queens' coordinates to (south-east diagonal, south-west diagonal)
+    form.
+</p>
 
-        <p>
-            With this new set of coordinates in hand, we can use the exact same duplicating
-            finding method as we did with rows and columns to determine if queens are attacking
-            along one of the diagonals.
-        </p>
+<p>
+    With this new set of coordinates in hand, we can use the exact same duplicating
+    finding method as we did with rows and columns to determine if queens are attacking
+    along one of the diagonals.
+</p>
 
-        <h1>
-            Conclusion
-        </h1>
+<h2>
+    Conclusion
+</h2>
 
-        <p>
-            Changing coordinates can highlight valuable symmetries when solving programming
-            can both prevent bugs and make problems tractable. Finding
-            <a href="http://www.dijkstrascry.com/node/86">symmetry</a> is a very important step.
-            By taking the time to find symmetries in the problems I've encountered in my
-            side projects, I could have saved myself from a lot of debugging time.
-        </p>
+<p>
+    Changing coordinates can highlight valuable symmetries when solving programming
+    can both prevent bugs and make problems tractable. Finding
+    <a href="http://www.dijkstrascry.com/node/86">symmetry</a> is a very important step.
+    By taking the time to find symmetries in the problems I've encountered in my
+    side projects, I could have saved myself from a lot of debugging time.
+</p>
+</div>
 
 <footer>
-  <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2013, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
+  Copyright 2013. Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.
 </footer>
-
-
+</article>

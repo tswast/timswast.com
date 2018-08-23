@@ -1,129 +1,152 @@
 <!DOCTYPE html>
 <html ng-app>
-    <head>
-        <meta charset="utf-8">
-        <title>An introduction to Markov chains</title>
-        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
-        <link rel="stylesheet" type="text/css" href="../../../../../third_party/katex/katex.min.css" />
-        <meta name="viewport" content="initial-scale=1">
+<head>
+<meta charset="utf-8">
+<title>An introduction to Markov chains with mathematical art</title>
+<link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
+<link rel="stylesheet" type="text/css" href="../../../../../third_party/katex/katex.min.css" />
+<meta name="viewport" content="initial-scale=1">
 
-        <script type="text/javascript" src="../../../../../third_party/katex/katex.min.js"></script>
-        <script type="text/javascript" src="../../../../../third_party/katex/contrib/auto-render.min.js"></script>
-        <script src="../../../../2013/js/angular.min.js"></script>
-        <script src="js/controllers.js"></script>
-    </head>
+<script type="text/javascript" src="../../../../../third_party/katex/katex.min.js"></script>
+<script type="text/javascript" src="../../../../../third_party/katex/contrib/auto-render.min.js"></script>
+<script src="../../../../2013/js/angular.min.js"></script>
+<script src="js/controllers.js"></script>
+</head>
 
-    <body class="h-entry" ng-controller="MarkovCtrl" onload="myRender()">
-        <h1>An introduction to Markov chains.</h1>
-        <p>
-            A Markov chain generates a random sequence of states; it is a stochastic model which changes state over discrete time. It has a set of states, a matrix of transition probabilities, and its transitions depend only on the current state and not further history.
-        </p>
-        <p>
-            Play with this JavaScript widget I have written. States are represented by colors and follow a
-            <a href="http://en.wikipedia.org/wiki/Hilbert_curve">Hilbert curve</a>
-            to fill the image.. Transition probabilities are shown as per-thousands. If the sum of the row is less than 100%, the remaining probability adds to the transition keeping the state the same.
-        </p>
+<body class="h-entry" ng-controller="MarkovCtrl" onload="myRender()">
+<div id="content-header">
+  <h1 class="p-name">An introduction to Markov chains with mathematical art</h1>
+  <a href="/" rel="author" class="p-author h-card"><img
+  src="/img/profile.png" class="u-photo pixel-art icon"> Tim Swast</a> on
+  <time class="dt-published post-date"
+  datetime="2013-08-07">August 7, 2013</time>
+</div>
 
-         <form name="myForm">
-             <table>
-                 <tr>
-                     <td></td>
-                     <td>To 1</td>
-                     <td>To 2</td>
-                     <td>To 3</td>
-                     <td>To 4</td>
-                     <td>To 5</td>
-                 </tr>
-                 <tr ng-repeat="row in transitionMatrix">
-                     <td>State {{$index + 1}}</td>
-                     <td ng-repeat="cell in row.transitions">
-                         <input type="number"
-                             ng-model="cell.value"
-                            min="0" max="1000">
-                     </td>
-                     <td>
-                         <input type="text" ng-model="row.color" />
-                         <div style="background-color: {{row.color}}; width: 1em">&nbsp;</div>
-                     </td>
-                 </tr>
-             </table>
-             Initial state: <input type="number" name="initialState" ng-model="initialState"
-                        min="1" max="5" required>
-             <button ng-click="reset()">Redraw with current T</button>
-        </form>
+<div class="e-content">
+<p class="e-summary">In this post, you'll use Markov chains to generate
+artworks and analyze the distributions of colors. This post contains
+interactive elements and is best experienced with a web browser at the <a
+href="/blog/2013/08/07/markov-chains-tutorial/">original post</a>.</p>
 
-        <canvas id="tutorial" width="512" height="512"></canvas>
+<p>A Markov chain generates a random sequence of states; it is a
+stochastic model which changes state over discrete time. It has a set
+of states, a matrix of transition probabilities, and its transitions
+depend only on the current state and not further history.
+</p>
 
-        <p>
-            We can define Markov chains formally as well. Assume we have a set of \(n\) states,
-        </p>
-        \[
-        S = \{ 1, 2, 3, \dots, n \}.
-        \]
-        <p>
-            The Markov chain generates a random sequence,
-        </p>
-        \[
-        \{x_1, x_2, \dots, x_k, x_{k+1}, \dots \}.
-        \]
-        <p>
-            The probabilities of \(x_1\) being in any particular state follow an initial distribution, \(\{a_k\}.\) State transitions depend only on the previous state, that is, we only care about the conditional probabilities,
-        </p>
-        \[ P[x_{m+1}=j | x_{m}=i], \forall i,j \in S. \]
-        <p>
-            Therefore, we can represent a Markov chain by its transition matrix,
-        </p>
-        \[ T =
-        \begin{pmatrix} p_{11} &amp; p_{12} &amp; \dots &amp; p_{1n}\\
+<p>Play with this JavaScript widget I have written. States are represented
+by colors and follow a <a
+href="http://en.wikipedia.org/wiki/Hilbert_curve">Hilbert curve</a> to fill
+the image.. Transition probabilities are shown as per-thousands. If the sum
+of the row is less than 100%, the remaining probability adds to the
+transition keeping the state the same.
+</p>
+
+ <form name="myForm">
+     <table>
+         <tr>
+             <td></td>
+             <td>To 1</td>
+             <td>To 2</td>
+             <td>To 3</td>
+             <td>To 4</td>
+             <td>To 5</td>
+         </tr>
+         <tr ng-repeat="row in transitionMatrix">
+             <td>State {{$index + 1}}</td>
+             <td ng-repeat="cell in row.transitions">
+                 <input type="number"
+                     ng-model="cell.value"
+                    min="0" max="1000">
+             </td>
+             <td>
+                 <input type="text" ng-model="row.color" />
+                 <div style="background-color: {{row.color}}; width: 1em">&nbsp;</div>
+             </td>
+         </tr>
+     </table>
+     Initial state: <input type="number" name="initialState" ng-model="initialState"
+                min="1" max="5" required>
+     <button ng-click="reset()">Redraw with current T</button>
+</form>
+
+<canvas id="tutorial" width="512" height="512"></canvas>
+
+<p>
+    We can define Markov chains formally as well. Assume we have a set of \(n\) states,
+</p>
+\[
+S = \{ 1, 2, 3, \dots, n \}.
+\]
+<p>
+    The Markov chain generates a random sequence,
+</p>
+\[
+\{x_1, x_2, \dots, x_k, x_{k+1}, \dots \}.
+\]
+<p>
+    The probabilities of \(x_1\) being in any particular state follow an initial distribution, \(\{a_k\}.\) State transitions depend only on the previous state, that is, we only care about the conditional probabilities,
+</p>
+\[ P[x_{m+1}=j | x_{m}=i], \forall i,j \in S. \]
+<p>
+    Therefore, we can represent a Markov chain by its transition matrix,
+</p>
+\[ T =
+\begin{pmatrix} p_{11} &amp; p_{12} &amp; \dots &amp; p_{1n}\\
 \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
-        p_{n1} &amp; p_{n2} &amp; \dots &amp; p_{nn}\end{pmatrix}, \]
-        <p>
-            where \(p_{ij} = P[x_{m+1}=j | x_{m}=i].\)
-        </p>
+p_{n1} &amp; p_{n2} &amp; \dots &amp; p_{nn}\end{pmatrix}, \]
+<p>
+    where \(p_{ij} = P[x_{m+1}=j | x_{m}=i].\)
+</p>
 
-        <h1>Applications of Markov chains</h1>
-        <p>
-            Besides being useful for making somewhat unique artwork, Markov chains are reasonable models of many real-world processes. For example, James Montgomery shows how they can be used to model
-            <a href="http://www.ssc.wisc.edu/~jmontgom/markovchains.pdf">Social mobility</a>
-            in his textbook on Mathematical Models of Social Systems.
-        </p>
+<h1>Applications of Markov chains</h1>
 
-        <p>
-            In the social mobility model, time represents the generation and the state represents the social class. Transition properties represent the probability that offspring will be of a certain class given the parents' social class. Even though this model does not represent population growth through reproduction, it is a good first approximation.
-        </p>
+<p>Besides being useful for making somewhat unique artwork, Markov chains
+are reasonable models of many real-world processes. For example, James
+Montgomery shows how they can be used to model <a
+href="http://www.ssc.wisc.edu/~jmontgom/markovchains.pdf">Social mobility</a>
+in his textbook on Mathematical Models of Social Systems. </p>
 
+<p>In the social mobility model, time represents the generation and the
+state represents the social class. Transition properties represent the
+probability that offspring will be of a certain class given the parents'
+social class. Even though this model does not represent population growth
+through reproduction, it is a good first approximation.
 
-        <h1>Analysis of Markov chains.</h1>
-        <p>
-            By the way states are updated, we can see that the distribution for states at step \(i\) will be
-        </p>
-        \[ a T^i, \]
-        <p>
-            where \(a\) is the initial distribution represented as a row vector, and \(T\) is the transition probabilities matrix.
-        </p>
+<h1>Analysis of Markov chains.</h1>
+<p>By the way states are updated, we can see that the distribution for
+states at step \(i\) will be
 
-        <p>
-            In many Markov chains, this distribution tends toward something called a stationary distribution, \(\pi.\) Where,
-        </p>
-        \[ a T^i \to \pi = \pi T. \]
-        <p>
-            Note that \(\pi\) is invariant when multiplied by the transition matrix, \(T.\) This is why it is called a stationary distribution.
-        </p>
+<p>
+\[ a T^i, \]
 
-        <h2>How will the colors be distributed in a particular drawing?</h2>
-        <p>
-            We can try finding the stationary distribution of the example transition matrix first shown on this page.
-        </p>
-        \[ T = \begin{pmatrix}
-        0.99 &amp; 0.01 &amp; 0 \\
-        0.01 &amp; 0.98 &amp; 0.01 \\
-        0.01 &amp; 0    &amp; 0.99
-        \end{pmatrix} \]
+<p>where \(a\) is the initial distribution represented as a row vector, and
+\(T\) is the transition probabilities matrix.
 
-        <p>
-            In Matlab, we can try various powers of \(T\) to see toward which distribution it may converge.
-        </p>
-        <pre><code>EDU>> a = [ 1 0 0 ];
+<p>In many Markov chains, this distribution tends toward something called a
+stationary distribution, \(\pi.\) Where,
+
+<p>
+\[ a T^i \to \pi = \pi T. \]
+
+<p>Note that \(\pi\) is invariant when multiplied by the transition matrix,
+\(T.\) This is why it is called a stationary distribution. </p>
+
+<h2>How will the colors be distributed in a particular drawing?</h2>
+<p> We can try finding the stationary distribution of the example transition
+matrix first shown on this page. </p>
+
+<p>
+\[ T = \begin{pmatrix}
+0.99 &amp; 0.01 &amp; 0 \\
+0.01 &amp; 0.98 &amp; 0.01 \\
+0.01 &amp; 0    &amp; 0.99
+\end{pmatrix} \]
+
+<p>
+    In Matlab, we can try various powers of \(T\) to see toward which distribution it may converge.
+</p>
+<pre><code>EDU>> a = [ 1 0 0 ];
 EDU>> T = [ .99 .01 0
 .01 .98 .01
 .01 0   .99];
@@ -156,42 +179,44 @@ EDU>> a*T^1000
 ans =
     0.5000    0.2500    0.2500
 </code></pre>
-        <p>
-            We can see that the Markov chain will end up with about \(1/2\) in state 1, and \(1/4\) each in states 2 and 3.
-        </p>
+<p>
+    We can see that the Markov chain will end up with about \(1/2\) in state 1, and \(1/4\) each in states 2 and 3.
+</p>
 
-        <p>
-            You can try this out on the current transition matrix by entering the following in Matlab.
-        </p>
-        <div style="font-family: monospace;">
-            EDU>> a = [<span ng-repeat="iterState in [1,2,3,4,5]">
-            {{ 1.0 * (initialState == iterState)}}
-            </span>
-            ];<br>
-            EDU>> T = [...
-            <div ng-repeat="row in transitionMatrix">
-                <span ng-repeat="cell in row.transitions">
-                    {{cell.value / 1000}}
-                </span>
-            </div>
-            ];<br>
-            EDU>> a * T^1000<br>
-            ans = ???
-        </div>
+<p>
+    You can try this out on the current transition matrix by entering the following in Matlab.
+</p>
+<div style="font-family: monospace;">
+    EDU>> a = [<span ng-repeat="iterState in [1,2,3,4,5]">
+    {{ 1.0 * (initialState == iterState)}}
+    </span>
+    ];<br>
+    EDU>> T = [...
+    <div ng-repeat="row in transitionMatrix">
+        <span ng-repeat="cell in row.transitions">
+            {{cell.value / 1000}}
+        </span>
+    </div>
+    ];<br>
+    EDU>> a * T^1000<br>
+    ans = ???
+</div>
 
 
-        <h2>But proportions aren't everything...</h2>
-        <p>
-            Consider the following transition matrices.
-        </p>
+<h2>But proportions aren't everything...</h2>
+<p>
+    Consider the following transition matrices.
+</p>
 
-        \[ A = \begin{pmatrix}
-        0.01 &amp; 0.99 \\
-        0.99 &amp; 0.01
-        \end{pmatrix} \]
-        <img src="two-state-alternate.png"
-            alt="a nearly checkerboard drawing." />
-        <pre><code>EDU>> a = [1 0];
+<p>
+\[ A = \begin{pmatrix}
+0.01 &amp; 0.99 \\
+0.99 &amp; 0.01
+\end{pmatrix} \]
+
+<img src="two-state-alternate.png"
+    alt="a nearly checkerboard drawing." />
+<pre><code>EDU>> a = [1 0];
 EDU>> T = [0.01 0.99
 0.99 0.01];
 
@@ -199,15 +224,15 @@ EDU>> a * T^10000
 ans =
     0.5000    0.5000</code></pre>
 
+<p>
+\[ B = \begin{pmatrix}
+0.5 &amp; 0.5 \\
+0.5 &amp; 0.5
+\end{pmatrix} \]
 
+<img src="two-state-noise.png" alt="random white noise." />
 
-        \[ B = \begin{pmatrix}
-        0.5 &amp; 0.5 \\
-        0.5 &amp; 0.5
-        \end{pmatrix} \]
-        <img src="two-state-noise.png"
-            alt="random white noise." />
-        <pre><code>EDU>> a = [1 0];
+<pre><code>EDU>> a = [1 0];
 EDU>> T = [0.5 0.5
 0.5 0.5];
 
@@ -215,15 +240,15 @@ EDU>> a * T^10000
 ans =
     0.5000    0.5000</code></pre>
 
+<p>
+\[ C = \begin{pmatrix}
+0.99 &amp; 0.01 \\
+0.01 &amp; 0.99
+\end{pmatrix} \]
+<img id="image-2-state-sticky" class="pixel-art u-photo"
+  src="two-state-sticky.png" alt="choice of colors is sticky." />
 
-
-        \[ C = \begin{pmatrix}
-        0.99 &amp; 0.01 \\
-        0.01 &amp; 0.99
-        \end{pmatrix} \]
-        <img src="two-state-sticky.png"
-            alt="choice of colors is sticky." />
-        <pre><code>EDU>> a = [1 0];
+<pre><code>EDU>> a = [1 0];
 EDU>> T = [0.99 0.01
 0.01 0.99];
 
@@ -279,7 +304,8 @@ ans =
         <p>
             It generates a picture like this.
         </p>
-        <img src="three-state-alternate.png"
+        <img id="image-3-state" class="pixel-art u-photo"
+            src="three-state-alternate.png"
             alt="Something like a three-color checkerboard." />
         <p>
             How long will it take to transition to pink?
@@ -484,21 +510,20 @@ ans =
             window.requestAnimFrame(step);
         </script>
 
-        <footer>
-            <p>
-                This post was created as part of a project for
-                <a href="http://www.math.tamu.edu/~mpilant/math696/Summer-2013-Syllabus.html">
-                    Texas A&amp;M Math 696.
-                </a>
-            </p>
+<p> This post was created as part of a project for <a
+href="http://www.math.tamu.edu/~mpilant/math696/Summer-2013-Syllabus.html">
+Texas A&amp;M Math 696. </a>
+</div>
 
-          <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-          Copyright 2013, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
-        </footer>
+<footer>
+  Copyright 2013. Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.
+</footer>
 
-        <!-- Find and render LaTeX using KaTeX auto-render plugin. -->
-        <script>
-            renderMathInElement(document.body);
-        </script>
-    </body>
+<!-- Find and render LaTeX using KaTeX auto-render plugin. -->
+<script>
+    renderMathInElement(document.body);
+</script>
+</body>
 </html>

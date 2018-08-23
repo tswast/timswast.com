@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1">
-        <title>Finding Gray codes with backtracking in Python</title>
-        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
-    </head>
-    <body class="h-entry">
-        <div id="content-header">
-            <a href="/blog/2013/12/29/finding-gray-codes-with-backtracking-in-python/">
-                <h1>Finding Gray codes with backtracking in Python</h1>
-            </a>
-            <span class="post-date">Sunday, December 29, 2013</span>
-        </div>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1">
+<title>Finding Gray codes with backtracking in Python</title>
+<link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
 
-        <p>
-        <a href="http://en.wikipedia.org/wiki/Gray_code">Gray codes</a>
-        are ways of writing numbers using only 0s and 1s. They share the property
-        that as one goes from one number to the next, only one binary digit (bit)
-        changes. For example, if one is represented as &ldquo;001&rdquo;,
-        then two might be represented as &ldquo;011&rdquo;; only the middle bit
-        changes.
-        </p>
+<article class="h-entry">
+<div id="content-header">
+  <h1 class="p-name">Finding Gray codes with backtracking in Python</h1>
+  <a href="/" rel="author" class="p-author h-card"><img
+  src="/img/profile.png" class="u-photo pixel-art icon"> Tim Swast</a> on
+  <time class="dt-published post-date"
+  datetime="2013-12-29">Sunday, December 29, 2013</time>
+</div>
+
+<div class="e-content">
+<p class="e-summary"><a href="http://en.wikipedia.org/wiki/Gray_code">Gray codes</a> are ways
+of writing numbers using only 0s and 1s. They share the property that as one
+goes from one number to the next, only one binary digit (bit) changes. For
+example, if one is represented as &ldquo;001&rdquo;, then two might be
+represented as &ldquo;011&rdquo;; only the middle bit changes. </p>
 
 
         <h2>How are Gray codes used?</h2>
@@ -305,11 +302,11 @@ In&nbsp;[15]:
             Lastly, now that we have this framework, we can adjust our <em>accept</em> and <em>reject</em> functions to find other, more-specific kinds of Gray codes. For example, it would be interesting to see some Gray codes which can be flood-filled and to learn how many such codes there are.
         </p>
         <img src="flood-fill-gray-code.jpg" width="100%" alt="A Gray code of length 6 using 3 bits which can be flood filled in the 0s. {000, 001, 011, 010, 110, 100}" />
+</div>
 
-        <footer>
-          <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-          Copyright 2013, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
-        </footer>
-
-    </body>
-</html>
+<footer>
+  Copyright 2013. Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.
+</footer>
+</article>

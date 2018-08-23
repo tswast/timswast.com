@@ -1,0 +1,12 @@
+{% for entry in entries|sort(attribute='published', reverse=True) %}
+    <item>
+      {% if entry.name %}<title>{{ entry.name }}</title>{% endif %}
+      <description><![CDATA[
+        {{ entry.content }}
+      ]]></description>
+      <pubDate>{{ entry.published.strftime('%a, %d %b %Y %H:%M:%S %z') }}</pubDate>
+      <guid isPermalink="true">https://www.timswast.com/blog/{{ entry.path }}</guid>
+      <link>https://www.timswast.com/blog/{{ entry.path }}</link>
+      <author>@timswast</author>
+    </item>
+{% endfor %}

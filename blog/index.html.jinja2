@@ -1,0 +1,34 @@
+{% for year, year_entrys in entries|groupby('published.year')|sort(reverse=True) %}
+<h2>{{ year }}</h2>
+<ul>
+{% for entry in year_entrys|sort(attribute='published', reverse=True) %}
+  <li class="h-entry">
+    <a href="{{ entry.path }}" class="u-url"><time class="dt-published"
+    datetime="{{ entry.published.strftime('%Y-%m-%d') }}">{{ entry.published.strftime('%B %-d, %Y') }}</time></a>
+    {% if entry.name %}
+    - <a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
+    class="u-photo pixel-art icon"> Tim Swast</a> posted
+    <a href="{{ entry.path }}" class="p-name">{{ entry.name }}</a>
+    {% if entry.summary %}<p class="index-item-summary">{{ entry.summary}}</p>{% endif %}
+    {% else %}
+    - <a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
+    class="u-photo pixel-art icon"> Tim Swast</a> posted an
+    <a href="{{ entry.path }}">untitled note</a>:
+    <p class="p-name e-content">{{ entry.content }}</p>
+    {% endif %}
+    {% if entry.photos %}
+    <p class="index-item-photos">
+      {% for photo in entry.photos %}
+      <a href="{{ entry.path }}{% if photo.id %}#{{ photo.id }}{% endif %}">
+        <img class="index-item-photo{% if photo.is_pixel_art %} pixel-art{% endif %}"
+          src="{{ photo.src }}" alt="{{ photo.alt }}" />
+      </a>
+      {% endfor %}
+    </p>
+    {% endif %}
+    {% if entry.name %}<p class="index-item-summary"><a href="{{ entry.path }}">Read
+    the full article</a>.{% endif %}
+  </li>
+{% endfor %}
+</ul>
+{% endfor %}

@@ -1,60 +1,57 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1">
-        <title>Python ternary operator</title>
-        <link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
-        <link href="../../../../../third_party/prettify201106/prettify.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="../../../../../third_party/prettify201106/prettify.js"></script>
-    </head>
-    <body class="h-entry" onload="prettyPrint()">
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1">
+<title>Python ternary operator</title>
+<link rel="stylesheet" type="text/css" href="/css/blog.css" />
 
-
+<body>
+<article class="h-entry">
 <div id="content-header">
-    <h1 class="p-name">More fun with Python (the ternary operator)</h1>
-    <span class="post-date">Thu 19 Jun 2008</span>
+  <h1 class="p-name">More fun with Python (the ternary operator)</h1>
+  <a href="/" rel="author" class="p-author h-card"><img
+  src="/img/profile.png" class="u-photo pixel-art icon"> Tim Swast</a> on
+  <time class="dt-published post-date" datetime="2008-06-19">June 19,
+  2008</time>,
+  Updated <time class="dt-updated" datetime="2018-08-08">August 8,
+  2018</time>
 </div>
 
+<div id="post-content" class="e-content">
+<p class="p-summary">The ternary operator isn't necessary (Python didn't have
+one for years), but it can make code clearer when put to good use. The
+ternary operator consists of three parts: a condition, an expression to
+evaluate if the condition is true, and another expression to evaluate if the
+condition is false.</p>
 
-<div id="post-content">
+<p>C and its relatives have a ternary operator that looks like the
+following:</p>
 
-<!-- Hyde::Article::Begin -->
-
-<!-- Hyde::Excerpt::Begin -->
-
-<p>The ternary operator is one of those things that's not really necessary, but can make code quite a bit shorter when put to good use. For those of you who don't know, the ternary operator is a way to evaluate one thing if a condition is true, and a different thing if the condition is&nbsp;false.</p>
-
-<!-- Hyde::Excerpt::End -->
-
-<p>C and it's relatives have had this for quite some time in the&nbsp;form:</p>
-
-<pre class="prettyprint"><code>(condition) ? (evaluate when true) : (evaluate when false);
+<pre><code>(condition) ? (evaluate when true) : (evaluate when false);
 </code></pre>
 
-<p>Python users, on the other hand had to resort to cryptic uses of the 'and' and 'or' operators. See, Python boolean operators don't need to act on a boolean like those in Java/C# they'll happily accept most everything and do the&nbsp;following:</p>
+<p>Python users could use a normal if statement for this. But some
+programmers, who desired all the logic appear in single statement, resorted
+to cryptic uses of the 'and' and 'or' operators.
 
-<pre class="prettyprint"><code>(evaluate_this_first) and (return_this_if_the_left_was_true)
-(return_if_it_evaluates_as_true) or (return_if_left_evaluated_as_false)
+<pre><code>(evaluate_this_first) <b>and</b> (return_this_if_the_left_was_true)
+(return_if_it_evaluates_as_true) <b>or</b> (return_if_left_evaluated_as_false)
 </code></pre>
 
-<p>Luckily, though you can construct a ternary looking statement from the way 'and' and 'or' work, there is a better way--or at least a way that is easy to understand without know how the and/or operators work behind the scenes. It was added as PEP 308 after all voting took place and there was no preferred syntax, Guido used his position as Benevolent Dictator for Life and chose the following&nbsp;syntax:</p>
+<p><a href="https://www.python.org/dev/peps/pep-0308/">PEP 308</a> adds a
+true ternary operator to Python:
 
-<pre class="prettyprint"><code>(expression one) if (condition) else (expression two)
+<pre><code>(evaluate when true) <b>if</b> (condition) <b>else</b> (evaluate when false)
 </code></pre>
 
-<p>Where expression one is returned when condition is true and expression two is returned when condition is&nbsp;false. </p>
-
-<!-- Hyde::Article::End -->
-
-
-
+<p>In my opinion, the Python ternary operator avoids some of the problems
+with C-style ternary operators. Since the Python code reads more like an
+English sentence, it's easier to remember which statement is evaluated when
+the condition is true and which is evaluated when the condition is false.
+</div>
 
 <footer>
-  <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2008, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
+  Copyright 2008-2018. Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.
 </footer>
-
-
-</body>
-</html>
+</article>

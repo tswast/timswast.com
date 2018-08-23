@@ -11,34 +11,35 @@
 
 
 <div id="content-header">
-    <a href="">
-        <h1 class="p-name">Setting up Solaris IPS servers for multiple architecture (fat) packages</h1>
-    </a>
-    <span class="post-date">Monday, August 6, 2012</span>
+  <h1 class="p-name">Matplotlib 1.1.0 for Solaris on SPARC and x86, Part 2:
+  Setting up Solaris IPS servers for multiple architecture (fat)
+  packages</h1>
+  <a href="/" rel="author" class="p-author h-card"><img
+  src="/img/profile.png" class="u-photo pixel-art icon"> Tim Swast</a> on
+  <time class="dt-published post-date"
+  datetime="2012-08-06 13:00:00">Monday, August 6, 2012</time>
 </div>
 
 <div class="e-content">
-<p>
-This is part 2 of a three-part series on building and packaging matplotlib as a multi-architecture, Solaris IPS package.
+<p class="p-summary">This is part 2 of a three-part series on building and
+packaging matplotlib as a multi-architecture, Solaris IPS package.
 </p>
 
 <ol>
-    <a href="../compiling-matplotlib-with-solaris-studio/"><li>
-        Compiling matplotlib 1.1.0 for Solaris on SPARC and x86
-    </li></a>
-    <a href="../setting-up-ips-for-multi-arch-packages/"><li>
-        Setting up Solaris IPS servers to host packages for SPARC and x86
-    </li></a>
-    <a href="../packaging-matplotlib-for-multi-arch/"><li>
-        Packaging matplotlib 1.1.0 for Solaris on SPARC and x86
-    </li></a>
+  <a href="../compiling-matplotlib-with-solaris-studio/"><li>
+    Compiling matplotlib 1.1.0 for Solaris on SPARC and x86
+  </li></a>
+  <a href="../setting-up-ips-for-multi-arch-packages/"><li>
+    Setting up Solaris IPS servers to host packages for SPARC and x86
+  </li></a>
+  <a href="../packaging-matplotlib-for-multi-arch/"><li>
+    Packaging matplotlib 1.1.0 for Solaris on SPARC and x86
+  </li></a>
 </ol>
 
 <img style="float: right; width: 5em;" src="../images/pkg-block-logo.png" alt="pkg logo" />
 
-
-<p>
-IPS made is a huge step forward compared to SysV packaging. One can still
+<p>IPS made is a huge step forward compared to SysV packaging. One can still
 create and use SysV packages in Solaris 11, but why would you? IPS provides
 easy package distribution, upgrades, dependency resolution, and it's still <a
     href="http://hub.opensolaris.org/bin/view/Project+pkg/">open</a> <a
@@ -54,7 +55,7 @@ descriptions).
 </p>
 
 
-<h1>Overview</h1>
+<h2>Overview</h2>
 
 <p>
 These instructions will go through the steps necessary to setup IPS servers
@@ -73,7 +74,7 @@ then to "merge" them into one package. This means three IPS servers are
 required, one for each architecture, and one for the merged package.
 </p>
 
-<h1>Concepts</h1>
+<h2>Concepts</h2>
 
 The last paragraph had quite a few terms in it that have special meaning in
 IPS-speak. Learning the following terms will help quite a bit in understanding
@@ -103,7 +104,7 @@ server. A server does have a default publisher, though. When you query for
 packages and send new packages to the server, the default publisher is used
 unless otherwise specified.
 
-<h1>Create repositories</h1>
+<h2>Create repositories</h2>
 
 <p>
 In order to create a package which supports multiple architectures, we need
@@ -118,7 +119,7 @@ supposed to identify "who" publishes a package, not "where" they are
 published. It makes sense that each repository should have the same default
 publisher name. For this example we will use "mycompany" as the publisher.
 
-<h1>Setup local ZFS filesystems</h1>
+<h2>Setup local ZFS filesystems</h2>
 
 The first thing we will do is create ZFS filesystems for each repository.
 
@@ -149,14 +150,14 @@ example, since I'm creating a package for my company's internal use.
 </pre>
 
 
-<h1>Setup SMF-based IPS servers</h1>
+<h2>Setup SMF-based IPS servers</h2>
 
 For this example, we create multiple instances of the SMF-based pkg server.
 There are other options, file-system based sharing for example, but it seems
 that creating multiple server instances is the best-supported method of
 hosting.
 
-<h1>Setup IPS default (multi-architecture) server</h1>
+<h2>Setup IPS default (multi-architecture) server</h2>
 
 The first thing we will do is setup the default server on the standard http port (80).
 
@@ -197,7 +198,7 @@ The IPS server can now be reached at http://myipsserver Check that it is running
 </pre>
 
 
-<h1>Setup IPS sparc server</h1>
+<h2>Setup IPS sparc server</h2>
 
 We need to add a new instance to SMF. Since we're already using the default
 instance, we give it the name "sparc". We then need to do some basic
@@ -245,7 +246,7 @@ Start the server.
 The IPS server can now be reached at http://myipsserver:8000
 
 
-<h1>Setup IPS x86 server</h1>
+<h2>Setup IPS x86 server</h2>
 
 Now we'll add the final server instance to SMF. As before, we're already using
 the default instance, so we give this one a name. Finally, we add basic
@@ -293,7 +294,7 @@ Start the server.
 The IPS server can now be reached at http://myipsserver:8001
 
 
-<h1>Build and publish the package</h1>
+<h2>Build and publish the package</h2>
 
 Now that we have all the IPS servers setup, we can build and publish our
 package. In <a href="../packaging-matplotlib-for-multi-arch/">part 3</a>, we
@@ -301,7 +302,7 @@ will create a multi-architecture (fat) IPS package for matplotlib, which we
 compiled in <a href="../compiling-matplotlib-with-solaris-studio/">part 1</a>.
 
 
-<h1>Resources</h1>
+<h2>Resources</h2>
 
 
 <ul>
@@ -336,8 +337,9 @@ compiled in <a href="../compiling-matplotlib-with-solaris-studio/">part 1</a>.
 
 
 <footer>
-  <aside>Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.</aside>
-  Copyright 2012, <a href="/" rel="author" class="p-author h-card">Tim Swast</a>. All rights reserved.
+  Copyright 2012. Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.
 </footer>
 
 
