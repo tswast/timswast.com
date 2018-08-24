@@ -7,12 +7,12 @@
     datetime="{{ entry.published.strftime('%Y-%m-%d') }}">{{ entry.published.strftime('%B %-d, %Y') }}</time></a>
     {% if entry.name %}
     - <a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
-    class="u-photo pixel-art icon"> Tim Swast</a> posted
+    class="u-photo u-pixel-art icon"> Tim Swast</a> posted
     <a href="{{ entry.path }}" class="p-name">{{ entry.name }}</a>
-    {% if entry.summary %}<p class="index-item-summary">{{ entry.summary}}</p>{% endif %}
+    {% if entry.summary %}<p class="index-item-summary e-summary">{{ entry.summary}}</p>{% endif %}
     {% else %}
     - <a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
-    class="u-photo pixel-art icon"> Tim Swast</a> posted an
+    class="u-photo u-pixel-art icon"> Tim Swast</a> posted an
     <a href="{{ entry.path }}">untitled note</a>:
     <p class="p-name e-content">{{ entry.content }}</p>
     {% endif %}
@@ -26,7 +26,7 @@
       {% endfor %}
     </p>
     {% endif %}
-    {% if entry.name %}<p class="index-item-summary"><a href="{{ entry.path }}">Read
+    {% if entry.name %}<p class="index-item-summary e-summary"><a href="{{ entry.path }}">Read
     the full article</a>.{% endif %}
   </li>
 {% endfor %}

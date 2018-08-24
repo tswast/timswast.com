@@ -108,13 +108,14 @@ img, video {
  * image-rendering: optimize-contrast; is the only line specified in the CSS3 standard
  * working draft.
  */
-.pixel-art {
-  image-rendering: optimizeSpeed;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: optimize-contrast;
-  image-rendering: pixelated;
+.pixel-art,.u-pixel-art {
   -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: -webkit-optimize-contrast; /* Safari */
+  image-rendering: optimize-contrast;
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  image-rendering: optimizeSpeed;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;  /* Chrome */
 }
 
 img.icon {
