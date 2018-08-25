@@ -20,13 +20,13 @@
     <p class="index-item-photos">
       {% for photo in entry.photos %}
       <a href="{{ entry.path }}{% if photo.id %}#{{ photo.id }}{% endif %}">
-        <img class="index-item-photo{% if photo.is_pixel_art %} pixel-art{% endif %}"
+        <img class="index-item-photo{% if photo.is_pixel_art %} u-pixel-art{% endif %} u-photo"
           src="{{ photo.src }}" alt="{{ photo.alt }}" />
       </a>
       {% endfor %}
     </p>
     {% endif %}
-    {% if entry.name %}<p class="index-item-summary e-summary"><a href="{{ entry.path }}">Read
+    {% if entry.name %}<p class="index-item-summary"><a href="{{ entry.path }}">Read
     the full article</a>.{% endif %}
   </li>
 {% endfor %}
