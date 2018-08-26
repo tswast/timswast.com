@@ -1,19 +1,15 @@
 <!DOCTYPE html>
-<html ng-app>
-<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" type="text/css" href="/css/blog.css" />
 <title>An introduction to Markov chains with mathematical art</title>
-<link rel="stylesheet" type="text/css" href="../../../../../css/blog.css" />
 <link rel="stylesheet" type="text/css" href="../../../../../third_party/katex/katex.min.css" />
-<meta name="viewport" content="initial-scale=1">
-
 <script type="text/javascript" src="../../../../../third_party/katex/katex.min.js"></script>
 <script type="text/javascript" src="../../../../../third_party/katex/contrib/auto-render.min.js"></script>
 <script src="../../../../2013/js/angular.min.js"></script>
 <script src="js/controllers.js"></script>
-</head>
 
-<body class="h-entry" ng-controller="MarkovCtrl" onload="myRender()">
+<body ng-app class="h-entry" ng-controller="MarkovCtrl" onload="myRender()">
 <div id="content-header">
   <h1 class="p-name">An introduction to Markov chains with mathematical art</h1>
   <a href="/" rel="author" class="p-author h-card"><img
@@ -53,15 +49,14 @@ transition keeping the state the same.
              <td>To 5</td>
          </tr>
          <tr ng-repeat="row in transitionMatrix">
-             <td>State {{$index + 1}}</td>
+             <td>State {{$index + 1}}
+                 <input type="text" ng-model="row.color" />
+                 <div style="background-color: {{row.color}}; width: 1em">&nbsp;</div>
+             </td>
              <td ng-repeat="cell in row.transitions">
                  <input type="number"
                      ng-model="cell.value"
                     min="0" max="1000">
-             </td>
-             <td>
-                 <input type="text" ng-model="row.color" />
-                 <div style="background-color: {{row.color}}; width: 1em">&nbsp;</div>
              </td>
          </tr>
      </table>
