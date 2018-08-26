@@ -5,27 +5,27 @@
   <li class="h-entry">
     <a href="{{ entry.path }}" class="u-url"><time class="dt-published"
     datetime="{{ entry.published.strftime('%Y-%m-%d') }}">{{ entry.published.strftime('%B %-d, %Y') }}</time></a>
-    {% if entry.name %}
+{% if entry.name %}
     - <a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
-    class="u-photo u-pixel-art icon"> Tim Swast</a> posted
+    class="u-photo u-pixel-art icon" alt="profile photo"> Tim Swast</a> posted
     <a href="{{ entry.path }}" class="p-name">{{ entry.name }}</a>
-    {% if entry.summary %}<p class="index-item-summary e-summary">{{ entry.summary}}</p>{% endif %}
-    {% else %}
+{% if entry.summary %}    <p class="index-item-summary e-summary">{{ entry.summary}}</p>{% endif %}
+{% else %}
     - <a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
-    class="u-photo u-pixel-art icon"> Tim Swast</a> posted an
+    class="u-photo u-pixel-art icon" alt="profile photo"> Tim Swast</a> posted an
     <a href="{{ entry.path }}">untitled note</a>:
     <p class="p-name e-content">{{ entry.content }}</p>
-    {% endif %}
-    {% if entry.photos %}
+{% endif %}
+{% if entry.photos %}
     <p class="index-item-photos">
-      {% for photo in entry.photos %}
+{% for photo in entry.photos %}
       <a href="{{ entry.path }}{% if photo.id %}#{{ photo.id }}{% endif %}">
         <img class="index-item-photo{% if photo.is_pixel_art %} u-pixel-art{% endif %} u-photo"
           src="{{ photo.src }}" alt="{{ photo.alt }}" />
       </a>
-      {% endfor %}
+{% endfor %}
     </p>
-    {% endif %}
+{% endif %}
     {% if entry.name %}<p class="index-item-summary"><a href="{{ entry.path }}">Read
     the full article</a>.{% endif %}
   </li>
