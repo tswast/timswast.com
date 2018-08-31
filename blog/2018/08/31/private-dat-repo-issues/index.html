@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" type="text/css" href="/css/blog.css" />
+<title>Why I don't have a Dat archive of my newsletter</title>
+
+
+<article class="h-entry">
+<div id="content-header">
+  <h1 class="p-name">Why I don't have a Dat archive of my newsletter</h1>
+  <a href="/" rel="author" class="p-author h-card"><img
+  src="/img/profile.png" class="u-photo u-pixel-art icon" alt="profile photo"> Tim Swast</a> on
+  <time class="dt-published post-date" datetime="2018-08-31">Friday, August 31,
+  2018</time>
+</div>
+
+<div class="e-content">
+<p class="e-summary">Every month or two for the past 7 years, I send a
+personal email newsletter to my friends and family. I share the newsletters
+via email and manually save an archived copy to Google Drive and a local <a
+href="https://perkeep.org/">Perkeep</a> instance. While Dat is built to
+create repositories for easy archiving and access, it has problems around
+privacy that prevent me from using it to share a repository of my newsletter
+editions.
+
+<h2>Why an email newsletter?</h2>
+
+<p><a href="http://swast.net/alexandra/">Alexandra</a> and I don't share
+often on social media, so a newsletter is our way of keeping our friends and
+family up-to-date with our activities. We love how personal an email feels
+compared to other options.
+
+  <p>Email has some nice properties:
+
+  <ul>
+   <li>
+    I can limit who I share my newsletter with. I wouldn't share my
+    newsletter publicly. I don't often <a
+    href="https://cdt.org/blog/over-sharing-and-location-awareness/">share
+    details where privacy matters</a>, but I share less when a post is
+    published publicly versus only shared with a small group of friends and
+    family.
+   </li>
+   <li>
+    Usually people do not share personal emails, though it's good to be up
+    front about your wishes in the email. My family asks me to add new folks
+    to the list, such as an aunt or uncle whose email wasn't in my contact
+    book, rather than forwarding the letter themselves. I appreciate that my
+    friends and family respect my privacy. Even though emails are easy to
+    forward, it's understood that emails aren't public the way that a website
+    is.
+   </li>
+   <li>
+    Email respects my friends' privacy in a way that social media doesn't.
+    I'm not extracting analytics to advertise to them in the way that
+    Facebook or other social media does.
+   </li>
+   <li>
+    It's easy for my friends and family to privately reply. A reply to an
+    email goes to me and Alexandra, not to everyone that got the newsletter,
+    and definitely not to the public.
+   </li>
+  </ul>
+  <p>Some properties I don't like about email:
+
+  <ul>
+   <li>
+    Very often my newsletter emails get automatically classified as spam.
+    Since people usually don't check spam folders, many newsletters get lost
+    in the void.
+   </li>
+   <li>
+    It's hard for me to share past newsletters. My options are to send all
+    the old letters to someone or create a website to host the newsletters.
+    Neither option is ideal. Sending 7 years of newsletters is quite spammy.
+    I'm not comfortable sharing my newsletter history on a public website.
+    It's effort and extra server-side logic to make a private website, and a
+    private website is harder to preserve long-term.
+   </li>
+   <li>
+    It requires extra steps to save newsletters to my personal archive. I
+    think it's important to save these newsletters for the future, so I
+    manually save an exported copy to Google Drive and Perkeep.
+   </li>
+  </ul>
+  <p>Recently, I started using Dat and Beaker Browser to publish my personal website
+to <a href="dat://www.timswast.com/">dat://www.timswast.com/</a>. When I
+publish to my own site, I feel a similar sense of personal connection with
+those who read it as I do with email. Eventually, I'd like to migrate to
+Beaker and Dat for sharing my newsletter. For me, the main benefit of Dat is
+that my friends and family can save official replicas of the letters. This
+makes it more feasible to <a
+href="https://code.tutsplus.com/tutorials/hosting-your-website-after-death--cms-23492">keep
+the content alive long-term</a>. Despite the benefits, there are a few
+problems with Dat that prevent me from using it to share my private
+newsletter.
+
+<h2>Problems with Dat</h2>
+
+<h3>Accidentally making a Dat repository public</h3>
+
+<p>If you have the URL for a Dat repository, then you can get to the content.
+This works well for public repositories, but it's a problem when I want the
+content to stay private. Someone could easily accidentally copy and paste a
+URL into the wrong place, leaking the whole repository. Once I share a Dat
+repository with a few people, I as the author have little control over who
+can get access to it.
+
+<h3>Leaking IP addresses</h3>
+
+<p>With Dat and Beaker Browser's current implementation of peer discovery, a
+database entry contains all the IP addresses of peers currently serving each
+repository, keyed by the hash of the public key. In the case of my private
+newsletter repository, all the IP addresses belong to either me or my friends
+and family. This is too much of my family's <a
+href="https://ec.europa.eu/info/law/law-topic/data-protection/reform/what-personal-data_en#examples-of-personal-data">personal
+data </a> in one place.
+
+<h2>Requirements for sharing private repositories</h2>
+
+<h3>Requirement 1 - Confidentiality</h3>
+
+<p>I want to be confident that only those I share my newsletters with are
+able to view them. It should be clear that the repository is meant to stay
+private and difficult to accidentally make the repository public.
+
+<h3>Requirement 2 - Secure delivery</h3>
+
+<p>With email spam filters, I'm always a bit uncertain as to whether my
+friends and family can read my message. With Dat I'm pretty confident that,
+so long as I or some other peer is hosting the content, my friends and family
+can get it. Solutions for private shared content should not break this
+property.
+
+<h3>Requirement 3 - Offline and secure repository replicas</h3>
+
+<p>With a public Dat repository, the content can remain readable and
+verifiable well into the future. Solutions for private repositories should
+retain these archival qualities.
+
+<p>Confidentiality comes at some expense to archivability. For one thing,
+there are fewer peers with redundant copies, though I hope that I can
+convince a few family members that my newsletters are worth keeping a copy
+pinned.
+
+<p>Encryption also can be counter to the goal of archivability. A possible
+solution for confidentiality is to encrypt the content before sharing it, but
+this makes it impossible for my family members to decipher the files when
+they browse them on disk. If I lose the decryption key, then I've forever
+lost the content—the opposite of what I'd want in an archive. I'm willing to
+accept some risk in confidentiality for better archivability.
+
+<h3>Bonus A - Notifications</h3>
+
+<p>Email is a push system. My friends and family get an update in realtime after
+I send it. It would be nice if there was a way that my friends and family
+could watch for changes on the index file of my family newsletter and see
+when there have been updates. This feature would be nice to have, but not
+necessary. I can always share that there has been an update via other
+channels.
+
+<h3>Bonus B - Retain linkability</h3>
+
+<p>One of the benefits of Dat is that it is possible to link between
+repositories. It'd be good if whatever solution is found for private
+repositories could allow for links between private repositories. When
+repository A has a different set of authorized readers from repository B, a
+link from A to B should be visible for all readers of A but only travellable
+for allowed readers of B.
+
+<h3>Bonus C - Private replying</h3>
+
+<p>Just as in email, where it's possible to reply privately and see the email
+in the context of the thread, I'd love if Dat provided a mechanism for this.
+The combination of Bonus A (notifications) and Bonus B (linkability) could
+cover this if folks used the <a href="https://indieweb.org/reply">IndieWeb
+convention of replies</a> being a kind of post type, but I think it's worth
+considering this separately.
+
+<h3>Bonus D - Ability to make a repository public when I'm ready</h3>
+
+<p>I'd like my newsletters to eventually be public, but not while I'm
+actively publishing new editions. It should be possible to make a repository
+public without having to recreate the repository and risk losing the history
+tables that Dat creates. If not supported, it should remain possible to add
+new readers as they request access.
+
+<h2>Future work</h2>
+
+<p>Currently <a
+href="https://groups.google.com/d/topic/beaker-browser/qVojGU2d4rw/discussion">Beaker
+is not focussed on anonymous access or publishing</a>, but I'm
+hopeful that <a
+href="https://twitter.com/pfrazee/status/1008423364397027328">Dat and Beaker
+will begin to look at these use cases soon</a>. Even for public data, it's
+dangerous to have a database of the IP address of all peers for each content
+archive. To me, it feels a bit like a <a
+href="https://en.wikipedia.org/wiki/Panopticon">panopticon</a>, where you
+never know who might be watching to see what you're reading.
+
+<p>I think reading content in <a
+href="https://coolguy.website/projects/dat-zine-library/index.html#origin-story">the
+chorus</a> should be more like pulling a book from your home bookshelf.
+In my next post, I'll outline some ideas of how Dat could evolve so that
+reading articles in a repository gets closer to this cozy feeling.
+</div>
+
+<footer>
+  Copyright 2018. Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.
+</footer>
+</article>
+
+<h2>Discussion</h2>
+
+<div class="h-entry" id="reply-post">
+<a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png"
+class="u-photo u-pixel-art icon" alt="profile photo"> Tim Swast</a> on <time class="dt-published
+post-date" datetime="2018-08-31">Friday, August 31, 2018</time> (Syndicated to Twitter):
+<p class="p-name e-content">‪Dat and Beaker Browser are working great to host and browse public sites, but <a href="https://www.timswast.com/blog/2018/08/31/private-dat-repo-issues/">they have some problems around privacy</a> that need to be resolved before I can use it to host private posts.</p>
+</div>
+
+<!--START WEBMENTIONS-->
+<!--Hidden webmentions using webmention.io until I can figure out how best to
+render them.-->
+<link rel="pingback" href="https://webmention.io/www.timswast.com/xmlrpc" />
+<link rel="webmention" href="https://webmention.io/www.timswast.com/webmention" />
+<!--END WEBMENTIONS-->
