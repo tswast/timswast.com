@@ -118,13 +118,26 @@ data </a> in one place.
 
 <h2>Requirements for sharing private repositories</h2>
 
-<h3>Requirement 1 - Confidentiality</h3>
+<h3>Requirement 1 - Repository confidentiality</h3>
 
 <p>I want to be confident that only those I share my newsletters with are
 able to view them. It should be clear that the repository is meant to stay
 private and difficult to accidentally make the repository public.
 
-<h3>Requirement 2 - Secure delivery</h3>
+<h3>Requirement 2 - Reader confidentiality</h3>
+
+<p>Since there very few readers, all of whom I know well, reader privacy
+becomes extra challengingly. It would be quite creepy to call up an
+ex-girlfriend and say "I see you're reading the newsletter right now from
+your parents' house". Yet, by watching the IP addresses of those that are
+connecting to download the content, this would be possible to know,
+especially because there are not many newsletter recipients.
+
+<p>I choose not to watch closely at the peers listing, and I don't log
+IP addresses. But, I'd feel much better if I did not have access to this
+information at all.
+
+<h3>Requirement 3 - Secure delivery</h3>
 
 <p>With email spam filters, I'm always a bit uncertain as to whether my
 friends and family can read my message. With Dat I'm pretty confident that,
@@ -132,7 +145,7 @@ so long as I or some other peer is hosting the content, my friends and family
 can get it. Solutions for private shared content should not break this
 property.
 
-<h3>Requirement 3 - Offline and secure repository replicas</h3>
+<h3>Requirement 4 - Offline and secure repository replicas</h3>
 
 <p>With a public Dat repository, the content can remain readable and
 verifiable well into the future. Solutions for private repositories should
