@@ -1,111 +1,123 @@
 <!DOCTYPE html>
-<html ng-app>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-        <title>Tim Swast</title>
-        <style>
-            html, body {
-                width:  100%;
-                height: 100%;
-                margin: 0px;
-                background: url("img/20130810-bg.png");
-            }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="canonical" href="https://www.timswast.com/" />
+<title>Tim Swast</title>
+<style>
+    html, body {
+        width:  100%;
+        height: 100%;
+        margin: 0px;
+        background: url("img/20130810-bg.png");
+    }
 
-            .navigation {
-                position: absolute;
-                top: 0.1em;
-                left: 0.2em;
-                padding: 15px 10px 0px 10px;
-                font-size: 18pt;
-                font-family: sans-serif;
-                background-color: rgba(255, 255, 255, 0.95);
-                border-radius: 5px;
-            }
+    .navigation {
+        position: absolute;
+        top: 0.1em;
+        left: 0.2em;
+        padding: 15px 10px 0px 10px;
+        font-size: 18pt;
+        font-family: sans-serif;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 5px;
+    }
 
-            .navigation h1 {
-                font-size: 1em;
-                margin: 0px 0px 20px 0px;
-            }
+    .navigation h1 {
+        font-size: 1em;
+        margin: 0px 0px 20px 0px;
+    }
 
-            .navigation ul {
-                list-style-type: none;
-                padding: 0px;
-                margin: 0px;
-            }
+    .navigation h2 {
+        font-size: 14pt;
+        font-family: sans-serif;
+    }
 
-            .navigation li {
-                margin: 0px 0px 12px 0px;
-            }
+    .navigation ul {
+        list-style-type: none;
+        padding: 0px;
+        margin: 0px;
+    }
 
-            .navigation a {
-                color: black;
-            }
+    .navigation li {
+        margin: 0px 0px 12px 0px;
+    }
 
-            .icon {
-                width: 40pt;
-            }
+    .navigation img.icon {
+        width: 40pt;
+    }
 
-            #background-landscape {
-                display: block;
-            }
+    .navigation img.inline-icon {
+        display: inline-block;
+        width: 14pt;
+    }
 
-            .h-card {
-                margin-top: 20pt;
-                font-size: 14pt;
-                max-width: 30em;
-                font-family: serif;
-            }
+    #background-landscape {
+        display: block;
+    }
 
-            .u-photo {
-                float: left;
-                margin-right: 0.5em;
-            }
-        </style>
-        <link rel="stylesheet" type="text/css" href="../css/pixel-art.css" />
-    </head>
-    <body>
-        <canvas id="background-landscape"></canvas>
-        <div class="navigation">
-            <h1>Tim Swast</h1>
-            <ul>
-                <li><a href="/blog/">Blog</a></li>
-                <li><a href="/cv/">Curriculum Vit&aelig;</a></li>
-            </ul>
+    .h-card {
+        margin-top: 20pt;
+        font-size: 14pt;
+        max-width: 30em;
+        font-family: serif;
+    }
 
-            <div class="h-card">
-                <p class="p-note"><img class="u-photo pixel-art"
-                src="/img/profile.png" alt="">
-                <a href="/" class="u-url p-name">Tim
-                Swast</a> is a husband, artist, programmer, and technical
-                writer. He works for <a href="https://cloud.google.com"
-                class="p-org">Google Cloud</a> as <span
-                class="p-job-title">Software Friendliness Engineer</span> in
-                Seattle, where he writes client libraries, sample
-                applications, and tutorials about Big Data on Google Cloud
-                Platform. In his free time he <a
-                href="/blog/2016/11/03/octobit/">draws pixel art</a> and
-                codes <a
-                href="/blog/2013/08/07/markov-chains-tutorial/">mathematical
-                simulations</a>.
+    .u-photo {
+        float: left;
+        margin-right: 0.5em;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="../css/pixel-art.css" />
 
-            <!-- Social media icons -->
-            <p>
-            <a href="https://twitter.com/timswast" rel="me"><img
-                src="static/icons/iconmonstr-twitter-4.svg" class="icon"
-                alt="Twitter" title="Tim Swast on Twitter"></a>
-            <a href="https://medium.com/@TimSwast" rel="me"><img
-                src="static/icons/iconmonstr-medium-4.svg" class="icon"
-                alt="Medium" title="Tim Swast on Medium"></a>
-            <a href="https://github.com/tswast/" rel="me"><img
-                src="static/icons/iconmonstr-github-1.svg" class="icon"
-                alt="GitHub" title="Tim Swast on GitHub"></a>
-            <a href="https://www.linkedin.com/in/tim-swast/" rel="me"><img
-                src="static/icons/iconmonstr-linkedin-4.svg" class="icon"
-                alt="LinkedIn" title="Tim Swast on LinkedIn"></a>
-            </div>
-        </div>
+<body ng-app>
+<canvas id="background-landscape"></canvas>
+<div class="navigation">
+<ul>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/cv/">Curriculum Vit&aelig;</a></li>
+</ul>
 
+<div class="h-card">
+<p class="p-note"><img class="u-photo pixel-art" src="/img/profile.png"
+alt=""> <a href="/" class="u-url p-name">Tim Swast</a> is a husband, artist,
+programmer, and technical writer. He works for <a
+href="https://cloud.google.com" class="p-org">Google Cloud</a> as <span
+class="p-job-title">Software Friendliness Engineer</span> in Seattle, where
+he writes client libraries, sample applications, and tutorials about Big Data
+on Google Cloud Platform. In his free time he <a
+href="/blog/2016/11/03/octobit/">draws pixel art</a> and codes <a
+href="/blog/2013/08/07/markov-chains-tutorial/">mathematical simulations</a>.
+
+<h2>Elsewhere on the web</h2>
+<ul>
+<li><a href="https://twitter.com/timswast" rel="me"><img
+    src="static/icons/iconmonstr-twitter-4.svg" class="inline-icon"
+    alt="Twitter" title="Tim Swast on Twitter">
+    twitter.com/timswast</a></li>
+<li><a href="https://medium.com/@TimSwast" rel="me"><img
+    src="static/icons/iconmonstr-medium-4.svg" class="inline-icon"
+    alt="Medium" title="Tim Swast on Medium">
+    medium.com/@TimSwast</a></li>
+<li><a href="https://" rel="me"><img
+    src="static/icons/iconmonstr-github-1.svg" class="inline-icon"
+    alt="GitHub" title="Tim Swast on GitHub">
+    github.com/tswast/</a></li>
+<li><a href="https://www.linkedin.com/in/tim-swast/" rel="me"><img
+    src="static/icons/iconmonstr-linkedin-4.svg" class="inline-icon"
+    alt="LinkedIn" title="Tim Swast on LinkedIn">
+    LinkedIn</a></li>
+<li><a href="dat://www.timswast.com/"><img
+    src="static/icons/beaker-browser.svg" class="inline-icon"
+    alt="Dat (Beaker Browser)"
+    title="Tim Swast on Dat (Beaker Browser)">
+    dat://www.timswast.com/</a></li>
+<li><a href="https://keybase.io/timswast" rel="me"><img
+    src="static/icons/keybase.svg" class="inline-icon"
+    alt="Keybase" title="Tim Swast on Keybase">
+    keybase.io/timswast</a></li>
+</ul>
+</div>
+</div>
 
 <script>
             // window.requestAnimationFrame is useful when creating
