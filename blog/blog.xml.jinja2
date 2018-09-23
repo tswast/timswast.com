@@ -3,6 +3,12 @@
       {% if entry.name %}<title>{{ entry.name }}</title>{% endif %}
       <description><![CDATA[
         {{ entry.content }}
+        {% if entry.photos %}
+        {% for photo in entry.photos %}{% if not photo.is_in_content %}
+          <p><img class="{% if photo.is_pixel_art %} u-pixel-art{% endif %} u-photo"
+              src="{{ photo.src }}" alt="{{ photo.alt }}" />
+        {% endif %}{% endfor %}
+        {% endif %}
       ]]></description>
       <pubDate>{{ entry.published.strftime('%a, %d %b %Y %H:%M:%S %z') }}</pubDate>
       <guid isPermalink="true">https://www.timswast.com/blog/{{ entry.path }}</guid>
