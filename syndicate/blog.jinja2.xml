@@ -1,3 +1,8 @@
+<rss version="2.0">
+  <channel>
+    <title>Tim Swast</title>
+    <description>Tim's blog.</description>
+    <link>https://www.timswast.com/blog/</link>
 {% for entry in entries|sort(attribute='published', reverse=True) %}
     <item>
       {% if entry.name %}<title>{{ entry.name }}</title>{% endif %}
@@ -16,3 +21,5 @@
       <author>@timswast</author>
     </item>
 {% endfor %}
+  </channel>
+</rss>

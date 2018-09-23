@@ -1,8 +1,8 @@
 .well-known/*
 deploy
 media/download
+syndicate/
 *.pyc
 *.swp
 *.DS_Store
 .DS_Store
-
