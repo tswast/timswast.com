@@ -11,7 +11,10 @@
         {% if entry.photos %}
         {% for photo in entry.photos %}{% if not photo.is_in_content %}
           <p><img class="{% if photo.is_pixel_art %} u-pixel-art{% endif %} u-photo"
-              src="{{ photo.src }}" alt="{{ photo.alt }}" />
+              src="{{ photo.src }}" alt="{{ photo.alt }}" {#
+                Include width and heigh so that micro.blog knows this isn't
+                a tracking pixel.
+              #}{% if photo.width %}width="{{ photo.width }}" {% endif %}{% if photo.height %}height="{{ photo.height }}" {% endif %}/>
         {% endif %}{% endfor %}
         {% endif %}
       ]]></description>
