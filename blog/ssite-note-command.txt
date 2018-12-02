@@ -1,0 +1,23 @@
+git pull origin master
+
+ssite note --blog_dir blog --pixelart path/to/art.png \
+    blog/note.jinja2.html \
+    'A short message.'
+
+git add .
+
+git diff --name-only --diff-filter=A HEAD | grep index.html | xargs ssite header https://www.timswast.com/ . blog/header.html.jinja2
+
+ssite index blog
+
+git add .
+git commit
+git push origin master
+dat share
+
+
+gsutil -m rsync -r gs://timswast-syndicate syndicate
+
+ssite syndicate rss --site_url https://www.timswast.com/ --syndication_url https://timswast-syndicate.storage.googleapis.com/ -t syndicate/blog.jinja2.xml --output_dir syndicate blog
+
+gsutil -m rsync -r syndicate gs://timswast-syndicate

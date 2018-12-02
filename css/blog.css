@@ -30,7 +30,6 @@ footer {
 /* make links a little prettier */
 a {
   color: #33a;
-  text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
