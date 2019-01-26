@@ -16,6 +16,9 @@ git push origin master
 dat share
 
 
+# Below no longer necessary.
+# Done by cloudbuild.yaml on push to master branch.
+
 gsutil -m rsync -r gs://timswast-syndicate syndicate
 
 ssite syndicate rss --site_url https://www.timswast.com/ --syndication_url https://timswast-syndicate.storage.googleapis.com/ -t syndicate/blog.jinja2.xml --output_dir syndicate blog
