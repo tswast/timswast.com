@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'rsync', '-r', 'gs://timswast-syndicate', 'syndicate']
+- name: 'gcr.io/ssite-images/github-tswast-ssite'
+  args: [
+    'syndicate', 'rss', '--site_url', 'https://www.timswast.com/',
+    '--syndication_url',
+    'https://timswast-syndicate.storage.googleapis.com/', '-t',
+    'syndicate/blog.jinja2.xml', '--output_dir', 'syndicate', 'blog']
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'rsync', '-r', 'syndicate', 'gs://timswast-syndicate']
