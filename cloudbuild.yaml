@@ -1,7 +1,7 @@
 steps:
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'rsync', '-r', 'gs://timswast-syndicate', 'syndicate']
-- name: 'gcr.io/ssite-images/github-tswast-ssite:c3ff41f16cd2e377e4b91673bff61ec486604d3e'
+- name: 'gcr.io/ssite-images/github-tswast-ssite:latest'
   args: [
     'syndicate', 'rss', '--site_url', 'https://www.timswast.com/',
     '--syndication_url',
