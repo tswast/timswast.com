@@ -1,4 +1,4 @@
-git pull origin master
+git pull origin gh-pages
 
 ssite note --blog_dir blog --pixelart path/to/art.png \
     --published_date 2019-02-14T07:00 \
