@@ -3,7 +3,7 @@
     <title>Tim Swast</title>
     <description>Tim's blog.</description>
     <link>https://www.timswast.com/blog/</link>
-{% for entry in entries|sort(attribute='published', reverse=True) %}
+{% for entry in (entries|sort(attribute='published', reverse=True))[:20] %}
     <item>
       {% if entry.name %}<title>{{ entry.name }}</title>{% endif %}
       <description><![CDATA[
