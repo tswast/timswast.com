@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating 3D OBJ Model</title>
+    <style>
+        body { margin: 0; } /* Remove default body margins */
+        canvas { display: block; } /* Make canvas a block element */
+    </style>
+</head>
+<body>
+    <script type="module">
+        import * as THREE from '/static/three-r174/three.module.min.js';
+        import { OBJLoader } from '/static/three-r174/OBJLoader.js';
+        import { MTLLoader } from '/static/three-r174/MTLLoader.js';
+        import { OrbitControls } from '/static/three-r174/OrbitControls.js'; //for debugging purpose
+
+        // Scene, Camera, Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Light (important for seeing materials)
+        const ambientLight = new THREE.AmbientLight(0x404040); // soft white light
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1, 1, 1); // Adjust light direction
+        scene.add(directionalLight);
+		
+		// Add OrbitControls for debugging
+		const controls = new OrbitControls(camera, renderer.domElement);
+		controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+		controls.dampingFactor = 0.25;
+		controls.screenSpacePanning = false;
+		controls.maxPolarAngle = Math.PI / 2;
+
+
+        // Load MTL and then OBJ
+        const mtlLoader = new MTLLoader();
+        mtlLoader.load('pencil.mtl', (materials) => {
+            materials.preload();
+
+            const objLoader = new OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.load('pencil.obj', (object) => {
+                // Add the loaded object to the scene
+                scene.add(object);
+
+                //Position, rotate, and scale the model if needed. VERY IMPORTANT
+                object.position.set(0, 0, 0);  // Adjust as needed
+                object.rotation.set(0, 0, 0); // Adjust as needed
+                object.scale.set(1, 1, 1);     // Adjust as needed.  Start with 1,1,1
+               
+				// Calculate the bounding box to center and scale the model
+                const boundingBox = new THREE.Box3().setFromObject(object);
+                const center = boundingBox.getCenter(new THREE.Vector3());
+                const size = boundingBox.getSize(new THREE.Vector3());
+
+                // Move the object to the origin
+                object.position.sub(center);
+
+				//find the maximum dimension (width, height, or depth)
+                const maxDimension = Math.max(size.x, size.y, size.z);
+                const scaleFactor = 10 / maxDimension; // Adjust 10 for desired size
+                object.scale.set(scaleFactor, scaleFactor, scaleFactor);
+				
+				
+				// Store the loaded object for rotation
+                let loadedModel = object;
+				
+				// Animation loop (for rotation)
+                function animate() {
+                    requestAnimationFrame(animate);
+					controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
+
+                    // Rotate the loaded model.  Use the loadedModel variable.
+                    if (loadedModel) {
+                        loadedModel.rotation.y += 0.01; // Adjust rotation speed
+                    }
+
+                    renderer.render(scene, camera);
+                }
+               animate();
+
+
+            }, (xhr) => { // onProgress callback
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            }, (error) => { // onError callback
+                console.error('An error happened', error);
+            });
+        }, (xhr) => {  //onProgress for MTL loading (optional, but good for feedback)
+			console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+		}, (error) => { //onError for MTL loading
+            console.error('An error happened while loading the MTL file:', error);
+        });
+
+
+
+        // Camera positioning (after model loading is best)
+        camera.position.z = 5; // Adjust as needed
+
+        // Handle window resizing
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }, false);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Hexagonal Prism and Eraser Material
+
+newmtl YellowHexagon
+Kd 1.0 1.0 0.0  # Yellow diffuse color
+Ks 0.1 0.1 0.1  # Subtle specular highlight
+Ns 10             # Specular exponent
+
+newmtl PinkEraser
+Kd 1.0 0.7 0.7  # Pink diffuse color
+Ks 0.1 0.1 0.1  # Subtle specular highlight
+Ns 10             # Specular exponent
+
+newmtl SilverBand
+Kd 0.8 0.8 0.8 # Silver color
+Ks 0.3 0.3 0.3
+Ns 20
+
+newmtl WoodCone
+Kd 0.8 0.6 0.4 # Tan wood color
+Ks 0.05 0.05 0.05
+Ns 5
