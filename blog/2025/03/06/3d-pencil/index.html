@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rotating 3D OBJ Model</title>
-    <style>
-        body { margin: 0; } /* Remove default body margins */
-        canvas { display: block; } /* Make canvas a block element */
-    </style>
-</head>
-<body>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" type="text/css" href="/css/blog.css" />
+<title>3D Pencil</title>
+
+<article class="h-entry">
+<div id="content-header">
+  <h1 class="p-name">3D Pencil</h1>
+  <a href="/" rel="author" class="p-author h-card"><img
+    src="/img/profile.png" class="u-photo u-pixel-art icon" alt="profile photo"> Tim Swena</a> on
+  <time class="dt-published post-date" datetime="2025-03-06">March 6, 2025</span>
+</div>
+
+<div class="e-content">
+<p class="p-summary">Summary goes HERE</p>
+<p>Content goes HERE
+</div>
+
+<footer>
+  Copyright 2025.
+  Released under <a
+  href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+  Attribution License</a>.
+</footer>
+
     <script type="module">
         import * as THREE from '/static/three-r174/three.module.min.js';
         import { OBJLoader } from '/static/three-r174/OBJLoader.js';
@@ -23,7 +38,8 @@
         // create a new WebGL renderer
         const renderer = new THREE.WebGLRenderer();
         // set the size of the renderer
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(100, 100);
+        // renderer.setSize(window.innerWidth, window.innerHeight);
         // add the renderer to the DOM
         document.body.appendChild(renderer.domElement);
 
