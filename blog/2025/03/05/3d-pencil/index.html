@@ -34,7 +34,7 @@
         // add a directional light to the scene. A directional light illuminates in a specific direction like the sun.
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
         // move the light to x:1, y:1, z:1
-        directionalLight.position.set(1, 1, 1);
+        directionalLight.position.set(100, 100, 50);
         scene.add(directionalLight);
 
         //=======Loading the Model=======//
@@ -42,99 +42,75 @@
         const mtlLoader = new MTLLoader();
         // load the mtl file
         mtlLoader.load('pencil.mtl', (materials) => {
-            // tell the material to load the different parts of the model
             materials.preload();
-            // create a new obj loader
             const objLoader = new OBJLoader();
-            // set the materials to the obj loader
             objLoader.setMaterials(materials);
-            // load the obj file
             objLoader.load('pencil.obj', (object) => {
-                // add the model to the scene
-                scene.add(object);
 
-                //=======Position, rotate, scale the model=======//
-                // set the position of the object
-                object.position.set(0, 0, 0);  // Adjust as needed
-                // set the rotation of the object
-                object.rotation.set(0, 0, 0); // Adjust as needed
-                // set the scale of the object
-                object.scale.set(1, 1, 1);     // Adjust as needed.  Start with 1,1,1
+                        // 1. Calculate the bounding box of the *entire* object
+                        const boundingBox = new THREE.Box3().setFromObject(object);
+                        const center = boundingBox.getCenter(new THREE.Vector3());
 
-                //=======Calculate the bounding box to center and scale the model=======//
-                const boundingBox = new THREE.Box3().setFromObject(object);
-                // get the center of the bounding box
-                const center = boundingBox.getCenter(new THREE.Vector3());
-                // get the size of the bounding box
-                const size = boundingBox.getSize(new THREE.Vector3());
+                        // 2. Store the object's *initial* position
+                        const initialPosition = object.position.clone();
 
-                // Move the object to the origin
-                object.position.sub(center);
+                        // 3. Translate the object so that its center is at the world origin
+                        object.position.sub(center);
 
-                // find the maximum dimension (width, height, or depth)
-                const maxDimension = Math.max(size.x, size.y, size.z);
-                // set the scale factor
-                const scaleFactor = 10 / maxDimension; // Adjust 10 for desired size
-                // set the scale of the object
-                object.scale.set(scaleFactor, scaleFactor, scaleFactor);
+                        // 4. Add a dummy parent
+                        const dummy = new THREE.Group();
+                        dummy.add(object);
+                        scene.add(dummy);
 
-                // Store the loaded object for rotation
-                let loadedModel = object;
+                        // 5.  Restore the parent's position
+                        dummy.position.copy(center);
 
-                //=======Adding Mouse Controls=======//
-                // Add OrbitControls for debugging
-                const controls = new OrbitControls(camera, renderer.domElement);
-                // If damping is enabled, you must call .update () in your animation loop
-                controls.enableDamping = true;
-                // set damping factor
-                controls.dampingFactor = 0.25;
-                // disable zooming
-                controls.screenSpacePanning = false;
-                // set the maximum polar angle
-                controls.maxPolarAngle = Math.PI / 2;
+                        // 6.  Rotate the dummy
+                        let loadedModel = dummy;
 
-                //=======Animation loop=======//
-                // create an animation loop
-                function animate() {
-                    // call animate recursively on every animation frame
-                    requestAnimationFrame(animate);
+                        // Add the model to the scene
+                        scene.add(dummy);
 
-                    // Rotate the loaded model.  Use the loadedModel variable.
-                    if (loadedModel) {
-                        // rotate the model
-                        loadedModel.rotation.y += 0.01; // Adjust rotation speed
+                        // Adjust the camera position
+                        camera.position.z = 20;
+
+                        // Rotate the model
+                        function animate() {
+                            requestAnimationFrame(animate);
+                            if (loadedModel) {
+                                loadedModel.rotation.y += 0.01;
+                            }
+                            renderer.render(scene, camera);
+                        }
+                        animate();
+
+                        // Add some controls to the camera
+                        const controls = new OrbitControls(camera, renderer.domElement);
+                        controls.enableDamping = true;
+                        controls.dampingFactor = 0.25;
+                        controls.screenSpacePanning = false;
+                        controls.maxPolarAngle = Math.PI / 2;
+                    },
+                    (xhr) => {
+                        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                    },
+                    (error) => {
+                        console.error('An error happened', error);
                     }
-                    // update the controls
-                    controls.update();
-                    // render the scene
-                    renderer.render(scene, camera);
-                }
-                // start the animation
-                animate();
-            }, (xhr) => { // onProgress callback
-                // this is an optional call back function that is executed when the model is loading
+                );
+            },
+            (xhr) => {
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-            }, (error) => { // onError callback
-                // this is an optional call back function that is executed when an error occurs
-                console.error('An error happened', error);
-            });
-        }, (xhr) => {  //onProgress for MTL loading (optional, but good for feedback)
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        }, (error) => { //onError for MTL loading
-            console.error('An error happened while loading the MTL file:', error);
-        });
+            },
+            (error) => {
+                console.error('An error happened while loading the MTL file:', error);
+            }
+        );
 
-        //=======Camera Positioning=======//
-        // set the camera position
-        camera.position.z = 5; // Adjust as needed
-
-        // Handle window resizing
+        // Make the scene responsive
         window.addEventListener('resize', () => {
-            // update the camera aspect ratio
             camera.aspect = window.innerWidth / window.innerHeight;
-            // update the camera projection matrix
             camera.updateProjectionMatrix();
-            // set the size of the renderer
             renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
     </script>
