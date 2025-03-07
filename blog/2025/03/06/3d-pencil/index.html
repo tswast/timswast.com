@@ -13,28 +13,23 @@
 </div>
 
 <div class="e-content">
-<p class="p-summary">I created a 3D pencil by blending AI and traditional 3D modeling: I used Gemini to generate shapes and Blender to add the finishing touches, resulting in a low-poly-ready model.</p>
+    <p class="p-summary">I created a low-poly 3D pencil by blending AI and traditional 3D modeling: I used Gemini to generate shapes and Blender to add the finishing touches.</p>
 
-<div id="pencil-model"></div>
+    <div id="pencil-model"></div>
 
-<p>Recently, I decided to tackle a fun little project: creating a 3D model of a pencil for a web page. It turned out to be a really interesting exercise in combining AI assistance with traditional 3D modeling.</p>
+    <p>What happens when you ask an AI to design a pencil? Results varied. I recently embarked on a fun project to create a 3D pencil model for a web page, and it turned into a fascinating experiment in combining AI assistance with traditional 3D modeling.</p>
 
-<p>My initial thought was to see if I could get <a href="https://en.wikipedia.org/wiki/Gemini_(chatbot)">Gemini</a> to handle the entire process. I started by asking for a model of a pencil. It kinda worked, but
-    wasn't three dimensional at all. As I asked it to add components, like an eraser and a graphite tip, it ended up making this monstrosity:</p>
+    <p>My initial plan was to see if <a href="https://en.wikipedia.org/wiki/Gemini_(chatbot)">Gemini</a> could handle the entire process. I started simple, asking for a 3D pencil model. It produced something, but it was more of a 2D sketch than a 3D object. Not noticing the problem at first, I asked it to add components, like an eraser and a graphite tip. That's when it became clear that something was wrong. What I got was less of a pencil and more of an abstract art piece, with the graphite tip floating at a comical angle. Behold:</p>
 
-    <img src="bad-pencil.png" alt="a 'pencil' where the graphite is outside and at an angle" />
+    <img src="bad-pencil.png" alt="A comically distorted 'pencil' with a floating graphite tip." />
 
-<p>Undeterred, I decided to take a more methodical approach. I broke the pencil down into its individual shapes and asked Gemini to generate the OBJ and MTL one piece at a time. This worked surprisingly well! By focusing on each component separately, I was able to get accurate and usable models for the hexagonal prism, eraser, band, and cone and stitch them together.</p>
+    <p>Clearly, a more structured approach was needed. I decided to break the pencil down into its individual shapes and asked Gemini to generate the OBJ and MTL files one piece at a time. This worked surprisingly well! By focusing on each component separately—the hexagonal prism, eraser, band, and cone—I was able to get accurate models that I could easily stitch together.</p>
 
-<p>However, there was one part that Gemini struggled with: the graphite tip. No matter how I phrased my requests, I couldn't get it to produce a satisfactory result. That's where Blender came in.</p>
+    <p>However, the graphite tip remained a challenge. No matter how I phrased my requests, Gemini couldn't quite grasp the concept. It would cut out a face from the cone, showing the hollow interior, or layer cones on top of each other to create z-fighting. It was a frustrating and perhaps a bit comical, series of misinterpretations. That's when I turned to Blender. I was able to quickly slice the cone and add a material for the perfect graphite tip.</p>
 
-<p>With the smallest bit of manual modeling in Blender, I was able to quickly add slice the cone for the graphite tip and integrate it with the rest of the pencil. It was a good reminder that while AI can be incredibly helpful, sometimes you just need to roll up your sleeves and do things the old-fashioned way.</p>
+    <p>The final result is a simple, yet effective, <a href="pencil.obj">3D pencil model</a> and its corresponding <a href="pencil.mtl">material file</a>. It's a model that could easily fit into a low-poly video game. This project is a testament to the potential of combining AI and human ingenuity. And, of course, a good dose of patience.</p>
 
-<p>The entire process was a great learning experience. It showed me the power of using AI as a tool for rapid prototyping and shape generation. It also highlighted the importance of knowing when to switch to traditional methods when AI falls short.</p>
-
-<p>The final result? A simple but effective <a href="pencil.obj">3D pencil model</a> and corresponding <a href="pencil.mtl">material file</a> that I'm pretty happy with. I could definitely see this having a place in a low poly video game. It's a testament to the power of combining AI with human creativity. And, of course, a little bit of patience.</p>
-
-<p>While it likely would have been faster just to create the model in Blender, Gemini help reduce the learning curve and didn't take as much mental energy to get started. I'm excited to continue exploring the possibilities of AI-assisted 3D modeling in future projects. Who knows what I'll create next?</p>
+    <p>Though I could have achieved this in Blender alone, Gemini dramatically lowered the barrier to entry, freeing up mental space. This experience reinforces my belief that the future of creative tools lies in this collaborative approach, where AI amplifies human potential.</p>
 </div>
 
 <footer>
@@ -145,13 +140,6 @@ console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 console.error('An error happened while loading the MTL file:', error);
 }
 );
-
-// Make the scene responsive
-window.addEventListener('resize', () => {
-camera.aspect = window.innerWidth / window.innerHeight;
-camera.updateProjectionMatrix();
-renderer.setSize(window.innerWidth, window.innerHeight);
-}, false);
 </script>
 </body>
 </html>
