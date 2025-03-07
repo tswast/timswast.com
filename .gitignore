@@ -7,3 +7,4 @@ syndicate/
 *.DS_Store
 .DS_Store
 .dat/
+venv/

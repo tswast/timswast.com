@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" type="text/css" href="/css/blog.css" />
+<link rel="canonical" href="https://www.timswast.com/blog/2025/03/06/3d-pencil/" />
+<title>Crafting a Digital Pencil: A Gemini & Blender Collaboration</title>
+
+<article class="h-entry">
+<div id="content-header">
+<h1 class="p-name">Crafting a Digital Pencil: A Gemini & Blender Collaboration</h1>
+<a href="/" rel="author" class="p-author h-card"><img src="/img/profile.png" class="u-photo u-pixel-art icon" alt="profile photo"> Tim Swena</a> on
+<time class="dt-published post-date" datetime="2025-03-06">March 6, 2025</span>
+</div>
+
+<div class="e-content">
+    <p class="p-summary">I created a low-poly 3D pencil by blending AI and traditional 3D modeling: I used Gemini to generate shapes and Blender to add the finishing touches.</p>
+
+    <div id="pencil-model"></div>
+
+    <p>What happens when you ask an AI to design a pencil? Results varied. I recently embarked on a fun project to create a 3D pencil model for a web page, and it turned into a fascinating experiment in combining AI assistance with traditional 3D modeling.</p>
+
+    <p>My initial plan was to see if <a href="https://en.wikipedia.org/wiki/Gemini_(chatbot)">Gemini</a> could handle the entire process. I started simple, asking for a 3D pencil model. It produced something, but it was more of a 2D sketch than a 3D object. Not noticing the problem at first, I asked it to add components, like an eraser and a graphite tip. That's when it became clear that something was wrong. What I got was less of a pencil and more of an abstract art piece, with the graphite tip floating at a comical angle. Behold:</p>
+
+    <img src="bad-pencil.png" alt="A comically distorted 'pencil' with a floating graphite tip." />
+
+    <p>Clearly, a more structured approach was needed. I decided to break the pencil down into its individual shapes and asked Gemini to generate the OBJ and MTL files one piece at a time. This worked surprisingly well! By focusing on each component separately—the hexagonal prism, eraser, band, and cone—I was able to get accurate models that I could easily stitch together.</p>
+
+    <p>However, the graphite tip remained a challenge. No matter how I phrased my requests, Gemini couldn't quite grasp the concept. It would cut out a face from the cone, showing the hollow interior, or layer cones on top of each other to create z-fighting. It was a frustrating and perhaps a bit comical, series of misinterpretations. That's when I turned to Blender. I was able to quickly slice the cone and add a material for the perfect graphite tip.</p>
+
+    <p>The final result is a simple, yet effective, <a href="pencil.obj">3D pencil model</a> and its corresponding <a href="pencil.mtl">material file</a>. It's a model that could easily fit into a low-poly video game. This project is a testament to the potential of combining AI and human ingenuity. And, of course, a good dose of patience.</p>
+
+    <p>Though I could have achieved this in Blender alone, Gemini dramatically lowered the barrier to entry, freeing up mental space. This experience reinforces my belief that the future of creative tools lies in this collaborative approach, where AI amplifies human potential.</p>
+</div>
+
+<footer>
+Copyright 2025.
+Released under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution License</a>.
+</footer>
+
+<script type="module">
+import * as THREE from '/static/three-r174/three.module.min.js';
+import { OBJLoader } from '/static/three-r174/OBJLoader.js';
+import { MTLLoader } from '/static/three-r174/MTLLoader.js';
+import { OrbitControls } from '/static/three-r174/OrbitControls.js'; //for debugging purpose
+
+// create a new scene
+const scene = new THREE.Scene();
+// create a new perspective camera
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+// create a new WebGL renderer
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+// set the size of the renderer
+renderer.setSize(320, 320);
+// renderer.setSize(window.innerWidth, window.innerHeight);
+// add the renderer to the DOM
+const container = document.getElementById("pencil-model")
+container.appendChild(renderer.domElement);
+//set background color
+renderer.setClearColor(0xffffff); // White background
+
+//=======LIGHTS=======//
+// add an ambient light to the scene. Ambient light globally illuminates all objects in the scene equally.
+const ambientLight = new THREE.AmbientLight(0x404040); // soft white light
+scene.add(ambientLight);
+// add a directional light to the scene. A directional light illuminates in a specific direction like the sun.
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+// move the light to x:1, y:1, z:1
+directionalLight.position.set(1, 2, 1);
+scene.add(directionalLight);
+//Enable shadow casting for the light
+directionalLight.castShadow = true;
+
+//=======Loading the Model=======//
+// create a new material loader
+const mtlLoader = new MTLLoader();
+// load the mtl file
+mtlLoader.load('pencil.mtl', (materials) => {
+materials.preload();
+const objLoader = new OBJLoader();
+objLoader.setMaterials(materials);
+objLoader.load('pencil.obj', (object) => {
+
+// 1. Calculate the bounding box of the *entire* object
+const boundingBox = new THREE.Box3().setFromObject(object);
+const center = boundingBox.getCenter(new THREE.Vector3());
+
+// 2. Store the object's *initial* position
+const initialPosition = object.position.clone();
+
+// 3. Translate the object so that its center is at the world origin
+object.position.sub(center);
+
+// 4. Add a dummy parent
+const dummy = new THREE.Group();
+dummy.add(object);
+scene.add(dummy);
+
+// 5. Restore the parent's position
+dummy.position.copy(center);
+
+// 6. Rotate the dummy
+let loadedModel = dummy;
+
+// Add the model to the scene
+scene.add(dummy);
+
+// Adjust the camera position
+camera.position.y = 2;
+camera.position.z = 15;
+
+// Rotate the model
+function animate() {
+requestAnimationFrame(animate);
+if (loadedModel) {
+loadedModel.rotation.y += 0.01;
+}
+renderer.render(scene, camera);
+}
+animate();
+
+// Add some controls to the camera
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.screenSpacePanning = false;
+controls.maxPolarAngle = Math.PI / 2;
+},
+(xhr) => {
+console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+},
+(error) => {
+console.error('An error happened', error);
+}
+);
+},
+(xhr) => {
+console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+},
+(error) => {
+console.error('An error happened while loading the MTL file:', error);
+}
+);
+</script>
+</body>
+</html>
