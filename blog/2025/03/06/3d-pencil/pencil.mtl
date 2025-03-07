@@ -1,21 +1,52 @@
-# Hexagonal Prism and Eraser Material
+# Blender 3.6.21 MTL File: 'pencil.blend'
+# www.blender.org
 
-newmtl YellowHexagon
-Kd 1.0 1.0 0.0  # Yellow diffuse color
-Ks 0.1 0.1 0.1  # Subtle specular highlight
-Ns 10             # Specular exponent
+newmtl Graphite
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.049045 0.054970 0.048697
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
 
 newmtl PinkEraser
-Kd 1.0 0.7 0.7  # Pink diffuse color
-Ks 0.1 0.1 0.1  # Subtle specular highlight
-Ns 10             # Specular exponent
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 0.700000 0.700000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
 
 newmtl SilverBand
-Kd 0.8 0.8 0.8 # Silver color
-Ks 0.3 0.3 0.3
-Ns 20
+Ns 19.999990
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
 
 newmtl WoodCone
-Kd 0.8 0.6 0.4 # Tan wood color
-Ks 0.05 0.05 0.05
-Ns 5
+Ns 4.999998
+Ka 1.000000 1.000000 1.000000
+Kd 0.930000 0.830000 0.650000
+Ks 0.050000 0.050000 0.050000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl YellowHexagon
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 0.000000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
