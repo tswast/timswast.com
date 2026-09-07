@@ -1,6 +1,6 @@
 # www.timswast.com
 
-This is the public source code for [Tim Swast's personal
+This is the public source code for [Tim Sweña's personal
 website](https://www.timswast.com/blog).
 
 By sticking to plain HTML, without a server-side component, I hope that these
